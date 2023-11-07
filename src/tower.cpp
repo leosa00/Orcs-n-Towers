@@ -26,6 +26,8 @@ void Tower::lockOn(const Enemy& enemy) {
   lockedEnemy_(enemy); // We have to make sure lockedEnemy_ is set to nullptr or reference to 
                        // another enemy before enemy is destroyed as this will cause memory leak  
                        // otherwise (referring to a deleted object).
+                       // another approach could be not to destroy killed enemies until the end 
+                       // of the wave; instead we could not be rendering enemies after they reach 0 hp
 }
 void Tower::shoot() {
   // Ch
