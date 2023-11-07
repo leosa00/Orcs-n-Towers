@@ -2,7 +2,7 @@
 #define PROJECTILE
 
 #include "tower.hpp"
-#include <SFML/System/Vector2.hpp>
+//#include <SFML/System/Vector2.hpp>
 
 class Projectile
 {
@@ -10,16 +10,17 @@ class Projectile
         double speed_;
         sf::Vector2f velocity_;
         sf::Vector2f position_;
-        tower* owner_;
+        Tower* owner_;
         std::string type_;
         int damage_;
     public:
-        Projectile(/* args */);
-        ~Projectile();
+        Projectile(Tower* owner) : speed_(), velocity_(), position_(), owner_(owner), type_(), damage_(){}
+        ~Projectile() {}
         double getSpeed() const;
-        double getVelocity() const;
-        std::string& getOwner() const;
-        void dealDamage();
+        sf::Vector2f getVelocity() const;
+        Tower* getOwner() const;
+        std::string& getType() const;
+        void dealDamage(Enemy* enemy);
 
 };
 
