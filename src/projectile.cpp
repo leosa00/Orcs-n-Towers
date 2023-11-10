@@ -17,9 +17,13 @@ std::string& Projectile::getType() const {
     return type_;
 }
 
-void Projectile::dealDamage(Enemy& enemy){
-    //get access to enemies hp and reduct projectiles damage
+int Projectile::getDamage() const {
+    return damage_;
 }
+
+/*void Projectile::dealDamage(Enemy& enemy){
+    //get access to enemies hp and reduct projectiles damage
+}*/
 
 void Projectile::distToTower() {
     sf::Vector2f pPos = this.getPosition(); //function from transformable class
@@ -29,6 +33,14 @@ void Projectile::distToTower() {
 
     if(dist > 10) //need to determine some reasonable distance from the tower
     {
+        delete this;
+    }
+}
+
+void Projectile::collision(Enemy& enemy) {
+
+    if(this.getGlobalBounds().intersects(enemy.getGlobalBounds())){
+        enemy.takeDamage(this.getDamage());
         delete this;
     }
 }

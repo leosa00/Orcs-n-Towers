@@ -22,7 +22,8 @@ class Projectile : public sf::Transformable
         sf::Vector2f getVelocity() const;
         Tower* getOwner() const;
         std::string& getType() const;
-        void dealDamage(Enemy& enemy);
+        int getDamage() const;
+        //void dealDamage(Enemy& enemy); shouldn't be needed
 
         /**
          * calculates distance from owner tower
@@ -31,5 +32,13 @@ class Projectile : public sf::Transformable
          * probably needs to be called every frame after the projectile has been shot
         */
         void distToTower(); 
+
+        /**
+         * should probalby be called by tower
+         * checks if projectile has collided with the enemy that the tower is shooting at
+         * deals damage to enemy
+         * deletes the projectile
+        */
+        void collision(Enemy& enemy);
 };
 #endif
