@@ -27,3 +27,16 @@ void Player::removeHP(int amount) {
 void Player::addToScore(int amount) {
     score_ += amount;
 }
+
+void Player::reachedCastle (Enemy& enemy) {
+    sf::FloatRect castleBB = this.getGlobalBounds();
+    sf::FloatRect enemyBB = enemy.getGlobalBounds();
+
+    if(castleBB.intersects(enemyBB)){
+        removeHP(10) //should different enemies affect affect differently
+    }
+
+    if(hp_ <= 0){
+        //gameover
+    }
+}
