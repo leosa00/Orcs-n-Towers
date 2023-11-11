@@ -1,5 +1,5 @@
-#ifndef TEXTURE_CONTAINER
-#define TEXTURE_CONTAINER
+#ifndef RESOURCE_CONTAINER
+#define RESOURCE_CONTAINER
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <memory>
@@ -14,15 +14,12 @@ namespace Textures{
 
 }
 
-/**
- * Template class for loading and storing textures and sounds
- * 
- */
-template <typename T_enum, typename T_resource>
-class AssetContainer {
-public:
+// template class for loading and storing textures and other resources
 
-    void load(T_enum, std::string filename); // Does this need the enum input
+template <typename T_enum, typename T_resource>
+class ResourceContainer {
+public:
+    void load(T_enum type, std::string filename);
     const T_resource& get(T_enum) const;
 
 private:
