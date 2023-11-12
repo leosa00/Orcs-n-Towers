@@ -37,12 +37,14 @@ void Projectile::distToTower() {
     }
 }
 
-void Projectile::collision(Enemy& enemy) {
+bool Projectile::collision(Enemy& enemy) {
 
     if(this.getGlobalBounds().intersects(enemy.getGlobalBounds())){
         enemy.takeDamage(this.getDamage());
         delete this;
+        return true;
     }
+    return false;
 }
 
 sf::Vector2f Projectile::shootDirection(Enemy& enemy) {

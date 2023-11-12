@@ -39,13 +39,14 @@ class Projectile : public sf::Transformable
          * deals damage to enemy
          * deletes the projectile
         */
-        void collision(Enemy& enemy);
+        bool collision(Enemy& enemy);
 
         /**
          * calculates the direction for the projectile
          * Adds the projectile specifc velocity to the direction vector
          * takes the enemy that the tower has locked on as parameter
-         * needs to be multiplied by deltaTime (projectile.move(shootdirection()*deltaTime))
+         * needs to be multiplied by deltaTime 
+         * (projectile.move(shootdirection()*deltaTime)) <-- called while collision() == false?
         */
         sf::Vector2f shootDirection(Enemy& enemy);
 };
