@@ -44,3 +44,18 @@ void Projectile::collision(Enemy& enemy) {
         delete this;
     }
 }
+
+sf::Vector2f Projectile::shootDirection(Enemy& enemy) {
+    sf::Vector2f direction = enemy.getPosition() - position_;
+
+    //need to normalise the directional vector to control the speed
+    float len = sqrt(pow(direction.x,2)+ pow(direction.y,2));
+    if(len != 0){
+        direction.x = direction.x / len;
+        direction.y = direction.y / len;
+    }
+
+    direction *= velocity_
+
+    return direction;
+}
