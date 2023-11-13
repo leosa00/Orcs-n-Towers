@@ -40,3 +40,45 @@ void Player::reachedCastle (Enemy& enemy) {
         //gameover
     }
 }
+
+void Player::buyTower (int cost, std::string type) {
+    if(cost > wallet_){
+        //inform player somehow that they can't afford
+        return;
+    }
+
+    //call constructor for selected type
+    //add tower to list of towers they own
+
+    switch (type)
+    {
+    case :
+        /* code */
+        break;
+    
+    default:
+        break;
+    }
+}
+
+void Player::sellTower(Tower& tower){
+    for(auto i = towers_.begin(); i != towers_.end(); i++){
+        //if pointer of i and addr of tower match -> same object
+        if(*i == std::addressof(tower)){
+            //find same object, add its cost to wallet, delete object and remove it from the vector
+            wallet_ += i->getBaseCost();
+            delete *i;
+            towers_.erase(i);
+        }
+    }
+}
+
+void Player::upgradeTower(Tower& tower){
+    if(tower.getUpgradeCost() > wallet_){
+        //infrom player can't afford
+        return;
+    }
+
+    wallet_ -= tower.getUpgradeCost();
+    tower.upgradeTower();
+}
