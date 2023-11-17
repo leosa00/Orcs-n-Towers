@@ -10,6 +10,16 @@
 class Projectile : public sf::Transformable
 {
     private:
+        /* Pavel to Ellen: should we change speed_ to float instead? Apparently 
+         * sf::Vector2f can not be multiplied/divided by double (now that I think of it 
+         * that's probably what f stands for).
+         * I don't think we need shootDirection_ either because it is basically 
+         * velocity divided by speed (you can refer to shoot() method implementation
+         * inside tower.cpp)
+         * Also I suggest we use std::shared_ptr<Enemy> for targetEnemy_ (I added my 
+         * reasoning in favour for that approach into game.hpp; but we should perhaps discuss on
+         * this matter during our next weekly meeting.)
+         * */
         double speed_;
         sf::Vector2f velocity_;
         sf::Vector2f position_;
