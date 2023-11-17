@@ -24,15 +24,20 @@ public:                             //which might be preferred as I believe Spri
     int getCurrentLvl() const {return currentLvl_;}
     int getUpgradeCost() const; // Will be defined in .cpp
     sf::Clock getFireTimer() {return fireTimer_;}
-    void lockOn(std::shared_ptr<Enemy> enemy); 
+    // lockOn is redundant in current implementation
+    void lockOn(std::shared_ptr<Enemy> enemy); //redundant in current implementation
     bool enemyWithinRange(std::shared_ptr<Enemy> enemy);
     void resetFireTimer() {fireTimer_.restart();}
-    //maybe lockOn method can be integrated within shootAt, but I think it is necessary
-    //if we want Tower to keep on shooting same enemy as long as it is within its range
-    Projectile shoot(); //creates a projectile that flies towards lockedEnemy_
-    void upgradeTower(); // Will be defined in .cpp
-    void update(); // method for updating tower logic
+    // shoot() creates a projectile that flies towards lockedEnemy_
+    // it should be made virtual as we will define different towers in future
+    // that create different kind of projectiles.
+    Projectile shoot(); 
+    void upgradeTower(); // Will be defined in .cpp 
+    // update() method is redundant in current implementation as I moved
+    // tower logic update into game.cpp for now
+    void update();
 private:
+    void draw();
     const std::string type_;
     const sf::Vector2f position_;
     const int baseCost_;
