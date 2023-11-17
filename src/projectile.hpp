@@ -62,14 +62,6 @@ class Projectile : public sf::Transformable
          * needs delta time somehow, now passed as a parameter
          * towers should call update on their projectiles?
         */
-<<<<<<< HEAD
-       /* Pavel: maybe better implementation would be if we add private 
-        * member target_ to projectile class which would be same as tower class' 
-        * lockedEnemy_. This way projectile doesn't have to be bounded to 
-        * any particular tower and we would also save on function calls.  */
-        void update(float dt, Enemy& enemy);
-=======
         void update(float dt);
->>>>>>> 72659479aa62dec791b15f4b1bc3c6db3b8609a9
 };
 #endif
