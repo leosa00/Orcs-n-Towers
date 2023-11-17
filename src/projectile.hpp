@@ -58,6 +58,10 @@ class Projectile : public sf::Transformable
          * towers should call update on their projectiles?
          * since projectiles need the locked on enemy from their tower
         */
+       /* Pavel: maybe better implementation would be if we add private 
+        * member target_ to projectile class which would be same as tower class' 
+        * lockedEnemy_. This way projectile doesn't have to be bounded to 
+        * any particular tower and we would also save on function calls.  */
         void update(float dt, Enemy& enemy);
 };
 #endif
