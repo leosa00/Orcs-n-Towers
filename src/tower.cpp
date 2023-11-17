@@ -4,6 +4,7 @@
 #include "enemy.hpp"
 #include "projectile.hpp"
 #include "game.hpp"
+#include <cmath>
 
 static int upgradeCost[4] = {150, 200, 250, 300}; //subject to change
 
@@ -26,19 +27,24 @@ void Tower::upgradeTower() {
     currentLvl_++;
   }
 }
-void Tower::lockOn(const Enemy& enemy) {
-  lockedEnemy_ = enemy; // We have to make sure lockedEnemy_ is set to nullptr or reference to 
+// lockOn is redundant in current implementation, will save it up for now. 
+void Tower::lockOn(std::shared_ptr<Enemy> enemy) {
+  lockedEnemy_ = enemy; 
+                       // We have to make sure lockedEnemy_ is set to nullptr or reference to 
                        // another enemy before enemy is destroyed as this will cause memory leak  
                        // otherwise (referring to a deleted object).
                        // another approach could be not to destroy killed enemies until the end 
                        // of the wave; instead we could not be rendering enemies after they reach 0 hp
 }
-void Tower::shoot() {
-  // This method creates a projectile that flies towards locked enemy
-  // This projectile has to be appended to Game::std::list<Projectile> projectiles_.
+
+bool Tower::enemyWithinRange(std::shared_ptr<Enemy> enemy) {
+  return range_ >= std::sqrt(std::pow((position_.x - enemy->getPosition().x), 2) + std::pow((position_.y - enemy->getPosition().y), 2));
+}
+Projectile Tower::shoot() {
+  // This implementation is to be discussed with Ellen.
 }
 
-void Tower::update() {
+void Tower::update() { // Reduntant in current implementation, will save it up for now
   // Updates tower logic. For example if enemy gets out of range, this method should lockOn to new enemy.
   if (lockedEnemy_ == nullptr) {
     // if no locked enemy looks for an enemy within range
