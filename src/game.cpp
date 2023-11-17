@@ -42,7 +42,7 @@ void Game::update() {
     }
     // Pavel: updating towers below. Would someone double-check that logic is correct?
     // Perhaps I could try to migrate tower logic inside tower class, but is there any 
-    // simple way to do so as updating tower logic uses protected members enemies_ and 
+    // simple way to do so as updating tower logic uses private members enemies_ and 
     // projectiles_?
     for (auto& tower: towers_) {
         auto lockedEnemy = tower.getLockedEnemy();
