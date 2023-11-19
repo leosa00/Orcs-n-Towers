@@ -20,8 +20,8 @@ class Projectile : public sf::Transformable
          * reasoning in favour for that approach into game.hpp; but we should perhaps discuss on
          * this matter during our next weekly meeting.)
          * */
-        double speed_;
-        sf::Vector2f velocity_;
+        float speed_;
+        //sf::Vector2f velocity_; //redundant
         sf::Vector2f position_;
         Tower& owner_;
         std::string type_;
@@ -30,10 +30,10 @@ class Projectile : public sf::Transformable
         Enemy& targetEnemy_;
 
     public:
-        //derived classes should have default speed, velocity, type, damage
-        //position, owner, lockedEnemy comes from tower
-        Projectile(double speed, sf::Vector2f velocity, sf::Vector2f position, Tower& owner, std::string type, int damage, Enemy& targetEnemy) 
-        : speed_(speed), velocity_(velocity), position_(position), owner_(owner), type_(type), damage_(damage), targetEnemy_(targetEnemy){}
+        //derived classes should have default speed, type, damage
+        //shootdirection, position, owner, targetEnemy comes from tower
+        Projectile(sf::Vector2f shootDirection, sf::Vector2f position, Tower& owner, Enemy& targetEnemy, double speed, std::string type, int damage) 
+        : shootDirection_(shootDirection), position_(position), owner_(owner), targetEnemy_(targetEnemy), speed_(speed), type_(type), damage_(damage){}
         ~Projectile() {}
         
         double getSpeed() const;
@@ -63,9 +63,10 @@ class Projectile : public sf::Transformable
          * Adds the projectile specifc velocity to the direction vector
          * should be called sometime during construction
         */
-        void shootDirection();
+        //void shootDirection(); redundant
 
-        sf::Vector2f getDirection();
+        //sf::Vector2f getDirection(); redundant
+        //^^ not needed if tower calculates direction for projectile
 
         /**
          * moves the projectile if it hasn't collided / gone out of range
