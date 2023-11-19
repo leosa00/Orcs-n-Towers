@@ -29,10 +29,8 @@ void Player::addToScore(int amount) {
 }
 
 void Player::reachedCastle (Enemy& enemy) {
-    sf::FloatRect castleBB = this.getGlobalBounds();
-    sf::FloatRect enemyBB = enemy.getGlobalBounds();
 
-    if(castleBB.intersects(enemyBB)){
+    if(this.getGlobalBounds().intersects(enemy.getGlobalBounds())){
         removeHP(10) //should different enemies affect affect differently
     }
 
@@ -41,7 +39,7 @@ void Player::reachedCastle (Enemy& enemy) {
     }
 }
 
-void Player::buyTower (int cost, std::string type) {
+void Player::buyTower (int cost, Textures::TowerID towerID) {
     if(cost > wallet_){
         //inform player somehow that they can't afford
         return;
@@ -49,28 +47,57 @@ void Player::buyTower (int cost, std::string type) {
 
     //call constructor for selected type
     //add tower to list of towers they own
+    //enum towerID could be used for this
 
-    switch (type)
+    switch (towerID)
     {
-    case :
-        /* code */
+    case Textures::Tower1 :
+        /* call right constructor */
+        /* add to towers_ */
+        removeMoney(cost);
+        break;
+
+    case Textures::Tower2 :
+        /* call right constructor */
+        removeMoney(cost);
+        break;
+
+    case Textures::Tower3 :
+        /* call right constructor */
+        removeMoney(cost);
+        break;
+
+    case Textures::Tower4 :
+        /* call right constructor */
+        removeMoney(cost);
+        break;
+    
+    case Textures::Tower5 :
+        /* call right constructor */
+        removeMoney(cost);
         break;
     
     default:
+        /* infrom player of error */
         break;
     }
 }
 
 void Player::sellTower(Tower& tower){
+    auto it_erase = towers_.end();
+
     for(auto i = towers_.begin(); i != towers_.end(); i++){
         //if pointer of i and addr of tower match -> same object
         if(*i == std::addressof(tower)){
             //find same object, add its cost to wallet, delete object and remove it from the vector
             wallet_ += i->getBaseCost();
+            it_erase = i;
             delete *i;
-            towers_.erase(i);
+            break;
         }
     }
+
+    towers_.erase(it_erase);
 }
 
 void Player::upgradeTower(Tower& tower){
