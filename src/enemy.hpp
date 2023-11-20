@@ -43,7 +43,7 @@ public:
     void slowedDamage();
 private:
     int hp_;
-    bool dead;
+    bool dead_;
     int speed_;
     std::string type_;
     int poison_; //If poison is larger than 0 that means that the enemy is poisoned

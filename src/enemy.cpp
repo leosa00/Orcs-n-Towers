@@ -1,8 +1,11 @@
 #include "enemy.hpp"
 #include <string>
 
-void Enemy::move()//Implement a function that allows the sprite to move
+void Enemy::move(sf::vector2f movement){//Implement a function that allows the sprite to move
 //update the state of the enemy with relation to the game
+    sprite.move(movement);
+    //add more implementations for moving other textures
+}
 void Enemy::update() {
 //game based reference to the time, use this with velocity
 //use movement function to move the enemy taking the distance 
@@ -55,10 +58,13 @@ int Enemy::slowedStatus() {
 void Enemy::kill() {
     //need to implement a way to deposite money to the players wallet
     //based on the goldWorth of the enemy
-    this->~monster()
+    dead_ = true;
 }
 
 void Enemy::takeDamage(int damage) {
+    if (dead_) {
+        return;
+    }
     if(damage >= hp_) {
         kill();
     } else {
