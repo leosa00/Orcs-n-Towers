@@ -21,7 +21,11 @@ int Projectile::getDamage() const {
     return damage_;
 }
 
-bool Projectile::distToTower() {
+/*void Projectile::dealDamage(Enemy& enemy){
+    //get access to enemies hp and reduct projectiles damage
+}*/
+
+void Projectile::distToTower() {
     sf::Vector2f pPos = this.getPosition(); //function from transformable class
     sf::Vector2f tPos = owner_.getPosition();
 
@@ -30,24 +34,21 @@ bool Projectile::distToTower() {
     if(dist > 10) //need to determine some reasonable distance from the tower
     {
         delete this;
-        return true;
     }
-    return false;
 }
 
-bool Projectile::collision() {
+bool Projectile::collision(Enemy& enemy) {
 
-    if(this.getGlobalBounds().intersects(targetEnemy_.getGlobalBounds())){
-        targetEnemy_.takeDamage(this.getDamage());
-        //Player::addToWallet() //send enemy worth as param
+    if(this.getGlobalBounds().intersects(enemy.getGlobalBounds())){
+        enemy.takeDamage(this.getDamage());
         delete this;
         return true;
     }
     return false;
 }
 
-/*void Projectile::shootDirection() {
-    sf::Vector2f direction = targetEnemy_.getPosition() - position_;
+sf::Vector2f Projectile::shootDirection(Enemy& enemy) {
+    sf::Vector2f direction = enemy.getPosition() - position_;
 
     //need to normalise the directional vector to control the speed
     float len = sqrt(pow(direction.x,2)+ pow(direction.y,2));
@@ -56,21 +57,7 @@ bool Projectile::collision() {
         direction.y = direction.y / len;
     }
 
-    direction *= velocity_;
+    direction *= velocity_
 
-    shootDirection_ = direction;
-}
-
-sf::Vector2f Projectile::getDirection(){
-    return shootDirection_;
-}*/
-
-void Projectile::update(float dt){
-    //only move the projectile if it hasn't collided or gone out of range
-    if(!collision()){
-        if(!distToTower()){
-            this.move(shootDirection_.x * speed_ * dt, shootDirection_.y * speed_ * dt);
-            //shootDirection dictates towards where, speed how fast, dt makes it consistent across framerates
-        }
-    }
+    return direction;
 }

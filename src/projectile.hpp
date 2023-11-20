@@ -2,45 +2,28 @@
 #define PROJECTILE
 
 #include "tower.hpp"
-#include "player.hpp"
-#include "enemy.hpp"
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 
 class Projectile : public sf::Transformable
 {
     private:
-        /* Pavel to Ellen: should we change speed_ to float instead? Apparently 
-         * sf::Vector2f can not be multiplied/divided by double (now that I think of it 
-         * that's probably what f stands for).
-         * I don't think we need shootDirection_ either because it is basically 
-         * velocity divided by speed (you can refer to shoot() method implementation
-         * inside tower.cpp)
-         * Also I suggest we use std::shared_ptr<Enemy> for targetEnemy_ (I added my 
-         * reasoning in favour for that approach into game.hpp; but we should perhaps discuss on
-         * this matter during our next weekly meeting.)
-         * */
-        float speed_;
-        //sf::Vector2f velocity_; //redundant
+        double speed_;
+        sf::Vector2f velocity_;
         sf::Vector2f position_;
-        Tower& owner_;
+        Tower* owner_;
         std::string type_;
         int damage_;
-        sf::Vector2f shootDirection_;
-        Enemy& targetEnemy_;
 
     public:
-        //derived classes should have default speed, type, damage
-        //shootdirection, position, owner, targetEnemy comes from tower
-        Projectile(sf::Vector2f shootDirection, sf::Vector2f position, Tower& owner, Enemy& targetEnemy, double speed, std::string type, int damage) 
-        : shootDirection_(shootDirection), position_(position), owner_(owner), targetEnemy_(targetEnemy), speed_(speed), type_(type), damage_(damage){}
+        Projectile(double speed, sf::Vector2f velocity, sf::Vector2f position, Tower* owner, std::string type, int damage) : speed_(speed), velocity_(velocity), position_(position), owner_(owner), type_(type), damage_(damage){}
         ~Projectile() {}
-        
         double getSpeed() const;
-        //sf::Vector2f getVelocity() const; shouldn't be needed
+        sf::Vector2f getVelocity() const;
         Tower* getOwner() const;
         std::string& getType() const;
         int getDamage() const;
+        //void dealDamage(Enemy& enemy); shouldn't be needed
 
         /**
          * calculates distance from owner tower
@@ -48,31 +31,23 @@ class Projectile : public sf::Transformable
          * so that projectiles don't just float about when they've gone out of range
          * probably needs to be called every frame after the projectile has been shot
         */
-        bool distToTower(); 
+        void distToTower(); 
 
         /**
-         * called in update
+         * should probalby be called by tower
          * checks if projectile has collided with the enemy that the tower is shooting at
          * deals damage to enemy
          * deletes the projectile
         */
-        bool collision();
+        bool collision(Enemy& enemy);
 
         /**
          * calculates the direction for the projectile
          * Adds the projectile specifc velocity to the direction vector
-         * should be called sometime during construction
+         * takes the enemy that the tower has locked on as parameter
+         * needs to be multiplied by deltaTime 
+         * (projectile.move(shootdirection()*deltaTime)) <-- called while collision() == false?
         */
-        //void shootDirection(); redundant
-
-        //sf::Vector2f getDirection(); redundant
-        //^^ not needed if tower calculates direction for projectile
-
-        /**
-         * moves the projectile if it hasn't collided / gone out of range
-         * needs delta time somehow, now passed as a parameter
-         * towers should call update on their projectiles?
-        */
-        void update(float dt);
+        sf::Vector2f shootDirection(Enemy& enemy);
 };
 #endif
