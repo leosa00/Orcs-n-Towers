@@ -55,7 +55,7 @@ Projectile Tower::shoot() {
   float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
   sf::Vector2f normalizedDirection = direction / length;
   sf::Vector2f velocity = normalizedDirection * speed;
-  return Projectile(speed, velocity, this->position_, this->type_, damage, this->lockedEnemy_);
+  return Projectile(speed, velocity, this->position_, this, this->type_, damage, this->lockedEnemy_);
   /* Prototype implementation for shoot method. 
    * Projectile class has to be adjusted a little bit in order to 
    * finish implementation of shoot(). */
