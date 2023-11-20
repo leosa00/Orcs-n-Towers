@@ -39,14 +39,14 @@ bool Projectile::collision() {
 
     if(this.getGlobalBounds().intersects(targetEnemy_.getGlobalBounds())){
         targetEnemy_.takeDamage(this.getDamage());
-        Player::addToWallet() //send enemy worth as param
+        //Player::addToWallet() //send enemy worth as param
         delete this;
         return true;
     }
     return false;
 }
 
-void Projectile::shootDirection() {
+/*void Projectile::shootDirection() {
     sf::Vector2f direction = targetEnemy_.getPosition() - position_;
 
     //need to normalise the directional vector to control the speed
@@ -63,13 +63,14 @@ void Projectile::shootDirection() {
 
 sf::Vector2f Projectile::getDirection(){
     return shootDirection_;
-}
+}*/
 
 void Projectile::update(float dt){
     //only move the projectile if it hasn't collided or gone out of range
     if(!collision()){
         if(!distToTower()){
-            this.move(getDirection()*dt)
+            this.move(shootDirection_.x * speed_ * dt, shootDirection_.y * speed_ * dt);
+            //shootDirection dictates towards where, speed how fast, dt makes it consistent across framerates
         }
     }
 }

@@ -32,6 +32,8 @@ public:
     
     void takeDamage(int damage); //decreases the hp_ variable and if hp reaches 0 than the enemy is automatically destroyed
 
+    void kill();
+
     void applyPoison(int duration);
 
     void poisonDamage();
@@ -41,6 +43,7 @@ public:
     void slowedDamage();
 private:
     int hp_;
+    bool dead_;
     int speed_;
     std::string type_;
     int poison_; //If poison is larger than 0 that means that the enemy is poisoned
@@ -56,6 +59,11 @@ private:
     //sprite
     sf::Sprite sprite_;
     sf::Vector2u spriteSize_;
+    //movement stuff
+    void setVelocity();
+	bool isWaypointPassed(sf::Vector2f movement);
+	void findNewWaypoint();
+	void move(sf::Vector2f movement);
 };
 
 #endif
