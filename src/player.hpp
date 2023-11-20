@@ -34,10 +34,10 @@ class Player //: public sf::Transformable
         std::string& getName() const;
         void addMoney(int amount);
         void removeMoney(int cost);
-        void removeHP(int amount); //actually probably not needed
+        //void removeHP(int amount); //actually probably not needed
         void addToScore(int amount);
-        void reachedCastle (Enemy& enemy); //checks if an enemy has reached the castle
-        void buyTower(int cost, std::string type);
+        void reachedCastle (Enemy& enemy); //checks if an enemy has reached the castle or should game do it?
+        void buyTower(int cost, Textures::TowerID towerID);
         void sellTower(Tower& tower);
         void upgradeTower(Tower& tower);
 };

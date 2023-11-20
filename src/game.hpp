@@ -6,6 +6,7 @@
 #include "tower.hpp"
 #include "enemy.hpp"
 #include "projectile.hpp"
+#include <memory> //for shared_ptr
 
 // Class for running the game logic
 
@@ -17,10 +18,24 @@ private:
     void processEvents();
     void update();
     void render();
+    void addTower(const Tower& tower);
+    void addEnemy(const Enemy& enemy);
+    void addProjectile(const Projectile& projectile);
 
     sf::RenderWindow window_;
+    /* Pavel: should we change enemies_ to be 
+    * std::list<std::shared_ptr<Enemy>> enemies_ instead and 
+    * initialize it with enemies using 
+    * enemies_.push_back(std::make_shared<TYPE_OF_ENEMY>(args))?
+    * This way enemy would get destroyed automatically when
+    * it is no longer locked by any tower AND it has reached 0 hp 
+    * (it gets removed from the list at this point) AND no projectile
+    * flies towards it (we need to add shared_ptr<Enemy> member to projectile class). 
+    * There might be some error in my logic though....
+    */
     std::list<Tower> towers_;
-    std::list<Enemy> enemies_;
+    //std::list<Enemy> enemies_;
+    std::list<std::shared_ptr<Enemy>> enemies_;
     std::list<Projectile> projectiles_;
 
 
