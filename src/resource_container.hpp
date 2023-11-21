@@ -19,8 +19,24 @@ namespace Textures{
 template <typename T_enum, typename T_resource>
 class ResourceContainer {
 public:
-    void load(T_enum type, std::string filename);
-    const T_resource& get(T_enum) const;
+
+    // Load resource into container
+    void load(T_enum type, std::string filename){
+        std::unique_ptr<T_resource> resource(new T_resource());
+
+        if (!resource->loadFromFile(filename)){
+            //TODO: Handle texture loading error
+        }
+        // The function move should avoid creating a copy of the object recource, when inserting it into the map
+        resources_.insert(std::make_pair(type, std::move(resource)));
+        } 
+
+    // Find wanted resource, return reference
+    T_resource& get(T_enum type) const {
+        auto wanted = resources_.find(type);
+        return *wanted->second;
+    }
+
 
 private:
     std::map<T_enum, std::unique_ptr<T_resource>> resources_;
