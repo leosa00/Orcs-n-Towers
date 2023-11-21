@@ -66,7 +66,13 @@ void Game::processEvents(){
 
 // Call functions necessary for iterating over all objects and updating their states
 void Game::update() {
-    // Do stuff
+    // TODO: If the game is paused stop updating
+
+    // If a tower is being dragged, update it's position
+    if (dragged_) {
+        drag();
+    }
+
     // Pavel: following order of updates is perhaps ok
     
     for (auto& enemy : enemies_) {
