@@ -6,6 +6,7 @@
 #include "tower.hpp"
 #include "enemy.hpp"
 #include "projectile.hpp"
+#include "resource_container.hpp"
 #include <memory> //for shared_ptr
 
 // Class for running the game logic
@@ -21,6 +22,8 @@ private:
     void addTower(const Tower& tower);
     void addEnemy(const Enemy& enemy);
     void addProjectile(const Projectile& projectile);
+    void checkButtons();
+    void drag();
 
     sf::RenderWindow window_;
     /* Pavel: should we change enemies_ to be 
@@ -37,7 +40,12 @@ private:
     //std::list<Enemy> enemies_;
     std::list<std::shared_ptr<Enemy>> enemies_;
     std::list<Projectile> projectiles_;
-
+    
+    std::list<sf::RectangleShape> buttons_; // Stores clickable buttons
+    bool dragged_; // Indicates if a tower is currently being dragged into place
+    
+    ResourceContainer<Textures::TowerID, sf::Texture> tower_textures_;
+    
 
 };
 

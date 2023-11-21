@@ -1,5 +1,29 @@
 #include "game.hpp"
 
+// initialize game object, mainly create window...
+Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
+    // Create sidebar
+    sf::RectangleShape sidebar(sf::Vector2f(100, 800));
+    sidebar.setPosition(900, 0);
+    sidebar.setFillColor(sf::Color::Blue);
+    // Create test button
+    sf::RectangleShape button(sf::Vector2f(60, 40));
+    button.setPosition(920, 40);
+    button.setFillColor(sf::Color::Red);
+    // Add buttons to list of buttons
+    buttons_.push_back(sidebar);
+    buttons_.push_back(button);
+
+    // Set dragging flag
+    dragged_ = false;
+
+    // Create tower texture container, load texture    
+    tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
+    tower_textures_.load(Textures::Tower1, "tower_test.png");
+};
+
+
+
 // Run main game loop
 void Game::run() {
     while(window_.isOpen())
@@ -21,6 +45,14 @@ void Game::processEvents(){
             window_.close();
             break;
         
+        case sf::Event::MouseButtonPressed:
+            // If statement checks that nothing is being dragged currently
+            // if MouseButtonPressed event only happens when button is initially pressed
+            // this if statement is unnesessary
+            if (!dragged_) {
+                checkButtons(); // Check if some button has been pressed
+                break;
+            } 
         /* I think that we could include a case which detects if mouse button
         has been pressed. This case would then call a function, which maybe
         checks, if mouse was pressed on an object of interest.
@@ -82,5 +114,51 @@ void Game::update() {
 
 // Iterate over objects, render them onto window
 void Game::render() {
-    // Render stuff
+    window_.clear();
+    for (auto button : buttons_) {
+        window_.draw(button);
+    }
+    for (auto tower : towers_) {
+        window_.draw(tower);
+    }
+    window_.display();
+}
+
+// Check if a button has been pressed and act accordingly
+// TODO: maybe a separate button class would make things easier, this should also recognize pause button
+void Game::checkButtons() {
+    for (auto button : buttons_) {
+        // Ugly if statement, creates sf::Rect of the same size as the button, and checks if
+        // mouse is inside it using the .contains method
+        if ( sf::Rect<int>((sf::Vector2i) button.getSize(), (sf::Vector2i) button.getPosition())
+        .contains(sf::Mouse::getPosition(window_))) {
+            /* Currently we just recognize that the only button corresponding to the only button has been pressed
+               so we create a new tower of which there is currently only one type.
+               The buttons should probably be implemented in a separate class to enable easier
+               implementation of separate buttons for different towers
+             */
+            Tower new_tower = Tower((sf::Vector2f) sf::Mouse::getPosition(window_));
+            new_tower.setTexture(tower_textures_.get(Textures::Tower1));
+
+            /* New tower takes first place in array of towers. 
+               This is enough to identify the new tower which is being dragged, as only one tower 
+               can be added at a time
+            */
+            towers_.push_front(new_tower);
+    
+            // Set flag which indicates an object is being dragged
+            dragged_ = true;
+        }
+
+    }
+}
+// If a tower is being dragged into place this handles it's movement
+void Game::drag() {
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        towers_.front().setPosition(sf::Mouse::getPosition(window_).x, sf::Mouse::getPosition(window_).y);
+        //printf("Position: %f, %f \n", dragged_->getPosition().x, dragged_->getPosition().y);
+    } else {
+        // TODO: Check tower collision conds
+        dragged_ = false;
+    }
 }

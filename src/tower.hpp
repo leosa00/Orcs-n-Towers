@@ -10,7 +10,7 @@
 #include "enemy.hpp"
 #include <memory>
 
-class Tower : public sf::Drawable { //perhaps can also inherit from sf::Sprite?
+class Tower : public sf::Sprite { //perhaps can also inherit from sf::Sprite?
 public:                             //which might be preferred as I believe Sprite is more light-weight.
     Tower(sf::Vector2f position);
     // I think there is really no need for copy constructor or copy assignment operator
