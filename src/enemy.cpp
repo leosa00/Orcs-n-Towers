@@ -35,6 +35,75 @@ bool isWaypointPassed(sf::Vector2f movement) {
         return true;
     }
 }
+
+void Enemy::setTexture(sf::Texture * texture)
+{
+	sprite_.setTexture(*texture);
+}
+
+void Enemy::draw(sf::RenderTarget & target) const {
+    target.draw(sprite_);
+}
+
+sf::Vector2f Enemy::getLocation() {
+    return sprite_.getPosition();
+}
+
+sf::FloatRect Enemy::getGlobalBounds()
+{
+	return sprite_.getGlobalBounds();
+}
+
+sf::Vector2f Enemy::getCenter()
+{
+	sf::Vector2f enemyCenter;
+	center.x = sprite_.getPosition().x + sprite_.getGlobalBounds().width / 2;
+	center.y = sprite_.getPosition().y + sprite_.getGlobalBounds().height / 2;
+
+	return enemyCenter;
+}
+
+void Enemy::setVelocity() {
+
+    sf::Vector2f distance;
+	distance = *currentWaypoint - getCenter();
+
+	velocity.x = distance.x * speed_ / fabs(distance.x + distance.y);
+	velocity.y = distance.y * speed_ / fabs(distance.x + distance.y);
+
+	if (fabs(velocity.x) > fabs(velocity.y))
+	{
+		if (isPositive(velocity.x))
+		{
+			velocity.x = speed_;
+			velocity.y = 0.f;
+			direction_ = 2;
+		}
+		else
+		{
+			velocity.x = -speed_;
+			velocity.y = 0.f;
+			direction_ = 1;
+		}
+	}
+	else
+	{
+		if (isPositive(velocity.y))
+		{
+			velocity.x = 0.f;
+			velocity.y = speed_;
+			direction_ = 0;
+		}
+		else
+		{
+			velocity.x = 0.f;
+			velocity.y = -speed_;
+			direction_ = 3;
+		}
+	}
+
+}
+
 int Enemy::hp() {
     return hp_;
 }
@@ -67,6 +136,7 @@ void Enemy::takeDamage(int damage) {
     }
     if(damage >= hp_) {
         kill();
+        return;
     } else {
         hp_ -= damage;
     }
