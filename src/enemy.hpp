@@ -1,6 +1,7 @@
 #ifndef ENEMY_HPP
 #define ENEMY_HPP
 #include <string>
+#include "path.hpp"
 #include <queue>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp> 
@@ -41,6 +42,10 @@ public:
     void applySlowed(int duration);
 
     void slowedDamage();
+    void setVelocity();
+	bool isWaypointPassed(sf::Vector2f movement);
+	void findNewWaypoint();
+	void move(sf::Vector2f movement);
 private:
     int hp_;
     bool dead_;
@@ -59,11 +64,7 @@ private:
     //sprite
     sf::Sprite sprite_;
     sf::Vector2u spriteSize_;
-    //movement stuff
-    void setVelocity();
-	bool isWaypointPassed(sf::Vector2f movement);
-	void findNewWaypoint();
-	void move(sf::Vector2f movement);
+    
 };
 
 #endif
