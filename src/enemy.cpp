@@ -112,7 +112,11 @@ int Enemy::speed() {
     return speed_;
 }
 
-std::string Enemy::type() {
+/*type Enemy::type() {
+    return type_;
+}*/
+
+EnemyType Enemy::type() {
     return type_;
 }
 
