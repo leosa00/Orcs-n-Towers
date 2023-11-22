@@ -21,26 +21,17 @@ int Projectile::getDamage() const {
     return damage_;
 }
 
-bool Projectile::distToTower() {
-    sf::Vector2f pPos = this.getPosition(); //function from transformable class
-    sf::Vector2f tPos = owner_.getPosition();
-
-    double dist = sqrt(pow((tPos.x - pPos.x),2) + pow((tPos.y - pPos.y),2))
-
-    if(dist > 10) //need to determine some reasonable distance from the tower
-    {
-        delete this;
-        return true;
-    }
-    return false;
+sf::Vector2f Projetile::getShootDir() const {
+    return shootDirection;
 }
 
-bool Projectile::collision() {
+bool Projectile::distToTower() {
+    sf::Vector2f currPos = this.getPosition(); //function from transformable class
 
-    if(this.getGlobalBounds().intersects(targetEnemy_.getGlobalBounds())){
-        targetEnemy_.takeDamage(this.getDamage());
-        //Player::addToWallet() //send enemy worth as param
-        delete this;
+    double dist = sqrt(pow((position_.x - currPos.x),2) + pow((position_.y - currPos.y),2))
+
+    if(dist >= maxDistance_) //need to determine some reasonable distance from the tower
+    {
         return true;
     }
     return false;
@@ -64,13 +55,3 @@ bool Projectile::collision() {
 sf::Vector2f Projectile::getDirection(){
     return shootDirection_;
 }*/
-
-void Projectile::update(float dt){
-    //only move the projectile if it hasn't collided or gone out of range
-    if(!collision()){
-        if(!distToTower()){
-            this.move(shootDirection_.x * speed_ * dt, shootDirection_.y * speed_ * dt);
-            //shootDirection dictates towards where, speed how fast, dt makes it consistent across framerates
-        }
-    }
-}
