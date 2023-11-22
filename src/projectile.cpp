@@ -6,7 +6,9 @@ float Projectile::getSpeed() const {
 }
 
 sf::Vector2f Projectile::getVelocity() const {
-    return velocity_;
+    // This implementation mimics calculating of velocity in Tower::shoot()
+    // Assumes the direction vector is normalized
+    return shootDirection_ * speed_;
 }
 
 Tower& Projectile::getOwner() const{

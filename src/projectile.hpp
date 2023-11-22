@@ -45,6 +45,7 @@ class Projectile : public sf::Sprite
         std::string& getType() const;
         int getDamage() const;
         sf::Vector2f getShootDir() const;
+        sf::Vector2f getVelocity() const;
 
         /**
          * calculates distance from owner tower
