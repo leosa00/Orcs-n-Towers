@@ -24,9 +24,18 @@ class Projectile : public sf::Transformable, sf::Sprite
     public:
         //derived classes should have default speed, type, damage
         //shootdirection, position, owner, comes from tower
+        //Pavel: I assumed you want normalized shootdirection when passing this
+        //argument to Projectile constructor inside Tower::shoot().
+        //I also commented out my alternative implementation for Projectile constructor below:
+        //I think it should be preferred as it makes it more clear which initializers are default
+        //and which are passed as an argument from Tower::shoot() method. 
+
         Projectile(sf::Vector2f shootDirection, sf::Vector2f position, Tower& owner, float speed = 1.0, std::string type = "default", int damage = 0, int maxDistance = 0) 
         : shootDirection_(shootDirection), position_(position), owner_(owner), speed_(speed), type_(type), damage_(damage), maxDistance_(maxDistance){}
-       
+
+        /*Projectile(sf::Vector2f shootDirection, sf::Vector2f position, Tower& owner, int damage) 
+        : shootDirection_(shootDirection), position_(position), owner_(owner), damage_(damage), speed_(1.0), type_("default"), maxDistance_(0) {}*/
+        
         ~Projectile() {}
         
         float getSpeed() const;
