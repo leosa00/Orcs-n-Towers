@@ -92,9 +92,9 @@ void Game::update() {
             auto damageType = tower.getDamageType();
             for (auto& enemy : enemies_) {
                 auto enemyType = enemy->type();
-                if (tower.enemyWithinRange(enemy) && ((damageType == DamageType::Both) ||
-                    (damageType == DamageType::Flying && enemyType == EnemyType::Flying) ||
-                    (damageType == DamageType::Ground && enemyType == EnemyType::Ground))) {
+                if (tower.enemyWithinRange(enemy) && ((damageType == CanDamage::Both) ||
+                    (damageType == CanDamage::Flying && enemyType == EnemyType::Flying) ||
+                    (damageType == CanDamage::Ground && enemyType == EnemyType::Ground))) {
                     tower.setLockedEnemy(enemy);
                     break;
                 }
@@ -106,9 +106,9 @@ void Game::update() {
                 auto damageType = tower.getDamageType();
                 for (auto& enemy : enemies_) {
                     auto enemyType = enemy->type();
-                    if (tower.enemyWithinRange(enemy) && ((damageType == DamageType::Both) ||
-                        (damageType == DamageType::Flying && enemyType == EnemyType::Flying) ||
-                        (damageType == DamageType::Ground && enemyType == EnemyType::Ground))) {
+                    if (tower.enemyWithinRange(enemy) && ((damageType == CanDamage::Both) ||
+                        (damageType == CanDamage::Flying && enemyType == EnemyType::Flying) ||
+                        (damageType == CanDamage::Ground && enemyType == EnemyType::Ground))) {
                         tower.setLockedEnemy(enemy);
                         break;
                     }
@@ -121,9 +121,9 @@ void Game::update() {
         }      
     }
 
-    for (auto& projectile : projectiles_) {
-        projectile.update();
-    }
+    //for (auto& projectile : projectiles_) {
+    //    projectile.update();
+    //}
 }
 
 // Iterate over objects, render them onto window

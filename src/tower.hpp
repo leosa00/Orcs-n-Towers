@@ -27,6 +27,7 @@ public:                             //which might be preferred as I believe Spri
     const sf::Vector2f getPosition() const {return position_;}
     const int getBaseCost() const {return baseCost_;}
     const float getFireRate() const {return fireRate_;}
+    const CanDamage getDamageType() const {return damageType_;}
     const float getRange() const {return range_;}
     std::shared_ptr<Enemy> getLockedEnemy() const {return lockedEnemy_;}
     void setLockedEnemy(std::shared_ptr<Enemy> enemy) {lockedEnemy_ = enemy;}
