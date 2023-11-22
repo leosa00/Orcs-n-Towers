@@ -82,15 +82,19 @@ void Game::update() {
     // Perhaps I could try to migrate tower logic inside tower class, but is there any 
     // simple way to do so as updating tower logic uses private members enemies_ and 
     // projectiles_?
-    for (auto& tower: towers_) {
+    for (auto& tower : towers_) {
         auto lockedEnemy = tower.getLockedEnemy();
         // If tower currently has no locked enemy, it should try to find one.
         // Following assumes that enemy object is removed from container enemies_
         // as soon as 0 hp is reached and thus hp is not checked when iterating through
         // enemies_
         if (lockedEnemy == nullptr) {
+            auto damageType = tower.getDamageType();
             for (auto& enemy : enemies_) {
-                if (tower.enemyWithinRange(enemy)) {
+                auto enemyType = enemy->type();
+                if (tower.enemyWithinRange(enemy) && ((damageType == DamageType::Both) ||
+                    (damageType == DamageType::Flying && enemyType == EnemyType::Flying) ||
+                    (damageType == DamageType::Ground && enemyType == EnemyType::Ground))) {
                     tower.setLockedEnemy(enemy);
                     break;
                 }
@@ -99,8 +103,12 @@ void Game::update() {
         else {
             if (lockedEnemy->hp() <= 0 || !tower.enemyWithinRange(lockedEnemy)) {
                 tower.setLockedEnemy(nullptr);
+                auto damageType = tower.getDamageType();
                 for (auto& enemy : enemies_) {
-                    if (tower.enemyWithinRange(enemy)) {
+                    auto enemyType = enemy->type();
+                    if (tower.enemyWithinRange(enemy) && ((damageType == DamageType::Both) ||
+                        (damageType == DamageType::Flying && enemyType == EnemyType::Flying) ||
+                        (damageType == DamageType::Ground && enemyType == EnemyType::Ground))) {
                         tower.setLockedEnemy(enemy);
                         break;
                     }
