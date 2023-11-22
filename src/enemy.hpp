@@ -6,11 +6,17 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp> 
 
+enum class EnemyType {
+    Ground,
+    Flying
+};
+
 class Enemy :public sf::Drawable {
 public:
-    Enemy(int hp, int speed, std::string type, int gold)
+    /*Enemy(int hp, int speed, std::string type, int gold)
+        : hp_(hp), speed_(speed), type_(type), goldWorth_(gold) {}*/
+    Enemy(int hp, int speed, EnemyType type, int gold)
         : hp_(hp), speed_(speed), type_(type), goldWorth_(gold) {}
-
     ~Enemy() {}
 
     void move(); //use the speed_ variable to advance the position of the enemy, keep it void for now
@@ -34,8 +40,8 @@ public:
     int poisonStatus();
 
     int slowedStatus();
-
-    std::string type();
+    EnemyType type();
+    //std::string type();
     
     void takeDamage(int damage); //decreases the hp_ variable and if hp reaches 0 than the enemy is automatically destroyed
 
@@ -64,7 +70,8 @@ private:
 
     float speed_;
 
-    std::string type_;
+    EnemyType type_;
+    //std::string type_;
 
     int poison_; //If poison is larger than 0 that means that the enemy is poisoned
     // the length of time that the enemy is poisoned for depends on how large the poison
