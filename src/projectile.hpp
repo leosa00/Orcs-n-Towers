@@ -31,8 +31,7 @@ class Projectile : public sf::Transformable, sf::Sprite
         
         float getSpeed() const;
         Tower* getOwner() const;
-        /*Projectile(sf::Vector2f shootDirection, sf::Vector2f position, Tower& owner, int damage) 
-        : shootDirection_(shootDirection), position_(position), owner_(owner), damage_(damage), speed_(1.0), type_("default"), maxDistance_(0) {}*/
+        std::string& getType() const;
         int getDamage() const;
         sf::Vector2f getShootDir() const;
 
