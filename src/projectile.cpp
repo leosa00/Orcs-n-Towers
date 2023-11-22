@@ -1,34 +1,36 @@
 #include "projectile.hpp"
 #include <cmath>
 
-double Projectile::getSpeed() const {
+float Projectile::getSpeed() const {
     return speed_;
 }
 
 sf::Vector2f Projectile::getVelocity() const {
-    return velocity_,;
+    return velocity_;
 }
 
-Tower* Projectile::getOwner() const{
+Tower& Projectile::getOwner() const{
     return owner_;
 }
 
-std::string& Projectile::getType() const {
-    return type_;
-}
+//std::string& Projectile::getType() const {
+//    return type_;
+//}
 
 int Projectile::getDamage() const {
     return damage_;
 }
 
-sf::Vector2f Projetile::getShootDir() const {
-    return shootDirection;
+sf::Vector2f Projectile::getShootDir() const {
+    return shootDirection_;
 }
 
 bool Projectile::distToTower() {
-    sf::Vector2f currPos = this.getPosition(); //function from transformable class
+    sf::Vector2f currPos = getPosition(); //function from transformable class
+    // Inheriting both transformable and sprite leads to conflicts according to my editor, as both classes have getPosition()
+    // I am not sure why or how this even happeens as sprite inherits the method from transformable -Otto
 
-    double dist = sqrt(pow((position_.x - currPos.x),2) + pow((position_.y - currPos.y),2))
+    double dist = sqrt(pow((position_.x - currPos.x),2) + pow((position_.y - currPos.y),2));
 
     if(dist >= maxDistance_) //need to determine some reasonable distance from the tower
     {

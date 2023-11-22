@@ -8,7 +8,9 @@
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics.hpp>
 
-class Projectile : public sf::Transformable, sf::Sprite
+// Removed inheritance of sf::Transformable. 
+// I checked that sf::Sprite inherits both Drawable and Transformable -Otto
+class Projectile : public sf::Sprite
 {
     private:
         float speed_;
@@ -39,7 +41,7 @@ class Projectile : public sf::Transformable, sf::Sprite
         ~Projectile() {}
         
         float getSpeed() const;
-        Tower* getOwner() const;
+        Tower& getOwner() const;
         std::string& getType() const;
         int getDamage() const;
         sf::Vector2f getShootDir() const;
@@ -58,7 +60,7 @@ class Projectile : public sf::Transformable, sf::Sprite
          * deals damage to enemy
          * deletes the projectile
         */
-        bool hasHitEnemy(Enemy& enemy) = 0;
+        bool hasHitEnemy(Enemy& enemy);
 
         /**
          * moves the projectile if it hasn't collided / gone out of range
@@ -66,6 +68,6 @@ class Projectile : public sf::Transformable, sf::Sprite
          * towers should call update on their projectiles?
          * purely virtual
         */
-        void update(float dt) = 0;
+        void update(float dt);
 };
 #endif
