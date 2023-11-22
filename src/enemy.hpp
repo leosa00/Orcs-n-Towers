@@ -11,7 +11,7 @@ enum class EnemyType {
     Flying
 };
 
-class Enemy :public sf::Drawable {
+class Enemy :public sf::Sprite {
 public:
     /*Enemy(int hp, int speed, std::string type, int gold)
         : hp_(hp), speed_(speed), type_(type), goldWorth_(gold) {}*/
@@ -19,14 +19,16 @@ public:
         : hp_(hp), speed_(speed), type_(type), goldWorth_(gold) {}
     ~Enemy() {}
 
-    void move(); //use the speed_ variable to advance the position of the enemy, keep it void for now
+    //void move(); //use the speed_ variable to advance the position of the enemy, keep it void for now
     
     void update(); //update the state of the monster in relation to the game
 
     bool atBase(); //checks if the enemy has reached the base
 
-    sf::Vector2f getPosition(); //returns the position of the enemy as a Vector2f position
+    //sf::Vector2f getPosition(); //returns the position of the enemy as a Vector2f position
     
+    sf::Vector2f getCenter();
+
     void setTexture(sf::Texture * texture);
 
     void draw(sf::RenderTarget & target) const;
