@@ -28,7 +28,7 @@ void Player::addToScore(int amount) {
     score_ += amount;
 }
 
-void Player::reachedCastle (Enemy& enemy) {
+void Player::reachedCastle (std::shared_ptr<Enemy> enemy) {
 
     if(this.getGlobalBounds().intersects(enemy.getGlobalBounds())){
         removeHP(10) //should different enemies affect affect differently
@@ -40,6 +40,8 @@ void Player::reachedCastle (Enemy& enemy) {
 }
 
 void Player::buyTower (int cost, Textures::TowerID towerID) {
+    
+    //cost can maybe be determined from towerID?
     if(cost > wallet_){
         //inform player somehow that they can't afford
         return;
@@ -89,7 +91,7 @@ void Player::sellTower(Tower& tower){
     for(auto i = towers_.begin(); i != towers_.end(); i++){
         //if pointer of i and addr of tower match -> same object
         if(*i == std::addressof(tower)){
-            //find same object, add its cost to wallet, delete object and remove it from the vector
+            //find same object, add its cost to wallet (full cost or only partial?), delete object and remove it from the vector
             wallet_ += i->getBaseCost();
             it_erase = i;
             delete *i;
@@ -108,4 +110,8 @@ void Player::upgradeTower(Tower& tower){
 
     wallet_ -= tower.getUpgradeCost();
     tower.upgradeTower();
+}
+
+void Player::updateCastlePosition(sf::Vector2f position){
+    position_ = position;
 }
