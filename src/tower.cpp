@@ -5,8 +5,8 @@
 #include "projectile.hpp"
 #include "game.hpp"
 #include <cmath>
-
-static int upgradeCost[4] = {150, 200, 250, 300}; //subject to change
+// upgradeCost list is redundant if we limit max lvl to be 2
+// static int upgradeCost[4] = {150, 200, 250, 300}; //subject to change
 
 Tower::Tower(sf::Vector2f position)
       : type_("Basic"),
@@ -14,17 +14,21 @@ Tower::Tower(sf::Vector2f position)
         baseCost_(100), // subject to change
         range_(100.0), // subject to change
         fireRate_(1.0), // subject to change
+        damage_(10), // subject to change
         currentLvl_(1),
-        upgradeCost_(upgradeCost),
-        lockedEnemy_(nullptr) {} // initially no locked enemy
+        upgradeCost_(150), // subject to change, maybe 1.5 * baseCost_?
+        damageType_(DamageType::Both),
+        lockedEnemy_(nullptr), // initially no locked enemy
+        fireTimer_() {}
 
 int Tower::getUpgradeCost() const { // How we should handle when tower is already at maximum lvl, what interface should display? 
   return upgradeCost_[currentLvl_ - 1];   // Maybe something like "Max level reached"
 }
 
-void Tower::upgradeTower() {
-  if (currentLvl_ < 5) {
+void Tower::upgradeTower() { 
+  if (currentLvl_ = 1) {
     currentLvl_++;
+    damage_ = 1.5 * damage_;
   }
 }
 // lockOn is redundant in current implementation, will save it up for now. 
@@ -61,7 +65,7 @@ Projectile Tower::shoot() {
    * finish implementation of shoot(). */
 }
 
-void Tower::update() { // Redundant in current implementation, will save it up for now
+/*void Tower::update() { // Redundant in current implementation, will save it up for now
   // Updates tower logic. For example if enemy gets out of range, this method should lockOn to new enemy.
   if (lockedEnemy_ == nullptr) {
     // if no locked enemy looks for an enemy within range
@@ -70,4 +74,7 @@ void Tower::update() { // Redundant in current implementation, will save it up f
     shoot();
     fireTimer_.restart();
   }
+}*/
+void Tower::update(std::list<std::shared_ptr<Enemy>> &enemies, std::list<Projectile> &projectiles) {
+
 }
