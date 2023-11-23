@@ -4,21 +4,28 @@
 Enemy::Enemy()
 
 
-void Enemy::move(sf::vector2f movement){//Implement a function that allows the sprite to move
-//update the state of the enemy with relation to the game
+void Enemy::move(sf::vector2f movement){
     sprite.move(movement);
     //add more implementations for moving other textures
 }
-void Enemy::update() {
-//game based reference to the time, use this with velocity
-//use movement function to move the enemy taking the distance 
-//moved based on time and velocity calculation 
-    float timeVariable //this is just a placeholder varaible for the time
-//variable derived from the game instance
-    sf::Vector2f movement = velocity_ * timeVariable; //enemy velocity variable
-    //is multiplied by the derived time variable
-    //will add a way to change movement based on if the character is slowed
-    move(movement)
+void Enemy::update(sf::Time time) {
+    time = game::getTime();
+	sf::Vector2f movement = velocity_*time.asSeconds();
+
+    if (slowed_ > 0) {
+        //the actual amount the enemy is slowed will be tweaked, for now it is 0.2 f
+        movement -= velocity_ * 0.2f * time.asSeconds();
+    }
+	
+	move(movement);
+
+	if (isWaypointPassed(movement))
+	{
+		findNewWaypoint();
+		setVelocity();
+	}
+    slowedDamage();
+    poisonDamage();
 
 }
 //checks if the current way point has been passed, returns trur

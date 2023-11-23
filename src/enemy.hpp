@@ -6,17 +6,6 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp> 
 
-<<<<<<< HEAD
-class Enemy :public sf::Drawable {
-public:
-    Enemy(int hp, int speed, std::string type, int goldWorth);
-=======
-enum class EnemyType {
-    Ground,
-    Flying
-};
->>>>>>> refs/remotes/origin/master
-
 class Enemy :public sf::Sprite {
 public:
     /*Enemy(int hp, int speed, std::string type, int gold)

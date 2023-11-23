@@ -14,6 +14,9 @@ public:
     ~path() {
         
     }
+
+    void addWaypoint(const sf::Vector2f& point);
+    
     std::queue<sf::Vector2f> getWaypoints();
 private:
     std::queue<sf::Vector2f> waypoints_;
