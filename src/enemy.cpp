@@ -1,14 +1,15 @@
 #include "enemy.hpp"
 #include <string>
 
-Enemy::Enemy()
+Enemy::Enemy(int hp, float speed, EnemyType type, int gold)
+    :hp_(hp), speed_(speed), type_(type), goldWorth_(gold), setVelocity(), findNewWaypoint() {}
 
 
 void Enemy::move(sf::vector2f movement){
-    sprite.move(movement);
+    this->move(movement);
     //add more implementations for moving other textures
 }
-void Enemy::update(sf::Time time) {
+void Enemy::update() {
     time = game::getTime();
 	sf::Vector2f movement = velocity_*time.asSeconds();
 
@@ -30,7 +31,7 @@ void Enemy::update(sf::Time time) {
 }
 //checks if the current way point has been passed, returns trur
 //if it has otherwise false
-bool isWaypointPassed(sf::Vector2f movement) {
+bool Enemy::isWaypointPassed(sf::Vector2f movement) {
 
     float currentDistance = fabs(getCenter().x - currentWaypoint->x) + 
 		fabs(getCenter().y - currentWaypoint->y);
@@ -67,8 +68,8 @@ bool isWaypointPassed(sf::Vector2f movement) {
 sf::Vector2f Enemy::getCenter()
 {
 	sf::Vector2f enemyCenter;
-	center.x = sprite_.getPosition().x + sprite_.getGlobalBounds().width / 2;
-	center.y = sprite_.getPosition().y + sprite_.getGlobalBounds().height / 2;
+	enemyCenter.x = sprite_.getPosition().x + sprite_.getGlobalBounds().width / 2;
+	enemyCenter.y = sprite_.getPosition().y + sprite_.getGlobalBounds().height / 2;
 
 	return enemyCenter;
 }
