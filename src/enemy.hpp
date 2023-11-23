@@ -8,8 +8,7 @@
 
 class Enemy :public sf::Drawable {
 public:
-    Enemy(int hp, int speed, std::string type, int gold)
-        : hp_(hp), speed_(speed), type_(type), goldWorth_(gold) {}
+    Enemy(int hp, int speed, std::string type, int goldWorth);
 
     ~Enemy() {}
 
@@ -60,7 +59,7 @@ public:
 private:
     int hp_;
 
-    bool dead_;
+    bool dead_= false;
 
     float speed_;
 
