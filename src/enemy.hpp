@@ -10,8 +10,8 @@ class Enemy :public sf::Sprite {
 public:
     /*Enemy(int hp, int speed, std::string type, int gold)
         : hp_(hp), speed_(speed), type_(type), goldWorth_(gold) {}*/
-    Enemy(int hp, int speed, EnemyType type, int gold)
-        : hp_(hp), speed_(speed), type_(type), goldWorth_(gold) {}
+    Enemy(int hp, int speed, EnemyType type, int gold);
+
     ~Enemy() {}
 
     //void move(); //use the speed_ variable to advance the position of the enemy, keep it void for now
@@ -32,7 +32,7 @@ public:
     
     int hp();
     
-    int speed();
+    float speed();
     
     int poisonStatus();
 
@@ -70,10 +70,10 @@ private:
     EnemyType type_;
     //std::string type_;
 
-    int poison_; //If poison is larger than 0 that means that the enemy is poisoned
+    int poison_=0; //If poison is larger than 0 that means that the enemy is poisoned
     // the length of time that the enemy is poisoned for depends on how large the poison
     //value is as the number decreases incrimently until 0
-    int slowed_; 
+    int slowed_=0; 
     //How much gold the player recieves for killing the monster
     int goldWorth_;
     //waypoint based movement, the path class provides a queue of waypoints that take the enemies through the path to the end
