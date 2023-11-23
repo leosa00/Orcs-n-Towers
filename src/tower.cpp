@@ -16,7 +16,7 @@ Tower::Tower(sf::Vector2f position)
         fireRate_(1.0), // subject to change
         damage_(10), // subject to change
         currentLvl_(1),
-        upgradeCost_((int*)150), // subject to change, maybe 1.5 * baseCost_?
+        upgradeCost_(150), // subject to change, maybe 1.5 * baseCost_?
         damageType_(CanDamage::Both),
         lockedEnemy_(nullptr), // initially no locked enemy
         fireTimer_(),
