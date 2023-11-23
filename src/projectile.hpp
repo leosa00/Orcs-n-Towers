@@ -6,41 +6,46 @@
 #include "enemy.hpp"
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Transformable.hpp>
+#include <SFML/Graphics.hpp>
 
-class Projectile : public sf::Transformable
+// Removed inheritance of sf::Transformable. 
+// I checked that sf::Sprite inherits both Drawable and Transformable -Otto
+class Projectile : public sf::Sprite
 {
     private:
-        /* Pavel to Ellen: should we change speed_ to float instead? Apparently 
-         * sf::Vector2f can not be multiplied/divided by double (now that I think of it 
-         * that's probably what f stands for).
-         * I don't think we need shootDirection_ either because it is basically 
-         * velocity divided by speed (you can refer to shoot() method implementation
-         * inside tower.cpp)
-         * Also I suggest we use std::shared_ptr<Enemy> for targetEnemy_ (I added my 
-         * reasoning in favour for that approach into game.hpp; but we should perhaps discuss on
-         * this matter during our next weekly meeting.)
-         * */
         float speed_;
-        //sf::Vector2f velocity_; //redundant
-        sf::Vector2f position_;
         Tower& owner_;
         std::string type_;
         int damage_;
+        sf::Vector2f position_;
+        int maxDistance_;
         sf::Vector2f shootDirection_;
-        Enemy& targetEnemy_;
+
+        //derived classes keep track of their target enemy/ies
 
     public:
         //derived classes should have default speed, type, damage
-        //shootdirection, position, owner, targetEnemy comes from tower
-        Projectile(sf::Vector2f shootDirection, sf::Vector2f position, Tower& owner, Enemy& targetEnemy, double speed, std::string type, int damage) 
-        : shootDirection_(shootDirection), position_(position), owner_(owner), targetEnemy_(targetEnemy), speed_(speed), type_(type), damage_(damage){}
+        //shootdirection, position, owner, comes from tower
+        //Pavel: I assumed you want normalized shootdirection when passing this
+        //argument to Projectile constructor inside Tower::shoot().
+        //I also commented out my alternative implementation for Projectile constructor below:
+        //I think it should be preferred as it makes it more clear which initializers are default
+        //and which are passed as an argument from Tower::shoot() method. 
+
+        Projectile(sf::Vector2f shootDirection, sf::Vector2f position, Tower& owner, float speed = 1.0, std::string type = "default", int damage = 0, int maxDistance = 0) 
+        : shootDirection_(shootDirection), position_(position), owner_(owner), speed_(speed), type_(type), damage_(damage), maxDistance_(maxDistance){}
+
+        /*Projectile(sf::Vector2f shootDirection, sf::Vector2f position, Tower& owner, int damage) 
+        : shootDirection_(shootDirection), position_(position), owner_(owner), damage_(damage), speed_(1.0), type_("default"), maxDistance_(0) {}*/
+        
         ~Projectile() {}
         
-        double getSpeed() const;
-        //sf::Vector2f getVelocity() const; shouldn't be needed
-        Tower* getOwner() const;
+        float getSpeed() const;
+        Tower& getOwner() const;
         std::string& getType() const;
         int getDamage() const;
+        sf::Vector2f getShootDir() const;
+        sf::Vector2f getVelocity() const;
 
         /**
          * calculates distance from owner tower
@@ -48,7 +53,7 @@ class Projectile : public sf::Transformable
          * so that projectiles don't just float about when they've gone out of range
          * probably needs to be called every frame after the projectile has been shot
         */
-        bool distToTower(); 
+        bool distToTower();
 
         /**
          * called in update
@@ -56,22 +61,13 @@ class Projectile : public sf::Transformable
          * deals damage to enemy
          * deletes the projectile
         */
-        bool collision();
-
-        /**
-         * calculates the direction for the projectile
-         * Adds the projectile specifc velocity to the direction vector
-         * should be called sometime during construction
-        */
-        //void shootDirection(); redundant
-
-        //sf::Vector2f getDirection(); redundant
-        //^^ not needed if tower calculates direction for projectile
+        bool hasHitEnemy(Enemy& enemy);
 
         /**
          * moves the projectile if it hasn't collided / gone out of range
          * needs delta time somehow, now passed as a parameter
          * towers should call update on their projectiles?
+         * purely virtual
         */
         void update(float dt);
 };

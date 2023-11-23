@@ -5,8 +5,8 @@
 #include "projectile.hpp"
 #include "game.hpp"
 #include <cmath>
-
-static int upgradeCost[4] = {150, 200, 250, 300}; //subject to change
+// upgradeCost list is redundant if we limit max lvl to be 2
+// static int upgradeCost[4] = {150, 200, 250, 300}; //subject to change
 
 Tower::Tower(sf::Vector2f position)
       : type_("Basic"),
@@ -14,17 +14,26 @@ Tower::Tower(sf::Vector2f position)
         baseCost_(100), // subject to change
         range_(100.0), // subject to change
         fireRate_(1.0), // subject to change
+        damage_(10), // subject to change
         currentLvl_(1),
-        upgradeCost_(upgradeCost),
-        lockedEnemy_(nullptr) {} // initially no locked enemy
+        upgradeCost_(150), // subject to change, maybe 1.5 * baseCost_?
+        damageType_(CanDamage::Both),
+        lockedEnemy_(nullptr), // initially no locked enemy
+        fireTimer_(),
+        maxLevelReached_(false) {}
 
-int Tower::getUpgradeCost() const { // How we should handle when tower is already at maximum lvl, what interface should display? 
+/*int Tower::getUpgradeCost() const { // How we should handle when tower is already at maximum lvl, what interface should display? 
   return upgradeCost_[currentLvl_ - 1];   // Maybe something like "Max level reached"
-}
+}*/
 
-void Tower::upgradeTower() {
-  if (currentLvl_ < 5) {
+// upgradeTower()
+void Tower::upgradeTower() { 
+  if (currentLvl_ = 1) {
     currentLvl_++;
+    damage_ = 1.5 * damage_;
+    if (currentLvl_ == TOWER_MAX_LVL) {
+      maxLevelReached_ = true;
+    }
   }
 }
 // lockOn is redundant in current implementation, will save it up for now. 
@@ -49,13 +58,10 @@ Projectile Tower::shoot() {
    * 2.2. sf::Vector2f normalizedDirection = direction / length;
    * 3. sf::Vector2f velocity = normalizedDirection * projectileSpeed;
    * */
-  float speed = 100.0; 
-  int damage = 10;
   sf::Vector2f direction = this->position_ - lockedEnemy_->getPosition();
   float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
-  sf::Vector2f normalizedDirection = direction / length;
-  sf::Vector2f velocity = normalizedDirection * speed;
-  return Projectile(speed, velocity, this->position_, this, this->type_, damage, this->lockedEnemy_);
+  sf::Vector2f normalizedDirection = direction / length; //I am assuming here you want normalized direction
+  return Projectile(normalizedDirection, position_, *this, damage_);
   /* Prototype implementation for shoot method. 
    * Projectile class has to be adjusted a little bit in order to 
    * finish implementation of shoot(). */

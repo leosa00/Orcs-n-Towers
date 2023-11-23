@@ -1,46 +1,41 @@
 #include "projectile.hpp"
 #include <cmath>
 
-double Projectile::getSpeed() const {
+float Projectile::getSpeed() const {
     return speed_;
 }
 
 sf::Vector2f Projectile::getVelocity() const {
-    return velocity_,;
+    // This implementation mimics calculating of velocity in Tower::shoot()
+    // Assumes the direction vector is normalized
+    return shootDirection_ * speed_;
 }
 
-Tower* Projectile::getOwner() const{
+Tower& Projectile::getOwner() const{
     return owner_;
 }
 
-std::string& Projectile::getType() const {
-    return type_;
-}
+//std::string& Projectile::getType() const {
+//    return type_;
+//}
 
 int Projectile::getDamage() const {
     return damage_;
 }
 
-bool Projectile::distToTower() {
-    sf::Vector2f pPos = this.getPosition(); //function from transformable class
-    sf::Vector2f tPos = owner_.getPosition();
-
-    double dist = sqrt(pow((tPos.x - pPos.x),2) + pow((tPos.y - pPos.y),2))
-
-    if(dist > 10) //need to determine some reasonable distance from the tower
-    {
-        delete this;
-        return true;
-    }
-    return false;
+sf::Vector2f Projectile::getShootDir() const {
+    return shootDirection_;
 }
 
-bool Projectile::collision() {
+bool Projectile::distToTower() {
+    sf::Vector2f currPos = getPosition(); //function from transformable class
+    // Inheriting both transformable and sprite leads to conflicts according to my editor, as both classes have getPosition()
+    // I am not sure why or how this even happeens as sprite inherits the method from transformable -Otto
 
-    if(this.getGlobalBounds().intersects(targetEnemy_.getGlobalBounds())){
-        targetEnemy_.takeDamage(this.getDamage());
-        //Player::addToWallet() //send enemy worth as param
-        delete this;
+    double dist = sqrt(pow((position_.x - currPos.x),2) + pow((position_.y - currPos.y),2));
+
+    if(dist >= maxDistance_) //need to determine some reasonable distance from the tower
+    {
         return true;
     }
     return false;
@@ -64,13 +59,3 @@ bool Projectile::collision() {
 sf::Vector2f Projectile::getDirection(){
     return shootDirection_;
 }*/
-
-void Projectile::update(float dt){
-    //only move the projectile if it hasn't collided or gone out of range
-    if(!collision()){
-        if(!distToTower()){
-            this.move(shootDirection_.x * speed_ * dt, shootDirection_.y * speed_ * dt);
-            //shootDirection dictates towards where, speed how fast, dt makes it consistent across framerates
-        }
-    }
-}

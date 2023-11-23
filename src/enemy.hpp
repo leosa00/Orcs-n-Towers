@@ -6,20 +6,35 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp> 
 
+<<<<<<< HEAD
 class Enemy :public sf::Drawable {
 public:
     Enemy(int hp, int speed, std::string type, int goldWorth);
+=======
+enum class EnemyType {
+    Ground,
+    Flying
+};
+>>>>>>> refs/remotes/origin/master
 
+class Enemy :public sf::Sprite {
+public:
+    /*Enemy(int hp, int speed, std::string type, int gold)
+        : hp_(hp), speed_(speed), type_(type), goldWorth_(gold) {}*/
+    Enemy(int hp, int speed, EnemyType type, int gold)
+        : hp_(hp), speed_(speed), type_(type), goldWorth_(gold) {}
     ~Enemy() {}
 
-    void move(); //use the speed_ variable to advance the position of the enemy, keep it void for now
+    //void move(); //use the speed_ variable to advance the position of the enemy, keep it void for now
     
     void update(); //update the state of the monster in relation to the game
 
     bool atBase(); //checks if the enemy has reached the base
 
-    sf::Vector2f getPosition(); //returns the position of the enemy as a Vector2f position
+    //sf::Vector2f getPosition(); //returns the position of the enemy as a Vector2f position
     
+    sf::Vector2f getCenter();
+
     void setTexture(sf::Texture * texture);
 
     void draw(sf::RenderTarget & target) const;
@@ -33,8 +48,8 @@ public:
     int poisonStatus();
 
     int slowedStatus();
-
-    std::string type();
+    EnemyType type();
+    //std::string type();
     
     void takeDamage(int damage); //decreases the hp_ variable and if hp reaches 0 than the enemy is automatically destroyed
 
@@ -63,7 +78,8 @@ private:
 
     float speed_;
 
-    std::string type_;
+    EnemyType type_;
+    //std::string type_;
 
     int poison_; //If poison is larger than 0 that means that the enemy is poisoned
     // the length of time that the enemy is poisoned for depends on how large the poison

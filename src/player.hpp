@@ -19,9 +19,8 @@ class Player //: public sf::Transformable
         std::vector<Tower*> towers_; //towers the player has bought / owns, pointers or references?
 
     public:
-        Player(std::string name, sf::Vector2f position) 
-            : hp_(500), wallet_(500), name_(name), //TODO: determine amounts for hp / wallet
-            score_(0), position_(position){}
+        Player(std::string name = "player") 
+            :name_(name), hp_(500), wallet_(500), score_(0), position_(NULL){}
 
         ~Player() {
             for(auto& i : towers_) {
@@ -34,12 +33,19 @@ class Player //: public sf::Transformable
         std::string& getName() const;
         void addMoney(int amount);
         void removeMoney(int cost);
-        //void removeHP(int amount); //actually probably not needed
+        void removeHP(int amount);
         void addToScore(int amount);
-        void reachedCastle (Enemy& enemy); //checks if an enemy has reached the castle or should game do it?
+        void reachedCastle (std::shared_ptr<Enemy> enemy); //checks if an enemy has reached the castle or should game do it?
         void buyTower(int cost, Textures::TowerID towerID);
         void sellTower(Tower& tower);
         void upgradeTower(Tower& tower);
+
+        /**
+         * updates the position coordinates of castle
+         * should be called whenever map changes
+         * and probably during first load of a map, since player is initiated before map is loaded?
+        */
+        void updateCastlePosition(sf::Vector2f position);
 };
 
 #endif
