@@ -19,16 +19,21 @@ Tower::Tower(sf::Vector2f position)
         upgradeCost_((int*)150), // subject to change, maybe 1.5 * baseCost_?
         damageType_(CanDamage::Both),
         lockedEnemy_(nullptr), // initially no locked enemy
-        fireTimer_() {}
+        fireTimer_(),
+        maxLevelReached_(false) {}
 
-int Tower::getUpgradeCost() const { // How we should handle when tower is already at maximum lvl, what interface should display? 
+/*int Tower::getUpgradeCost() const { // How we should handle when tower is already at maximum lvl, what interface should display? 
   return upgradeCost_[currentLvl_ - 1];   // Maybe something like "Max level reached"
-}
+}*/
 
+// upgradeTower()
 void Tower::upgradeTower() { 
   if (currentLvl_ = 1) {
     currentLvl_++;
     damage_ = 1.5 * damage_;
+    if (currentLvl_ == TOWER_MAX_LVL) {
+      maxLevelReached_ = true;
+    }
   }
 }
 // lockOn is redundant in current implementation, will save it up for now. 
@@ -53,19 +58,16 @@ Projectile Tower::shoot() {
    * 2.2. sf::Vector2f normalizedDirection = direction / length;
    * 3. sf::Vector2f velocity = normalizedDirection * projectileSpeed;
    * */
-  float speed = 100.0; 
-  int damage = 10;
   sf::Vector2f direction = this->position_ - lockedEnemy_->getPosition();
   float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
-  sf::Vector2f normalizedDirection = direction / length;
-  sf::Vector2f velocity = normalizedDirection * speed;
-  //return Projectile(speed, velocity, this->position_, this, this->type_, damage, this->lockedEnemy_);
+  sf::Vector2f normalizedDirection = direction / length; //I am assuming here you want normalized direction
+  return Projectile(normalizedDirection, position_, *this, damage_);
   /* Prototype implementation for shoot method. 
    * Projectile class has to be adjusted a little bit in order to 
    * finish implementation of shoot(). */
 }
 
-/*void Tower::update() { // Redundant in current implementation, will save it up for now
+void Tower::update() { // Redundant in current implementation, will save it up for now
   // Updates tower logic. For example if enemy gets out of range, this method should lockOn to new enemy.
   if (lockedEnemy_ == nullptr) {
     // if no locked enemy looks for an enemy within range
@@ -74,7 +76,4 @@ Projectile Tower::shoot() {
     shoot();
     fireTimer_.restart();
   }
-}*/
-//void Tower::update(std::list<std::shared_ptr<Enemy>> &enemies, std::list<Projectile> &projectiles) {
-//
-//}
+}
