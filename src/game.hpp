@@ -26,7 +26,11 @@ private:
     void addProjectile(const Projectile& projectile);
     void checkButtons();
     void drag();
-
+    //adding a function to return the elapsed time
+    sf::Time getTime();
+    //I am adding a clock and time functionality that will need to be used for enemy movement and updating and other game logic
+    sf::Clock clock_;
+    sf::Time time_;
     sf::RenderWindow window_;
     /* Pavel: should we change enemies_ to be 
     * std::list<std::shared_ptr<Enemy>> enemies_ instead and 

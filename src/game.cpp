@@ -193,3 +193,7 @@ void Game::drag() {
         dragged_ = false;
     }
 }
+
+sf::Time Game::getTime() {
+    return time_;
+}

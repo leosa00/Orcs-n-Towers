@@ -6,11 +6,6 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp> 
 
-enum class EnemyType {
-    Ground,
-    Flying
-};
-
 class Enemy :public sf::Sprite {
 public:
     /*Enemy(int hp, int speed, std::string type, int gold)
@@ -68,7 +63,7 @@ public:
 private:
     int hp_;
 
-    bool dead_;
+    bool dead_= false;
 
     float speed_;
 
