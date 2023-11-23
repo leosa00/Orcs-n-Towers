@@ -20,6 +20,8 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     // Create tower texture container, load texture    
     tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
     tower_textures_.load(Textures::Tower1, "tower_test.png");
+
+    player_ = Player(); 
 };
 
 
@@ -77,6 +79,21 @@ void Game::update() {
     
     for (auto& enemy : enemies_) {
         enemy->update();
+        
+        //if enemy has reached the castle
+        player_.reachedCastle(enemy);
+        if(player_.getHP() <= 0){
+            //game over
+            break;
+        }
+
+        /**
+         * depending wether game or palyer keeps track of castle position
+         * atl:
+         * castle_.getGlobalBounds().intersects(enemy.getGlobalBounds())){
+            player_.removeHP(10) <-- should prob be enemy specific
+        */
+
     }
     // Pavel: updating towers below. Would someone double-check that logic is correct?
     // Perhaps I could try to migrate tower logic inside tower class, but is there any 

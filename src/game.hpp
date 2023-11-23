@@ -7,6 +7,7 @@
 #include "enemy.hpp"
 #include "projectile.hpp"
 #include "resource_container.hpp"
+#include "player.hpp"
 #include <memory> //for shared_ptr
 
 // Class for running the game logic
@@ -47,7 +48,7 @@ private:
     
     ResourceContainer<Textures::TowerID, sf::Texture> tower_textures_;
     
-
+    Player player_; 
 };
 
 #endif
