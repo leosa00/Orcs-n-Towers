@@ -24,6 +24,7 @@ int Projectile::getDamage() const {
 }
 
 sf::Vector2f Projectile::getShootDir() const {
+    return shootDirection_;
 }
 
 bool Projectile::distToTower() {
