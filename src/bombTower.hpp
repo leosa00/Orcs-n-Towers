@@ -3,7 +3,7 @@
 #include "tower.hpp"
 class BombTower : public Tower {
 public:
-    Bom
+    BombTower
 private:
 };
 #endif //BOMB_TOWER_H
