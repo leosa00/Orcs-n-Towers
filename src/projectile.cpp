@@ -24,11 +24,6 @@ int Projectile::getDamage() const {
 }
 
 sf::Vector2f Projectile::getShootDir() const {
-<<<<<<< Updated upstream
-    return shootDirection_;
-=======
-    return shootDirection;
->>>>>>> Stashed changes
 }
 
 bool Projectile::distToTower() {
