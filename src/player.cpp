@@ -33,10 +33,6 @@ void Player::reachedCastle (std::shared_ptr<Enemy> enemy) {
     if(this.getGlobalBounds().intersects(enemy.getGlobalBounds())){
         removeHP(10) //should different enemies affect affect differently
     }
-
-    if(hp_ <= 0){
-        //gameover
-    }
 }
 
 void Player::buyTower (int cost, Textures::TowerID towerID) {

@@ -19,8 +19,8 @@ class Player //: public sf::Transformable
         std::vector<Tower*> towers_; //towers the player has bought / owns, pointers or references?
 
     public:
-        Player(std::string name, int hp = 500, int wallet = 500, int score = 0, sf::Vector2f position = NULL) 
-            :name_(name), hp_(hp), wallet_(wallet), score_(score), position_(position){}
+        Player(std::string name = "player") 
+            :name_(name), hp_(500), wallet_(500), score_(0), position_(NULL){}
 
         ~Player() {
             for(auto& i : towers_) {
@@ -33,7 +33,7 @@ class Player //: public sf::Transformable
         std::string& getName() const;
         void addMoney(int amount);
         void removeMoney(int cost);
-        //void removeHP(int amount); //actually probably not needed
+        void removeHP(int amount);
         void addToScore(int amount);
         void reachedCastle (std::shared_ptr<Enemy> enemy); //checks if an enemy has reached the castle or should game do it?
         void buyTower(int cost, Textures::TowerID towerID);
