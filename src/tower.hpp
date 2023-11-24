@@ -22,7 +22,10 @@ enum class CanDamage {
 
 class Tower : public sf::Sprite { 
 public:                             
-    Tower(sf::Vector2f position);
+    Tower(sf::Vector2f position, const std::string& type = "Basic",  int baseCost = 100, float range = 100.0, float fireRate = 1.0,
+          int damage = 10, int currentLvl = 1, int upgradeCost = 150, CanDamage damageType = CanDamage::Both, std::shared_ptr<Enemy> lockedEnemy = nullptr,
+          sf::Clock fireTimer = sf::Clock(), bool maxLevelReached = false);
+    /*Tower(sf::Vector2f position);*/
     // I think there is really no need for copy constructor or copy assignment operator
     const std::string& getType() const {return type_;}
     const sf::Vector2f getPosition() const {return position_;}
@@ -44,13 +47,13 @@ public:
     void resetFireTimer() {fireTimer_.restart();}
     // shoot() creates a projectile that flies towards lockedEnemy_
     // Changed it to virtual as different types of towers create different projectiles
-    virtual Projectile shoot(); 
+    virtual Projectile& shoot(); 
     void upgradeTower(); // Will be defined in .cpp 
     // update() method is redundant in current implementation as I moved
     // tower logic update into game.cpp for now
-    void update();
+    virtual void update(std::list<std::shared_ptr<Enemy>> &enemies);
 private:
-    void draw();
+    virtual void draw();
     const std::string type_;
     const sf::Vector2f position_;
     const int baseCost_;

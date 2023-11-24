@@ -5,22 +5,41 @@
 #include "projectile.hpp"
 #include "game.hpp"
 #include <cmath>
+#include <memory>
 // upgradeCost list is redundant if we limit max lvl to be 2
 // static int upgradeCost[4] = {150, 200, 250, 300}; //subject to change
 
-Tower::Tower(sf::Vector2f position)
-      : type_("Basic"),
-        position_(position),
-        baseCost_(100), // subject to change
-        range_(100.0), // subject to change
-        fireRate_(1.0), // subject to change
-        damage_(10), // subject to change
-        currentLvl_(1),
-        upgradeCost_(150), // subject to change, maybe 1.5 * baseCost_?
-        damageType_(CanDamage::Both),
-        lockedEnemy_(nullptr), // initially no locked enemy
-        fireTimer_(),
-        maxLevelReached_(false) {}
+/*Tower::Tower(const std::string& type = "Basic", sf::Vector2f position, int baseCost = 100, float range = 100.0, float fireRate = 1.0,
+              int damage = 10, int currentLvl = 1, int upgradeCost = 150, CanDamage damageType = CanDamage::Both, std::shared_ptr<Enemy> lockedEnemy = nullptr,
+              sf::Clock fireTimer, bool maxLevelReached = false)
+              : type_(type), 
+                position_(position),
+                baseCost_(baseCost),
+                range_(range),
+                fireRate_(fireRate),
+                damage_(damage),
+                currentLvl_(currentLvl),
+                upgradeCost_(upgradeCost),
+                damageType_(damageType),
+                lockedEnemy_(lockedEnemy),
+                fireTimer_(fireTimer),
+                maxLevelReached_(maxLevelReached) {} */
+
+Tower::Tower(sf::Vector2f position, const std::string& type,  int baseCost, float range, float fireRate,
+          int damage, int currentLvl, int upgradeCost, CanDamage damageType, std::shared_ptr<Enemy> lockedEnemy,
+          sf::Clock fireTimer, bool maxLevelReached)
+      : position_(position),
+        type_(type),
+        baseCost_(baseCost), // subject to change
+        range_(range), // subject to change
+        fireRate_(fireRate), // subject to change
+        damage_(damage), // subject to change
+        currentLvl_(currentLvl),
+        upgradeCost_(upgradeCost), // subject to change, maybe 1.5 * baseCost_?
+        damageType_(damageType),
+        lockedEnemy_(lockedEnemy), // initially no locked enemy
+        fireTimer_(fireTimer),
+        maxLevelReached_(maxLevelReached) {}
 
 /*int Tower::getUpgradeCost() const { // How we should handle when tower is already at maximum lvl, what interface should display? 
   return upgradeCost_[currentLvl_ - 1];   // Maybe something like "Max level reached"
@@ -49,7 +68,7 @@ void Tower::lockOn(std::shared_ptr<Enemy> enemy) {
 bool Tower::enemyWithinRange(std::shared_ptr<Enemy> enemy) {
   return range_ >= std::sqrt(std::pow((position_.x - enemy->getPosition().x), 2) + std::pow((position_.y - enemy->getPosition().y), 2));
 }
-Projectile Tower::shoot() {
+Projectile& Tower::shoot() {
   /* Assuming speed is 100.0
    * Velocity is calculated in following steps:
    * 1. sf::Vector2f direction = this->position_ - lockedEnemy_->getPosition(); 
@@ -61,19 +80,32 @@ Projectile Tower::shoot() {
   sf::Vector2f direction = this->position_ - lockedEnemy_->getPosition();
   float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
   sf::Vector2f normalizedDirection = direction / length; //I am assuming here you want normalized direction
-  return Projectile(normalizedDirection, position_, *this, damage_);
+  Projectile* projectile = new Projectile(normalizedDirection, position_, *this, damage_);
+  return *projectile;
   /* Prototype implementation for shoot method. 
    * Projectile class has to be adjusted a little bit in order to 
    * finish implementation of shoot(). */
 }
 
-void Tower::update() { // Redundant in current implementation, will save it up for now
-  // Updates tower logic. For example if enemy gets out of range, this method should lockOn to new enemy.
-  if (lockedEnemy_ == nullptr) {
-    // if no locked enemy looks for an enemy within range
+void Tower::update(std::list<std::shared_ptr<Enemy>> &enemies) { 
+  auto lockedEnemy = getLockedEnemy();
+  if (lockedEnemy == nullptr) {
+    for (auto& enemy : enemies) {
+      if (enemyWithinRange(enemy)) {
+        setLockedEnemy(enemy);
+        break;
+      }
+    }
   }
-  if (fireTimer_.getElapsedTime().asSeconds() >= 1.0f/fireRate_) {
-    shoot();
-    fireTimer_.restart();
+  else {
+    if (lockedEnemy->hp() <= 0 || !enemyWithinRange(lockedEnemy)) {
+      setLockedEnemy(nullptr);
+      for (auto& enemy : enemies) {
+        if (enemyWithinRange(enemy)) {
+          setLockedEnemy(enemy);
+          break;
+        }
+      }
+    }
   }
 }
