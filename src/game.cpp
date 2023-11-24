@@ -100,6 +100,15 @@ void Game::update() {
     // simple way to do so as updating tower logic uses private members enemies_ and 
     // projectiles_?
     for (auto& tower : towers_) {
+        tower.update(enemies_);
+        if (tower.getLockedEnemy() != nullptr && 
+            tower.getFireTimer().getElapsedTime().asSeconds() >= 1.0f / tower.getFireRate()) {
+                projectiles_.push_back(tower.shoot());
+                tower.resetFireTimer();
+        }
+    }
+    
+    /*for (auto& tower : towers_) {
         auto lockedEnemy = tower.getLockedEnemy();
         // If tower currently has no locked enemy, it should try to find one.
         // Following assumes that enemy object is removed from container enemies_
@@ -136,7 +145,7 @@ void Game::update() {
             projectiles_.push_back(tower.shoot()); // shoot method returns Projectile that is appended to projectiles_
             tower.resetFireTimer();
         }      
-    }
+    }*/
 
     //for (auto& projectile : projectiles_) {
     //    projectile.update();
