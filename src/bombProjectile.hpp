@@ -8,14 +8,13 @@ class BombProjectile : public Projectile
 {
 private:
     int blastRange_;
-    std::list<std::shared_ptr<Enemy>> targetEnemies_; //enemies within owner towers range
 public:
-    BombProjectile(sf::Vector2f shootDirection, sf::Vector2f position, Tower& owner, std::list<std::shared_ptr<Enemy>> targetEnemies, int blastRange = 7) 
-    : Projectile(shootDirection, position, owner, 5.0, "bomb", 50, 5), blastRange_(blastRange), targetEnemies_(targetEnemies) {}    // ^ tbd
-                                                // ^            ^  ^  tbd
+    BombProjectile(sf::Vector2f shootDirection, sf::Vector2f position, int blastRange = 7) // <- tbd
+    : Projectile(shootDirection, position, 5.0, "bomb", 50, 5), blastRange_(blastRange) {} 
+                                        //  ^            ^  ^  tbd
        
     bool hasHitEnemy(std::shared_ptr<Enemy> enemy);
-    void update();
+    void update(float dt, std::list<std::shared_ptr<Enemy>>& Enemies);
 };
 
 

@@ -9,7 +9,7 @@ bool BulletProjectile::hasHitEnemy(std::shared_ptr<Enemy> enemy) {
     return false;
 }
 
-void BulletProjectile::update(float dt){
+void BulletProjectile::update(float dt, std::list<std::shared_ptr<Enemy>>& Enemies){
     //only move the projectile if it hasn't collided or gone out of range
     if(hasHitEnemy(targetEnemy_)){
         delete this;

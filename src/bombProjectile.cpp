@@ -13,13 +13,13 @@ bool BombProjectile::hasHitEnemy(std::shared_ptr<Enemy> enemy){
     return false;
 }
 
-void BombProjectile::update(float dt){
+void BombProjectile::update(float dt, std::list<std::shared_ptr<Enemy>>& Enemies){
     //bomb should stop moving at a certain distance
         if(distToTower()){
             //has reached "landing spot"
             //"detonates" <-- should there be some kind of animation?
             //checks all of the enemies within its range and cause damage to them
-            for(auto enemy : targetEnemies_){
+            for(auto enemy : Enemies){
                 hasHitEnemy(enemy);
             }
             //fullfilled it's purpose
