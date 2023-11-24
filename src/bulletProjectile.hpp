@@ -12,7 +12,7 @@ public:
     : Projectile(shootDirection, position, owner, targetEnemy, 10.0, "bullet", 20, 10), targetEnemy_(targetEnemy) {}
                                                             //   ^              ^   ^ tbd
     bool hasHitEnemy(std::shared_ptr<Enemy> enemy);
-    void update();
+    void update(float dt, std::list<std::shared_ptr<Enemy>>&);
 };
 
 

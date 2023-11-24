@@ -5,19 +5,16 @@ float Projectile::getSpeed() const {
     return speed_;
 }
 
-sf::Vector2f Projectile::getVelocity() const {
+/*sf::Vector2f Projectile::getVelocity() const {
     // This implementation mimics calculating of velocity in Tower::shoot()
     // Assumes the direction vector is normalized
     return shootDirection_ * speed_;
-}
+} Not needed, same can be done in move() */
 
-Tower& Projectile::getOwner() const{
-    return owner_;
-}
 
-//std::string& Projectile::getType() const {
-//    return type_;
-//}
+std::string& Projectile::getType() const {
+   return type_;
+}
 
 int Projectile::getDamage() const {
     return damage_;
@@ -28,9 +25,7 @@ sf::Vector2f Projectile::getShootDir() const {
 }
 
 bool Projectile::distToTower() {
-    sf::Vector2f currPos = getPosition(); //function from transformable class
-    // Inheriting both transformable and sprite leads to conflicts according to my editor, as both classes have getPosition()
-    // I am not sure why or how this even happeens as sprite inherits the method from transformable -Otto
+    sf::Vector2f currPos = getPosition();
 
     double dist = sqrt(pow((position_.x - currPos.x),2) + pow((position_.y - currPos.y),2));
 
