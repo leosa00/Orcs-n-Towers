@@ -1,14 +1,14 @@
 #include "enemy.hpp"
 #include <string>
+#include "game.hpp"
+#include "player.hpp"
 
-Enemy::Enemy(int hp, float speed, EnemyType type, int gold)
-    :hp_(hp), speed_(speed), type_(type), goldWorth_(gold), setVelocity(), findNewWaypoint() {}
 
-
-void Enemy::move(sf::vector2f movement){
+void Enemy::moveEnemy(sf::vector2f movement) { 
     this->move(movement);
     //add more implementations for moving other textures
 }
+
 void Enemy::update() {
     time = game::getTime();
 	sf::Vector2f movement = velocity_*time.asSeconds();
@@ -18,7 +18,7 @@ void Enemy::update() {
         movement -= velocity_ * 0.2f * time.asSeconds();
     }
 	
-	move(movement);
+	moveEnemy(movement);
 
 	if (isWaypointPassed(movement))
 	{
@@ -47,29 +47,12 @@ bool Enemy::isWaypointPassed(sf::Vector2f movement) {
     }
 }
 
-//void Enemy::setTexture(sf::Texture * texture)
-//{
-//	sprite_.setTexture(*texture);
-//}
-
-//void Enemy::draw(sf::RenderTarget & target) const {
-//    target.draw(sprite_);
-//}
-
-//sf::Vector2f Enemy::getLocation() {
-//    return sprite_.getPosition();
-//}
-
-//sf::FloatRect Enemy::getGlobalBounds()
-//{
-//	return sprite_.getGlobalBounds();
-//}
 
 sf::Vector2f Enemy::getCenter()
 {
 	sf::Vector2f enemyCenter;
-	enemyCenter.x = sprite_.getPosition().x + sprite_.getGlobalBounds().width / 2;
-	enemyCenter.y = sprite_.getPosition().y + sprite_.getGlobalBounds().height / 2;
+	enemyCenter.x = this->getPosition().x + this->getGlobalBounds().width / 2;
+	enemyCenter.y = this->getPosition().y + this->getGlobalBounds().height / 2;
 
 	return enemyCenter;
 }
@@ -115,6 +98,15 @@ void Enemy::setVelocity() {
 
 }
 
+sf::Vector2f Enemy::getLocation() {
+    return this->getPosition();
+}
+
+void Enemy::findNewWaypoint() {
+	waypoints_.pop();
+	currentWaypoint_ = &waypoints_.front();
+}
+
 int Enemy::hp() {
     return hp_;
 }
@@ -136,8 +128,7 @@ int Enemy::slowedStatus() {
 }
 
 void Enemy::kill() {
-    //need to implement a way to deposite money to the players wallet
-    //based on the goldWorth of the enemy
+    Player::addMoney(goldWorth_);
     dead_ = true;
 }
 

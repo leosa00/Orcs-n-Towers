@@ -10,7 +10,9 @@ class Enemy :public sf::Sprite {
 public:
     /*Enemy(int hp, int speed, std::string type, int gold)
         : hp_(hp), speed_(speed), type_(type), goldWorth_(gold) {}*/
-    Enemy(int hp, int speed, EnemyType type, int gold);
+    Enemy(int hp, int speed, EnemyType type, int gold)
+        :hp_(hp), speed_(speed), type_(type), goldWorth_(gold), setVelocity(), waypoints_(path::getWaypoints()), findNewWaypoint() {}
+
 
     ~Enemy() {}
 
@@ -18,15 +20,10 @@ public:
     
     void update(); //update the state of the monster in relation to the game
 
-    bool atBase(); //checks if the enemy has reached the base
 
     //sf::Vector2f getPosition(); //returns the position of the enemy as a Vector2f position
     
     sf::Vector2f getCenter();
-
-    void setTexture(sf::Texture * texture);
-
-    void draw(sf::RenderTarget & target) const;
 
     sf::Vector2f getLocation();
     
@@ -58,7 +55,7 @@ public:
 
 	void findNewWaypoint();
 
-	void move(sf::Vector2f movement);
+	void moveEnemy(sf::Vector2f movement);
 
 private:
     int hp_;
@@ -84,10 +81,6 @@ private:
 	sf::Vector2f *currentWaypoint_;
 
     int direction_; //0 = down, 1= left, 2= right, 3 = up
-    //sprite
-    sf::Sprite sprite_;
-
-    sf::Vector2u spriteSize_;
     
 };
 
