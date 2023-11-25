@@ -49,8 +49,8 @@ public:
     // Changed it to virtual as different types of towers create different projectiles
     virtual Projectile& shoot(); 
     void upgradeTower(); // Will be defined in .cpp 
-    // update() method is redundant in current implementation as I moved
-    // tower logic update into game.cpp for now
+    /* update() method is declared as virtual. Some derived
+       classes will use base update() and other will use override*/
     virtual void update(std::list<std::shared_ptr<Enemy>> &enemies);
 private:
     virtual void draw();
