@@ -8,11 +8,11 @@ class BulletProjectile : public Projectile
 private:
     std::shared_ptr<Enemy> targetEnemy_;
 public:
-    BulletProjectile(sf::Vector2f shootDirection, sf::Vector2f position, Tower& owner, std::shared_ptr<Enemy> targetEnemy) 
-    : Projectile(shootDirection, position, owner, targetEnemy, 10.0, "bullet", 20, 10), targetEnemy_(targetEnemy) {}
-                                                            //   ^              ^   ^ tbd
+    BulletProjectile(sf::Vector2f shootDirection, sf::Vector2f position, int damage, std::shared_ptr<Enemy> targetEnemy) 
+    : Projectile(shootDirection, position, damage, targetEnemy, 10.0, "bullet", 20, 10), targetEnemy_(targetEnemy) {}
+                                                    //   ^              ^   ^ tbd
     bool hasHitEnemy(std::shared_ptr<Enemy> enemy);
-    void update(float dt, std::list<std::shared_ptr<Enemy>>&);
+    void update(Game& game);
 };
 
 

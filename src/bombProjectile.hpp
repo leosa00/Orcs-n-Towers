@@ -9,12 +9,12 @@ class BombProjectile : public Projectile
 private:
     int blastRange_;
 public:
-    BombProjectile(sf::Vector2f shootDirection, sf::Vector2f position, int blastRange = 7) // <- tbd
-    : Projectile(shootDirection, position, 5.0, "bomb", 50, 5), blastRange_(blastRange) {} 
+    BombProjectile(sf::Vector2f shootDirection, sf::Vector2f position, int damage,) // <- tbd
+    : Projectile(shootDirection, position, damage 5.0, "bomb", 50, 5), blastRange_(7) {} 
                                         //  ^            ^  ^  tbd
        
     bool hasHitEnemy(std::shared_ptr<Enemy> enemy);
-    void update(float dt, std::list<std::shared_ptr<Enemy>>& Enemies);
+    void update(Game& game);
 };
 
 

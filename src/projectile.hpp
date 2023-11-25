@@ -8,6 +8,8 @@
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics.hpp>
 
+class Game;
+
 // Removed inheritance of sf::Transformable. 
 // I checked that sf::Sprite inherits both Drawable and Transformable -Otto
 class Projectile : public sf::Sprite
@@ -69,6 +71,6 @@ class Projectile : public sf::Sprite
          * towers should call update on their projectiles?
          * purely virtual
         */
-       virtual void update(float dt, std::list<std::shared_ptr<Enemy>>&) = 0;
+       virtual void update(Game&) = 0;
 };
 #endif
