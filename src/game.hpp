@@ -13,9 +13,13 @@
 // Class for running the game logic
 
 class Game {
+    
     friend class Tower;
     friend class BulletTower;
     friend class BombTower;
+    friend class BombProjectile;
+    friend class BulletProjectile;
+
 public:
     Game();
     void run();

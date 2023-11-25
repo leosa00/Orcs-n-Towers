@@ -147,9 +147,9 @@ void Game::update() {
         }      
     }*/
 
-    //for (auto& projectile : projectiles_) {
-    //    projectile.update();
-    //}
+    for (auto& projectile : projectiles_) {
+        projectile.update(*this);
+    }
 }
 
 // Iterate over objects, render them onto window
