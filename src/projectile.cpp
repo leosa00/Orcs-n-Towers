@@ -24,6 +24,13 @@ sf::Vector2f Projectile::getShootDir() const {
     return shootDirection_;
 }
 
+void Projectile::destroy(){
+    isDestroyed_ = true;
+}
+bool Projectile::isDestroyed(){
+    return isDestroyed_;
+}
+
 bool Projectile::distToTower() {
     sf::Vector2f currPos = getPosition();
 

@@ -13,12 +13,12 @@ void BulletProjectile::update(Game& game){
     float dt = game.getTime().asSeconds();
     //only move the projectile if it hasn't collided or gone out of range
     if(hasHitEnemy(targetEnemy_)){
-        delete this;
+        destroy();
         //has hit an enemy --> fullfilled its purpose
     }
     else{
         if(distToTower()){
-            delete this;
+            destroy();
             //bullet has gone out of range;
         }
         else{

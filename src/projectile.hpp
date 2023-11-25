@@ -21,6 +21,7 @@ class Projectile : public sf::Sprite
         sf::Vector2f position_; // of tower that created
         int maxDistance_;
         sf::Vector2f shootDirection_;
+        bool isDestroyed_;
 
         //derived classes keep track of their target enemy/ies
 
@@ -35,7 +36,8 @@ class Projectile : public sf::Sprite
 
         //abstract class, don't call this constructor
         Projectile(sf::Vector2f shootDirection, sf::Vector2f position, int damage, float speed, std::string type, int maxDistance) 
-        : shootDirection_(shootDirection), position_(position), damage_(damage), speed_(speed), type_(type), maxDistance_(maxDistance){}
+        : shootDirection_(shootDirection), position_(position), damage_(damage), speed_(speed), type_(type), maxDistance_(maxDistance),
+        isDestroyed_(false){}
 
         // shootdirection, position, damage comes from tower
         // speed, type, maxDistance come from derived classes 
@@ -48,6 +50,8 @@ class Projectile : public sf::Sprite
         int getDamage() const;
         sf::Vector2f getShootDir() const;
         sf::Vector2f getVelocity() const;
+        void destroy();
+        bool isDestroyed();
 
         /**
          * calculates distance from owner tower

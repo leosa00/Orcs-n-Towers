@@ -24,7 +24,7 @@ void BombProjectile::update(Game& game){
                 hasHitEnemy(enemy);
             }
             //fullfilled it's purpose
-            delete this;
+            destroy();
         }
         else{
             this.move(getShootDir().x * speed_ * dt, getShootDir().y * speed_ * dt);

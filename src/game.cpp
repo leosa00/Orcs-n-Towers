@@ -149,6 +149,10 @@ void Game::update() {
 
     for (auto& projectile : projectiles_) {
         projectile.update(*this);
+        
+        if(projectile.isDestroyed()){
+            delete projectile;
+        }
     }
 }
 
