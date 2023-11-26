@@ -63,7 +63,8 @@ private:
     
     std::list<Button> buttons_; // Stores clickable buttons
     bool dragged_; // Indicates if a tower is currently being dragged into place
-    
+    bool paused_; // Is the game paused?
+
     ResourceContainer<Textures::TowerID, sf::Texture> tower_textures_;
     ResourceContainer<Textures::EnemyID, sf::Texture> enemy_textures_;
 

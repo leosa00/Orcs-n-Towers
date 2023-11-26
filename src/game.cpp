@@ -20,12 +20,15 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     // Create Buttons
     buttons_.push_back(Button(Actions::Tower1, tower_textures_.get(Textures::Tower1), sf::Vector2f(920, 40)));
     buttons_.push_back(Button(Actions::Tower2, tower_textures_.get(Textures::Tower2), sf::Vector2f(920, 100)));
+    // This needs a texture or something
+    //buttons_.push_back(Button(Actions::Pause, enemy_textures_.get(Textures::Enemy1), sf::Vector2f(900, 760)));
 
 
-//    testEnemy();
+    testEnemy();
 
 
     player_ = Player(); 
+    player_.addMoney(500);
 };
 
 
@@ -68,8 +71,10 @@ void Game::processEvents(){
 
 // Call functions necessary for iterating over all objects and updating their states
 void Game::update() {
-    // TODO: If the game is paused stop updating
-
+    // If the game is paused stop updating
+    if (paused_) {
+        return;
+    }
     // If a tower is being dragged, update it's position
     if (dragged_) {
         drag();
@@ -209,6 +214,10 @@ void Game::checkButtons() {
                 // Set flag which indicates an object is being dragged
                 dragged_ = true;
             }
+            case Actions::Pause :
+            {
+                paused_ = !paused_;
+            }
             default:
                 break;
             }
@@ -239,8 +248,13 @@ void Game::testEnemy() {
     path newpath;
     newpath.addWaypoint(sf::Vector2f(50, 50));
     newpath.addWaypoint(sf::Vector2f(300, 300));
+    newpath.addWaypoint(sf::Vector2f(301, 300));
+    newpath.addWaypoint(sf::Vector2f(302, 300));
+    newpath.addWaypoint(sf::Vector2f(303, 300));
+    newpath.addWaypoint(sf::Vector2f(304, 300));
+    newpath.addWaypoint(sf::Vector2f(305, 300));
 
-    Enemy test(10, 10, EnemyType::Ground, 10, newpath, player_);
+    Enemy test(10, 1, EnemyType::Ground, 10, newpath, player_);
     test.setPosition(100, 100);
     test.setTexture(enemy_textures_.get(Textures::Enemy1));
 
