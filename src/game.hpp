@@ -9,6 +9,7 @@
 #include "resource_container.hpp"
 #include "player.hpp"
 #include <memory> //for shared_ptr
+#include "bulletTower.hpp"
 
 // Class for running the game logic
 

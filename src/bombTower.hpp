@@ -8,6 +8,6 @@ public:
     void update(std::list<std::shared_ptr<Enemy>> &enemies) override;
     BombProjectile& shoot() override;
 private:
-    void draw() override;
+//    void draw() override;
 };
 #endif //BOMB_TOWER_H

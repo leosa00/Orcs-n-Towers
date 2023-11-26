@@ -36,6 +36,7 @@ BombProjectile& BombTower::shoot() {
     sf::Vector2f direction = getPosition() - getLockedEnemy()->getPosition();
     float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
     sf::Vector2f normalizedDirection = direction / length;
-    BombProjectile* bombProjectile = new BombProjectile(normalizedDirection, getPosition(), getDamage(), getLockedEnemy());
+    BombProjectile* bombProjectile = new BombProjectile(normalizedDirection, getPosition(), getDamage());//, getLockedEnemy())
+    // Constructor for BombProjectile does not accept shared_ptr<Enemy> as input...
     return *bombProjectile;    
 }

@@ -78,7 +78,7 @@ void Game::update() {
     // Pavel: following order of updates is perhaps ok
     
     for (auto& enemy : enemies_) {
-        enemy->update();
+        enemy->update(getTime());
         
         //if enemy has reached the castle
         player_.reachedCastle(enemy);
@@ -151,7 +151,7 @@ void Game::update() {
         projectile.update(*this);
         
         if(projectile.isDestroyed()){
-            delete projectile;
+//            delete projectile;
         }
     }
 }
@@ -174,25 +174,25 @@ void Game::checkButtons() {
     for (auto button : buttons_) {
         // Ugly if statement, creates sf::Rect of the same size as the button, and checks if
         // mouse is inside it using the .contains method
-        if ( sf::Rect<int>((sf::Vector2i) button.getSize(), (sf::Vector2i) button.getPosition())
-        .contains(sf::Mouse::getPosition(window_))) {
-            /* Currently we just recognize that the only button corresponding to the only button has been pressed
-               so we create a new tower of which there is currently only one type.
-               The buttons should probably be implemented in a separate class to enable easier
-               implementation of separate buttons for different towers
-             */
-            Tower new_tower = Tower((sf::Vector2f) sf::Mouse::getPosition(window_));
-            new_tower.setTexture(tower_textures_.get(Textures::Tower1));
-
-            /* New tower takes first place in array of towers. 
-               This is enough to identify the new tower which is being dragged, as only one tower 
-               can be added at a time
-            */
-            towers_.push_front(new_tower);
-    
-            // Set flag which indicates an object is being dragged
-            dragged_ = true;
-        }
+    //    if ( sf::Rect<int>((sf::Vector2i) button.getSize(), (sf::Vector2i) button.getPosition())
+    //    .contains(sf::Mouse::getPosition(window_))) {
+    //        /* Currently we just recognize that the only button corresponding to the only button has been pressed
+    //           so we create a new tower of which there is currently only one type.
+    //           The buttons should probably be implemented in a separate class to enable easier
+    //           implementation of separate buttons for different towers
+    //         */
+    //        BulletTower new_tower = BulletTower((sf::Vector2f) sf::Mouse::getPosition(window_));
+    //        new_tower.setTexture(tower_textures_.get(Textures::Tower1));
+//
+    //        /* New tower takes first place in array of towers. 
+    //           This is enough to identify the new tower which is being dragged, as only one tower 
+    //           can be added at a time
+    //        */
+    //        towers_.push_front(new_tower);
+    //
+    //        // Set flag which indicates an object is being dragged
+    //        dragged_ = true;
+    //    }
 
     }
 }

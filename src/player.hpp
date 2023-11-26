@@ -7,6 +7,11 @@
 #include "tower.hpp"
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Transformable.hpp>
+#include <memory>
+#include "resource_container.hpp"
+
+class Tower;
+class Enemy;
 
 class Player //: public sf::Transformable
 {
@@ -20,17 +25,18 @@ class Player //: public sf::Transformable
 
     public:
         Player(std::string name = "player") 
-            :name_(name), hp_(500), wallet_(500), score_(0), position_(NULL){}
+        // position_ cannot be initialized as NULL, because it is of type sf::Vector2f
+            :name_(name), hp_(500), wallet_(500), score_(0), position_(sf::Vector2f(0, 0)){}
 
         ~Player() {
-            for(auto& i : towers_) {
-                delete i;
-            }
-            towers_.clear();
+        //    for(auto& i : towers_) {
+        //        delete i;
+        //    }
+        //    towers_.clear();
         }
         int getWallet() const;
         int getHP() const;
-        std::string& getName() const;
+        std::string getName() const;
         void addMoney(int amount);
         void removeMoney(int cost);
         void removeHP(int amount);

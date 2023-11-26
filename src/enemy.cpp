@@ -3,6 +3,7 @@
 #include "game.hpp"
 #include "player.hpp"
 #include <cmath>
+#include <memory>
 
 void Enemy::moveEnemy(sf::Vector2f movement) { 
     this->move(movement);

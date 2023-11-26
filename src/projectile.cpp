@@ -12,7 +12,7 @@ float Projectile::getSpeed() const {
 } Not needed, same can be done in move() */
 
 
-std::string& Projectile::getType() const {
+std::string Projectile::getType() const {
    return type_;
 }
 
