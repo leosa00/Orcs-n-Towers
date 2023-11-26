@@ -61,7 +61,7 @@ class Projectile : public sf::Sprite
          * deals damage to enemy
          * deletes the projectile
         */
-        bool hasHitEnemy(Enemy& enemy);
+        virtual bool hasHitEnemy(std::shared_ptr<Enemy> enemy) = 0;
 
         /**
          * moves the projectile if it hasn't collided / gone out of range
@@ -69,6 +69,6 @@ class Projectile : public sf::Sprite
          * towers should call update on their projectiles?
          * purely virtual
         */
-        void update(float dt);
+        virtual void update(float dt) = 0;
 };
 #endif
