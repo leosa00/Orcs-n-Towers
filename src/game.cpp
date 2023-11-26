@@ -1,6 +1,7 @@
 #include "game.hpp"
 #include "bombTower.hpp"
 #include <memory>
+#include "path.hpp"
 
 // initialize game object, mainly create window...
 Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
@@ -22,6 +23,12 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     // Create tower texture container, load texture    
     tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
     tower_textures_.load(Textures::Tower1, "textures/tower_test.png");
+
+    enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
+    enemy_textures_.load(Textures::Enemy1, "textures/goblin_test.png");
+
+    testEnemy();
+
 
     player_ = Player(); 
 };
@@ -217,4 +224,18 @@ void Game::drag() {
 
 sf::Time Game::getTime() {
     return time_;
+}
+
+// Test function for enemy class
+void Game::testEnemy() {
+
+    path newpath;
+    newpath.addWaypoint(sf::Vector2f(50, 50));
+    newpath.addWaypoint(sf::Vector2f(300, 300));
+
+    Enemy test(10, 10, EnemyType::Ground, 10, newpath, player_);
+    test.setPosition(100, 100);
+    test.setTexture(enemy_textures_.get(Textures::Enemy1));
+
+    enemies_.push_back(std::make_shared<Enemy>(test));
 }

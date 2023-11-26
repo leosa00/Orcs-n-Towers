@@ -34,6 +34,7 @@ private:
     void addProjectile(const Projectile& projectile);
     void checkButtons();
     void drag();
+    void testEnemy();
     //adding a function to return the elapsed time
     sf::Time getTime();
     //I am adding a clock and time functionality that will need to be used for enemy movement and updating and other game logic
@@ -63,7 +64,8 @@ private:
     bool dragged_; // Indicates if a tower is currently being dragged into place
     
     ResourceContainer<Textures::TowerID, sf::Texture> tower_textures_;
-    
+    ResourceContainer<Textures::EnemyID, sf::Texture> enemy_textures_;
+
     Player player_; 
 };
 
