@@ -24,7 +24,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     //buttons_.push_back(Button(Actions::Pause, enemy_textures_.get(Textures::Enemy1), sf::Vector2f(900, 760)));
 
 
-    testEnemy();
+//    testEnemy();
 
 
     player_ = Player(); 
@@ -86,11 +86,11 @@ void Game::update() {
         enemy->update(getTime());
         
         //if enemy has reached the castle
-    //    player_.reachedCastle(enemy);
-    //    if(player_.getHP() <= 0){
-    //        //game over
-    //        break;
-    //    }
+        player_.reachedCastle(enemy);
+        if(player_.getHP() <= 0){
+            //game over
+            break;
+        }
 
         /**
          * depending wether game or palyer keeps track of castle position

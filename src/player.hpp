@@ -13,7 +13,10 @@
 class Tower;
 class Enemy;
 
-class Player //: public sf::Transformable
+// Changed this as well to inherit sprite at least temporarily, because
+// otherwise getGlobalBounds() function does not exist, which is needed in
+// reachedCastle()
+class Player : public sf::Sprite
 {
     private:
         int hp_;

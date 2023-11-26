@@ -29,13 +29,14 @@ void Player::addToScore(int amount) {
     score_ += amount;
 }
 
-//void Player::reachedCastle (std::shared_ptr<Enemy> enemy) {
-//
-//    if(this.getGlobalBounds().intersects(enemy.getGlobalBounds())){
-//        enemy.kill(); //this should kill the enemy (at least i hope so :)
-//        removeHP(10);//should different enemies affect affect differently
-//    }
-//}
+// 
+void Player::reachedCastle (std::shared_ptr<Enemy> enemy) {
+
+    if(this->getGlobalBounds().intersects(enemy->getGlobalBounds())){
+        enemy->kill(); //this should kill the enemy (at least i hope so :)
+        removeHP(10);//should different enemies affect affect differently
+    }
+}
 
 void Player::buyTower (int cost, Textures::TowerID towerID) {
     
