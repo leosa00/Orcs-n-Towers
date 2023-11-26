@@ -3,6 +3,7 @@
 #include <string>
 #include "path.hpp"
 #include <queue>
+#include "player.hpp"
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp> 
 
@@ -15,15 +16,21 @@ class Enemy :public sf::Sprite {
 public:
     /*Enemy(int hp, int speed, std::string type, int gold)
         : hp_(hp), speed_(speed), type_(type), goldWorth_(gold) {}*/
-    Enemy(int hp, int speed, EnemyType type, int gold)
-        :hp_(hp), speed_(speed), type_(type), goldWorth_(gold), setVelocity(), waypoints_(path::getWaypoints()), findNewWaypoint() {}
+    Enemy(int hp, int speed, EnemyType type, int gold, const path& path, Player& player)
+         : hp_(hp), speed_(speed), effectiveSpeed_(speed), type_(type), goldWorth_(gold), waypoints_(path.getWaypoints()), player_(player) {
+        if (!waypoints_.empty()) {
+            currentWaypoint_ = waypoints_.front();
+        }
+        setVelocity();
+    }
+
 
 
     ~Enemy() {}
 
     //void move(); //use the speed_ variable to advance the position of the enemy, keep it void for now
     
-    void update(); //update the state of the monster in relation to the game
+    void update(sf::Time time); //update the state of the monster in relation to the game
 
 
     //sf::Vector2f getPosition(); //returns the position of the enemy as a Vector2f position
@@ -69,8 +76,12 @@ private:
 
     float speed_;
 
+    float effectiveSpeed_;
+
     EnemyType type_;
     //std::string type_;
+
+    Player& player_; //has reference to player instance so money can be deposited to the player as well as the use of other player functions
 
     int poison_=0; //If poison is larger than 0 that means that the enemy is poisoned
     // the length of time that the enemy is poisoned for depends on how large the poison
@@ -79,11 +90,11 @@ private:
     //How much gold the player recieves for killing the monster
     int goldWorth_;
     //waypoint based movement, the path class provides a queue of waypoints that take the enemies through the path to the end
-    sf::Vector2f velocity_;
+    sf::Vector2f velocity;
 
 	std::queue<sf::Vector2f> waypoints_;
 
-	sf::Vector2f *currentWaypoint_;
+	sf::Vector2f currentWaypoint_;
 
     int direction_; //0 = down, 1= left, 2= right, 3 = up
     
