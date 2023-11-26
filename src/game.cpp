@@ -27,7 +27,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
     enemy_textures_.load(Textures::Enemy1, "textures/goblin_test.png");
 
-    testEnemy();
+//    testEnemy();
 
 
     player_ = Player(); 
@@ -185,6 +185,7 @@ void Game::render() {
 
 // Check if a button has been pressed and act accordingly
 // TODO: maybe a separate button class would make things easier, this should also recognize pause button
+// TODO: Different types of towers need to be created
 void Game::checkButtons() {
     for (auto button : buttons_) {
         // Ugly if statement, creates sf::Rect of the same size as the button, and checks if
@@ -196,14 +197,14 @@ void Game::checkButtons() {
                The buttons should probably be implemented in a separate class to enable easier
                implementation of separate buttons for different towers
              */
-            BombTower new_tower = BombTower((sf::Vector2f) sf::Mouse::getPosition(window_));
-            new_tower.setTexture(tower_textures_.get(Textures::Tower1));
+            BombTower* new_tower = new BombTower((sf::Vector2f) sf::Mouse::getPosition(window_));
+            new_tower->setTexture(tower_textures_.get(Textures::Tower1));
 
             /* New tower takes first place in array of towers. 
                This is enough to identify the new tower which is being dragged, as only one tower 
                can be added at a time
             */
-            towers_.push_front(&new_tower);
+            towers_.push_front(new_tower);
     
             // Set flag which indicates an object is being dragged
             dragged_ = true;
