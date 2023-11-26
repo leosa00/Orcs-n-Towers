@@ -8,6 +8,7 @@
 Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     // Set dragging flag
     dragged_ = false;
+    paused_ = false;
 
     // Create tower texture container, load texture    
     tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
@@ -21,7 +22,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     buttons_.push_back(Button(Actions::Tower1, tower_textures_.get(Textures::Tower1), sf::Vector2f(920, 40)));
     buttons_.push_back(Button(Actions::Tower2, tower_textures_.get(Textures::Tower2), sf::Vector2f(920, 100)));
     // This needs a texture or something
-    //buttons_.push_back(Button(Actions::Pause, enemy_textures_.get(Textures::Enemy1), sf::Vector2f(900, 760)));
+    buttons_.push_back(Button(Actions::Pause, enemy_textures_.get(Textures::Enemy1), sf::Vector2f(900, 760)));
 
 
 //    testEnemy();
@@ -71,13 +72,15 @@ void Game::processEvents(){
 
 // Call functions necessary for iterating over all objects and updating their states
 void Game::update() {
-    // If the game is paused stop updating
-    if (paused_) {
-        return;
-    }
+    
     // If a tower is being dragged, update it's position
     if (dragged_) {
         drag();
+    }
+
+    // If the game is paused stop updating
+    if (paused_) {
+        return;
     }
 
     // Pavel: following order of updates is perhaps ok
@@ -180,8 +183,6 @@ void Game::render() {
 }
 
 // Check if a button has been pressed and act accordingly
-// TODO: maybe a separate button class would make things easier, this should also recognize pause button
-// TODO: Different types of towers need to be created
 void Game::checkButtons() {
     for (auto button : buttons_) {
         if (button.isClicked((sf::Vector2f) sf::Mouse::getPosition(window_))) {
@@ -205,10 +206,6 @@ void Game::checkButtons() {
             {
                 BulletTower* new_bullet = new BulletTower((sf::Vector2f) sf::Mouse::getPosition(window_));
                 new_bullet->setTexture(tower_textures_.get(Textures::Tower2));
-                /* New tower takes first place in array of towers. 
-                   This is enough to identify the new tower which is being dragged, as only one tower 
-                   can be added at a time
-                */
                 towers_.push_front(new_bullet);
 
                 // Set flag which indicates an object is being dragged
@@ -217,6 +214,7 @@ void Game::checkButtons() {
             case Actions::Pause :
             {
                 paused_ = !paused_;
+                break;
             }
             default:
                 break;
@@ -233,7 +231,7 @@ void Game::drag() {
         //printf("Position: %f, %f \n", dragged_->getPosition().x, dragged_->getPosition().y);
     } else {
         // TODO: Check tower collision conds
-        // TODO: Wor with player class to check money
+        // TODO: Work with player class to check money
         dragged_ = false;
     }
 }
@@ -248,11 +246,7 @@ void Game::testEnemy() {
     path newpath;
     newpath.addWaypoint(sf::Vector2f(50, 50));
     newpath.addWaypoint(sf::Vector2f(300, 300));
-    newpath.addWaypoint(sf::Vector2f(301, 300));
-    newpath.addWaypoint(sf::Vector2f(302, 300));
-    newpath.addWaypoint(sf::Vector2f(303, 300));
-    newpath.addWaypoint(sf::Vector2f(304, 300));
-    newpath.addWaypoint(sf::Vector2f(305, 300));
+
 
     Enemy test(10, 1, EnemyType::Ground, 10, newpath, player_);
     test.setPosition(100, 100);
