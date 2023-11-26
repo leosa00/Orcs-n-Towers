@@ -78,3 +78,4 @@ class Projectile : public sf::Sprite
        virtual void update(Game&) = 0;
 };
 #endif
+
