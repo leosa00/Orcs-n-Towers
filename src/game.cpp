@@ -1,4 +1,6 @@
 #include "game.hpp"
+#include "bombTower.hpp"
+#include <memory>
 
 // initialize game object, mainly create window...
 Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
@@ -19,7 +21,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
 
     // Create tower texture container, load texture    
     tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
-    tower_textures_.load(Textures::Tower1, "tower_test.png");
+    tower_textures_.load(Textures::Tower1, "textures/tower_test.png");
 
     player_ = Player(); 
 };
@@ -81,11 +83,11 @@ void Game::update() {
         enemy->update(getTime());
         
         //if enemy has reached the castle
-        player_.reachedCastle(enemy);
-        if(player_.getHP() <= 0){
-            //game over
-            break;
-        }
+    //    player_.reachedCastle(enemy);
+    //    if(player_.getHP() <= 0){
+    //        //game over
+    //        break;
+    //    }
 
         /**
          * depending wether game or palyer keeps track of castle position
@@ -99,12 +101,12 @@ void Game::update() {
     // Perhaps I could try to migrate tower logic inside tower class, but is there any 
     // simple way to do so as updating tower logic uses private members enemies_ and 
     // projectiles_?
-    for (auto& tower : towers_) {
-        tower.update(enemies_);
-        if (tower.getLockedEnemy() != nullptr && 
-            tower.getFireTimer().getElapsedTime().asSeconds() >= 1.0f / tower.getFireRate()) {
-                projectiles_.push_back(tower.shoot());
-                tower.resetFireTimer();
+    for (auto* tower : towers_) {
+        tower->update(enemies_);
+        if (tower->getLockedEnemy() != nullptr && 
+            tower->getFireTimer().getElapsedTime().asSeconds() >= 1.0f / tower->getFireRate()) {
+                projectiles_.push_back(&(tower->shoot()));
+                tower->resetFireTimer();
         }
     }
     
@@ -147,10 +149,10 @@ void Game::update() {
         }      
     }*/
 
-    for (auto& projectile : projectiles_) {
-        projectile.update(*this);
+    for (auto* projectile : projectiles_) {
+        projectile->update(*this);
         
-        if(projectile.isDestroyed()){
+        if(projectile->isDestroyed()){
 //            delete projectile;
         }
     }
@@ -162,8 +164,14 @@ void Game::render() {
     for (auto button : buttons_) {
         window_.draw(button);
     }
-    for (auto tower : towers_) {
-        window_.draw(tower);
+    for (auto* tower : towers_) {
+        window_.draw(*tower);
+    }
+    for (auto* projectile : projectiles_) {
+        window_.draw(*projectile);
+    }
+    for (auto enemy : enemies_) {
+        window_.draw(*enemy);
     }
     window_.display();
 }
@@ -174,32 +182,32 @@ void Game::checkButtons() {
     for (auto button : buttons_) {
         // Ugly if statement, creates sf::Rect of the same size as the button, and checks if
         // mouse is inside it using the .contains method
-    //    if ( sf::Rect<int>((sf::Vector2i) button.getSize(), (sf::Vector2i) button.getPosition())
-    //    .contains(sf::Mouse::getPosition(window_))) {
-    //        /* Currently we just recognize that the only button corresponding to the only button has been pressed
-    //           so we create a new tower of which there is currently only one type.
-    //           The buttons should probably be implemented in a separate class to enable easier
-    //           implementation of separate buttons for different towers
-    //         */
-    //        BulletTower new_tower = BulletTower((sf::Vector2f) sf::Mouse::getPosition(window_));
-    //        new_tower.setTexture(tower_textures_.get(Textures::Tower1));
-//
-    //        /* New tower takes first place in array of towers. 
-    //           This is enough to identify the new tower which is being dragged, as only one tower 
-    //           can be added at a time
-    //        */
-    //        towers_.push_front(new_tower);
-    //
-    //        // Set flag which indicates an object is being dragged
-    //        dragged_ = true;
-    //    }
+        if ( sf::Rect<int>((sf::Vector2i) button.getSize(), (sf::Vector2i) button.getPosition())
+        .contains(sf::Mouse::getPosition(window_))) {
+            /* Currently we just recognize that the only button corresponding to the only button has been pressed
+               so we create a new tower of which there is currently only one type.
+               The buttons should probably be implemented in a separate class to enable easier
+               implementation of separate buttons for different towers
+             */
+            BombTower new_tower = BombTower((sf::Vector2f) sf::Mouse::getPosition(window_));
+            new_tower.setTexture(tower_textures_.get(Textures::Tower1));
+
+            /* New tower takes first place in array of towers. 
+               This is enough to identify the new tower which is being dragged, as only one tower 
+               can be added at a time
+            */
+            towers_.push_front(&new_tower);
+    
+            // Set flag which indicates an object is being dragged
+            dragged_ = true;
+        }
 
     }
 }
 // If a tower is being dragged into place this handles it's movement
 void Game::drag() {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        towers_.front().setPosition(sf::Mouse::getPosition(window_).x, sf::Mouse::getPosition(window_).y);
+        towers_.front()->setPosition(sf::Mouse::getPosition(window_).x, sf::Mouse::getPosition(window_).y);
         //printf("Position: %f, %f \n", dragged_->getPosition().x, dragged_->getPosition().y);
     } else {
         // TODO: Check tower collision conds

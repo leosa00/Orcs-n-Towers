@@ -50,10 +50,14 @@ private:
     * flies towards it (we need to add shared_ptr<Enemy> member to projectile class). 
     * There might be some error in my logic though....
     */
-    std::list<Tower> towers_;
+    std::list<Tower*> towers_;
     //std::list<Enemy> enemies_;
+
+    /* Changed these to unque ptr, as looping over the abstract types directly 
+        is not possible, at least according to my understanding
+        */
     std::list<std::shared_ptr<Enemy>> enemies_;
-    std::list<Projectile> projectiles_;
+    std::list<Projectile*> projectiles_;
     
     std::list<sf::RectangleShape> buttons_; // Stores clickable buttons
     bool dragged_; // Indicates if a tower is currently being dragged into place
