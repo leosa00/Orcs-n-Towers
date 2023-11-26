@@ -19,7 +19,7 @@ enum class CanDamage {
     Flying,
     Both
 };
-
+/* Base tower class will be abstract (i.e., no objects of base tower class are to be constructable)*/
 class Tower : public sf::Sprite { 
 public:                             
     Tower(sf::Vector2f position, const std::string& type = "Basic",  int baseCost = 100, float range = 100.0, float fireRate = 1.0,
@@ -41,16 +41,14 @@ public:
     int getCurrentLvl() const {return currentLvl_;}
     const int getUpgradeCost() const {return upgradeCost_;}; 
     sf::Clock getFireTimer() {return fireTimer_;}
-    // lockOn is redundant in current implementation
-    void lockOn(std::shared_ptr<Enemy> enemy);
     bool enemyWithinRange(std::shared_ptr<Enemy> enemy);
     void resetFireTimer() {fireTimer_.restart();}
     // shoot() creates a projectile that flies towards lockedEnemy_
-    // Changed it to virtual as different types of towers create different projectiles
-    virtual Projectile& shoot(); 
+    // Changed it to pure virtual 
+    virtual Projectile& shoot() = 0; 
     void upgradeTower(); // Will be defined in .cpp 
-    // update() method is redundant in current implementation as I moved
-    // tower logic update into game.cpp for now
+    /* update() method is declared as virtual. Some derived
+       classes will use base update() and other will use override*/
     virtual void update(std::list<std::shared_ptr<Enemy>> &enemies);
 private:
     virtual void draw();

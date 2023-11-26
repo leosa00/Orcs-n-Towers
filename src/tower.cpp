@@ -55,37 +55,28 @@ void Tower::upgradeTower() {
     }
   }
 }
-// lockOn is redundant in current implementation, will save it up for now. 
-void Tower::lockOn(std::shared_ptr<Enemy> enemy) {
-  lockedEnemy_ = enemy; 
-                       // We have to make sure lockedEnemy_ is set to nullptr or reference to 
-                       // another enemy before enemy is destroyed as this will cause memory leak  
-                       // otherwise (referring to a deleted object).
-                       // another approach could be not to destroy killed enemies until the end 
-                       // of the wave; instead we could not be rendering enemies after they reach 0 hp
-}
 
 bool Tower::enemyWithinRange(std::shared_ptr<Enemy> enemy) {
   return range_ >= std::sqrt(std::pow((position_.x - enemy->getPosition().x), 2) + std::pow((position_.y - enemy->getPosition().y), 2));
 }
-Projectile& Tower::shoot() {
-  /* Assuming speed is 100.0
+/* Projectile& Tower::shoot() {
+     Assuming speed is 100.0
    * Velocity is calculated in following steps:
    * 1. sf::Vector2f direction = this->position_ - lockedEnemy_->getPosition(); 
    * 2. Next we normalize direction: 
    * 2.1. float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
    * 2.2. sf::Vector2f normalizedDirection = direction / length;
    * 3. sf::Vector2f velocity = normalizedDirection * projectileSpeed;
-   * */
+   * 
   sf::Vector2f direction = this->position_ - lockedEnemy_->getPosition();
   float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
   sf::Vector2f normalizedDirection = direction / length; //I am assuming here you want normalized direction
   Projectile* projectile = new Projectile(normalizedDirection, position_, *this, damage_);
   return *projectile;
-  /* Prototype implementation for shoot method. 
+     Prototype implementation for shoot method. 
    * Projectile class has to be adjusted a little bit in order to 
-   * finish implementation of shoot(). */
-}
+   * finish implementation of shoot(). 
+} */
 
 void Tower::update(std::list<std::shared_ptr<Enemy>> &enemies) { 
   auto lockedEnemy = getLockedEnemy();
