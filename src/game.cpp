@@ -2,30 +2,25 @@
 #include "bombTower.hpp"
 #include <memory>
 #include "path.hpp"
+#include "button.hpp"
 
 // initialize game object, mainly create window...
 Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
-    // Create sidebar
-    sf::RectangleShape sidebar(sf::Vector2f(100, 800));
-    sidebar.setPosition(900, 0);
-    sidebar.setFillColor(sf::Color::Blue);
-    // Create test button
-    sf::RectangleShape button(sf::Vector2f(60, 40));
-    button.setPosition(920, 40);
-    button.setFillColor(sf::Color::Red);
-    // Add buttons to list of buttons
-    buttons_.push_back(sidebar);
-    buttons_.push_back(button);
-
     // Set dragging flag
     dragged_ = false;
 
     // Create tower texture container, load texture    
     tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
-    tower_textures_.load(Textures::Tower1, "textures/tower_test.png");
+    tower_textures_.load(Textures::Tower1, "textures/tower1.png");
+    tower_textures_.load(Textures::Tower2, "textures/tower2.png");
 
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
     enemy_textures_.load(Textures::Enemy1, "textures/goblin_test.png");
+
+    // Create Buttons
+    buttons_.push_back(Button(Actions::Tower1, tower_textures_.get(Textures::Tower1), sf::Vector2f(920, 40)));
+    buttons_.push_back(Button(Actions::Tower2, tower_textures_.get(Textures::Tower2), sf::Vector2f(920, 100)));
+
 
 //    testEnemy();
 
@@ -64,10 +59,6 @@ void Game::processEvents(){
                 checkButtons(); // Check if some button has been pressed
                 break;
             } 
-        /* I think that we could include a case which detects if mouse button
-        has been pressed. This case would then call a function, which maybe
-        checks, if mouse was pressed on an object of interest.
-        This would then call other necessary functions accordingly*/
 
         default:
             break;
@@ -168,7 +159,7 @@ void Game::update() {
 // Iterate over objects, render them onto window
 void Game::render() {
     window_.clear();
-    for (auto button : buttons_) {
+    for (Button button : buttons_) {
         window_.draw(button);
     }
     for (auto* tower : towers_) {
@@ -188,30 +179,44 @@ void Game::render() {
 // TODO: Different types of towers need to be created
 void Game::checkButtons() {
     for (auto button : buttons_) {
-        // Ugly if statement, creates sf::Rect of the same size as the button, and checks if
-        // mouse is inside it using the .contains method
-        if ( sf::Rect<int>((sf::Vector2i) button.getSize(), (sf::Vector2i) button.getPosition())
-        .contains(sf::Mouse::getPosition(window_))) {
-            /* Currently we just recognize that the only button corresponding to the only button has been pressed
-               so we create a new tower of which there is currently only one type.
-               The buttons should probably be implemented in a separate class to enable easier
-               implementation of separate buttons for different towers
-             */
-            BombTower* new_tower = new BombTower((sf::Vector2f) sf::Mouse::getPosition(window_));
-            new_tower->setTexture(tower_textures_.get(Textures::Tower1));
+        if (button.isClicked((sf::Vector2f) sf::Mouse::getPosition(window_))) {
+            switch (button.getAction())
+            {
+            case Actions::Tower1 :
+            {
+                BombTower* new_bomb = new BombTower((sf::Vector2f) sf::Mouse::getPosition(window_));
+                new_bomb->setTexture(tower_textures_.get(Textures::Tower1));
+                /* New tower takes first place in array of towers. 
+                   This is enough to identify the new tower which is being dragged, as only one tower 
+                   can be added at a time
+                */
+                towers_.push_front(new_bomb);
 
-            /* New tower takes first place in array of towers. 
-               This is enough to identify the new tower which is being dragged, as only one tower 
-               can be added at a time
-            */
-            towers_.push_front(new_tower);
-    
-            // Set flag which indicates an object is being dragged
-            dragged_ = true;
+                // Set flag which indicates an object is being dragged
+                dragged_ = true;
+                break;
+            }
+            case Actions::Tower2 :
+            {
+                BulletTower* new_bullet = new BulletTower((sf::Vector2f) sf::Mouse::getPosition(window_));
+                new_bullet->setTexture(tower_textures_.get(Textures::Tower2));
+                /* New tower takes first place in array of towers. 
+                   This is enough to identify the new tower which is being dragged, as only one tower 
+                   can be added at a time
+                */
+                towers_.push_front(new_bullet);
+
+                // Set flag which indicates an object is being dragged
+                dragged_ = true;
+            }
+            default:
+                break;
+            }
+        }    
         }
 
-    }
 }
+
 // If a tower is being dragged into place this handles it's movement
 void Game::drag() {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
@@ -219,6 +224,7 @@ void Game::drag() {
         //printf("Position: %f, %f \n", dragged_->getPosition().x, dragged_->getPosition().y);
     } else {
         // TODO: Check tower collision conds
+        // TODO: Wor with player class to check money
         dragged_ = false;
     }
 }

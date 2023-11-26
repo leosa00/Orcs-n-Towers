@@ -10,6 +10,7 @@
 #include "player.hpp"
 #include <memory> //for shared_ptr
 #include "bulletTower.hpp"
+#include "button.hpp"
 
 // Class for running the game logic
 
@@ -60,7 +61,7 @@ private:
     std::list<std::shared_ptr<Enemy>> enemies_;
     std::list<Projectile*> projectiles_;
     
-    std::list<sf::RectangleShape> buttons_; // Stores clickable buttons
+    std::list<Button> buttons_; // Stores clickable buttons
     bool dragged_; // Indicates if a tower is currently being dragged into place
     
     ResourceContainer<Textures::TowerID, sf::Texture> tower_textures_;
