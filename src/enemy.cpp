@@ -11,11 +11,11 @@ void Enemy::moveEnemy(sf::Vector2f movement) {
 }
 //get time variable from game::getTime() function
 void Enemy::update(sf::Time time) {
-	sf::Vector2f movement = velocity*time.asSeconds();
+	sf::Vector2f movement = velocity_ * time.asSeconds();
 
     if (slowed_ > 0) {
         //the actual amount the enemy is slowed will be tweaked, for now it is 0.2 f
-        movement -= velocity * 0.2f * time.asSeconds();
+        movement -= velocity_ * 0.2f * time.asSeconds();
     }
 	
 	moveEnemy(movement);
@@ -62,36 +62,36 @@ void Enemy::setVelocity() {
     sf::Vector2f distance;
 	distance = currentWaypoint_ - getCenter();
 
-	velocity.x = distance.x * speed_ / fabs(distance.x + distance.y);
-	velocity.y = distance.y * speed_ / fabs(distance.x + distance.y);
+	velocity_.x = distance.x * speed_ / fabs(distance.x + distance.y);
+	velocity_.y = distance.y * speed_ / fabs(distance.x + distance.y);
 
-	if (fabs(velocity.x) > fabs(velocity.y))
+	if (fabs(velocity_.x) > fabs(velocity_.y))
 	{
-		if (velocity.x > 0)
+		if (velocity_.x > 0)
 		{
-			velocity.x = speed_;
-			velocity.y = 0.f;
+			velocity_.x = speed_;
+			velocity_.y = 0.f;
 			direction_ = 2;
 		}
 		else
 		{
-			velocity.x = -speed_;
-			velocity.y = 0.f;
+			velocity_.x = -speed_;
+			velocity_.y = 0.f;
 			direction_ = 1;
 		}
 	}
 	else
 	{
-		if (velocity.y > 0)
+		if (velocity_.y > 0)
 		{
-			velocity.x = 0.f;
-			velocity.y = speed_;
+			velocity_.x = 0.f;
+			velocity_.y = speed_;
 			direction_ = 0;
 		}
 		else
 		{
-			velocity.x = 0.f;
-			velocity.y = -speed_;
+			velocity_.x = 0.f;
+			velocity_.y = -speed_;
 			direction_ = 3;
 		}
 	}
