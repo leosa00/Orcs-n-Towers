@@ -230,9 +230,16 @@ void Game::drag() {
         towers_.front()->setPosition(sf::Mouse::getPosition(window_).x, sf::Mouse::getPosition(window_).y);
         //printf("Position: %f, %f \n", dragged_->getPosition().x, dragged_->getPosition().y);
     } else {
+        Tower* bought_tower = towers_.front();
+        if (player_.getWallet() < bought_tower->getBaseCost()) {
+            towers_.pop_front();
+            delete bought_tower;
+        } else {
+            player_.removeMoney(bought_tower->getBaseCost());
+        }
+        dragged_ = false;
         // TODO: Check tower collision conds
         // TODO: Work with player class to check money
-        dragged_ = false;
     }
 }
 
