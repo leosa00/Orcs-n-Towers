@@ -27,13 +27,8 @@ public:
 
 
     ~Enemy() {}
-
-    //void move(); //use the speed_ variable to advance the position of the enemy, keep it void for now
     
     void update(sf::Time time); //update the state of the monster in relation to the game
-
-
-    //sf::Vector2f getPosition(); //returns the position of the enemy as a Vector2f position
     
     sf::Vector2f getCenter();
 
@@ -46,8 +41,8 @@ public:
     int poisonStatus();
 
     int slowedStatus();
+
     EnemyType type();
-    //std::string type();
     
     void takeDamage(int damage); //decreases the hp_ variable and if hp reaches 0 than the enemy is automatically destroyed
 
@@ -79,7 +74,6 @@ private:
     float effectiveSpeed_;
 
     EnemyType type_;
-    //std::string type_;
 
     Player& player_; //has reference to player instance so money can be deposited to the player as well as the use of other player functions
 
