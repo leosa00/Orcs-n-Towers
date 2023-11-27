@@ -7,8 +7,6 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp> 
 
-class Player;
-
 enum class EnemyType {
     Ground,
     Flying,
@@ -16,10 +14,9 @@ enum class EnemyType {
 
 class Enemy :public sf::Sprite {
 public:
-    /*Enemy(int hp, int speed, std::string type, int gold)
-        : hp_(hp), speed_(speed), type_(type), goldWorth_(gold) {}*/
-    Enemy(int hp, int speed, EnemyType type, int gold, const path& path, Player& player)
-         : hp_(hp), speed_(speed), effectiveSpeed_(speed), type_(type), goldWorth_(gold), waypoints_(path.getWaypoints()), player_(player) {
+
+    Enemy(int hp, int speed, EnemyType type, int gold, const path& path)
+         : hp_(hp), speed_(speed), effectiveSpeed_(speed), type_(type), goldWorth_(gold), waypoints_(path.getWaypoints()) {
         if (!waypoints_.empty()) {
             currentWaypoint_ = waypoints_.front();
         }
@@ -76,8 +73,7 @@ private:
     float effectiveSpeed_;
 
     EnemyType type_;
-
-    Player& player_; //has reference to player instance so money can be deposited to the player as well as the use of other player functions
+         //has reference to player instance so money can be deposited to the player as well as the use of other player functions
 
     int poison_=0; //If poison is larger than 0 that means that the enemy is poisoned
     // the length of time that the enemy is poisoned for depends on how large the poison

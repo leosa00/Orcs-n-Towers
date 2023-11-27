@@ -1,5 +1,7 @@
 #include "path.hpp"
 
+path::path() {}
+
 void path::addWaypoint(const sf::Vector2f& point) {
     waypoints_.push(point);
 }

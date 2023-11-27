@@ -72,7 +72,7 @@ void Game::processEvents(){
 
 // Call functions necessary for iterating over all objects and updating their states
 void Game::update() {
-    
+    time_=clock_.restart();
     // If a tower is being dragged, update it's position
     if (dragged_) {
         drag();
@@ -86,7 +86,7 @@ void Game::update() {
     // Pavel: following order of updates is perhaps ok
     
     for (auto& enemy : enemies_) {
-        enemy->update(getTime());
+        enemy->update(getElapsedTime());
         
         //if enemy has reached the castle
         player_.reachedCastle(enemy);
@@ -243,7 +243,7 @@ void Game::drag() {
     }
 }
 
-sf::Time Game::getTime() {
+sf::Time Game::getElapsedTime() const {
     return time_;
 }
 
@@ -255,7 +255,7 @@ void Game::testEnemy() {
     newpath.addWaypoint(sf::Vector2f(300, 300));
 
 
-    Enemy test(10, 1, EnemyType::Ground, 10, newpath, player_);
+    Enemy test(10, 1, EnemyType::Ground, 10, newpath);
     test.setPosition(100, 100);
     test.setTexture(enemy_textures_.get(Textures::Enemy1));
 
