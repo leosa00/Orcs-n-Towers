@@ -129,7 +129,6 @@ int Enemy::slowedStatus() {
 
 void Enemy::kill() {
     if(!dead_) {
-        player_.addMoney(goldWorth_);
         dead_ = true;
     }
 }

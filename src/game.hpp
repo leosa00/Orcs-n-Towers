@@ -37,7 +37,7 @@ private:
     void drag();
     void testEnemy();
     //adding a function to return the elapsed time
-    sf::Time getTime();
+    sf::Time getElapsedTime() const;
     //I am adding a clock and time functionality that will need to be used for enemy movement and updating and other game logic
     sf::Clock clock_;
     sf::Time time_;
