@@ -1,4 +1,5 @@
 #include "player.hpp"
+#include "resource_container.hpp"
 
 int Player::getWallet() const {
     return wallet_;
@@ -8,7 +9,7 @@ int Player::getHP() const {
     return hp_;
 }
 
-std::string& Player::getName() const {
+std::string Player::getName() const {
     return name_;
 }
 
@@ -28,10 +29,11 @@ void Player::addToScore(int amount) {
     score_ += amount;
 }
 
+// 
 void Player::reachedCastle (std::shared_ptr<Enemy> enemy) {
 
-    if(this.getGlobalBounds().intersects(enemy.getGlobalBounds())){
-        enemy.kill(); //this should kill the enemy (at least i hope so :)
+    if(this->getGlobalBounds().intersects(enemy->getGlobalBounds())){
+        enemy->kill(); //this should kill the enemy (at least i hope so :)
         removeHP(10);//should different enemies affect affect differently
     }
 }
@@ -89,7 +91,7 @@ void Player::sellTower(Tower& tower){
         //if pointer of i and addr of tower match -> same object
         if(*i == std::addressof(tower)){
             //find same object, add its cost to wallet (full cost or only partial?), delete object and remove it from the vector
-            wallet_ += i->getBaseCost();
+            wallet_ += (*i)->getBaseCost();
             it_erase = i;
             delete *i;
             break;

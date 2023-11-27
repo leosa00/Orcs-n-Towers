@@ -10,6 +10,6 @@ public:
     //void update(std::list<std::shared_ptr<Enemy>> &enemies) override;
     BulletProjectile& shoot() override;
 private:
-    void draw() override;
+    //void draw() override;
 };
 #endif //BULLET_TOWER_H

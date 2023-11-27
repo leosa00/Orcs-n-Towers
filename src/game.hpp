@@ -9,6 +9,8 @@
 #include "resource_container.hpp"
 #include "player.hpp"
 #include <memory> //for shared_ptr
+#include "bulletTower.hpp"
+#include "button.hpp"
 
 // Class for running the game logic
 
@@ -33,6 +35,7 @@ private:
     void addProjectile(const Projectile& projectile);
     void checkButtons();
     void drag();
+    void testEnemy();
     //adding a function to return the elapsed time
     sf::Time getTime();
     //I am adding a clock and time functionality that will need to be used for enemy movement and updating and other game logic
@@ -49,16 +52,22 @@ private:
     * flies towards it (we need to add shared_ptr<Enemy> member to projectile class). 
     * There might be some error in my logic though....
     */
-    std::list<Tower> towers_;
+    std::list<Tower*> towers_;
     //std::list<Enemy> enemies_;
+
+    /* Changed these to unque ptr, as looping over the abstract types directly 
+        is not possible, at least according to my understanding
+        */
     std::list<std::shared_ptr<Enemy>> enemies_;
-    std::list<Projectile> projectiles_;
+    std::list<Projectile*> projectiles_;
     
-    std::list<sf::RectangleShape> buttons_; // Stores clickable buttons
+    std::list<Button> buttons_; // Stores clickable buttons
     bool dragged_; // Indicates if a tower is currently being dragged into place
-    
+    bool paused_; // Is the game paused?
+
     ResourceContainer<Textures::TowerID, sf::Texture> tower_textures_;
-    
+    ResourceContainer<Textures::EnemyID, sf::Texture> enemy_textures_;
+
     Player player_; 
 };
 

@@ -7,7 +7,7 @@
 class path {
     friend class enemy;
 public:
-    path();//creates a path and populates the waypoints queue with
+    path() = default;//creates a path and populates the waypoints queue with
     //all the waypoints required for the enemy class to traverse the path
 
     

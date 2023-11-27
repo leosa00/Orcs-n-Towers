@@ -13,6 +13,7 @@
 
 // enum class CanDamage is needed for implementing enemy-locking logic 
 // (i.e., which EnemyType can be locked and damaged by a specific type of tower). 
+class Projectile;
 
 enum class CanDamage { 
     Ground,
@@ -34,7 +35,7 @@ public:
     const CanDamage getDamageType() const {return damageType_;}
     const float getRange() const {return range_;}
     int getDamage() const {return damage_;}
-    const CanDamage getDamageType() const {return damageType_;}
+//    const CanDamage getDamageType() const {return damageType_;}
     std::shared_ptr<Enemy> getLockedEnemy() const {return lockedEnemy_;}
     void setLockedEnemy(std::shared_ptr<Enemy> enemy) {lockedEnemy_ = enemy;}
     bool isMaxLevelReached() const {return maxLevelReached_;};
@@ -51,7 +52,7 @@ public:
        classes will use base update() and other will use override*/
     virtual void update(std::list<std::shared_ptr<Enemy>> &enemies);
 private:
-    virtual void draw();
+//    virtual void draw();
     const std::string type_;
     const sf::Vector2f position_;
     const int baseCost_;

@@ -7,6 +7,8 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp> 
 
+class Player;
+
 enum class EnemyType {
     Ground,
     Flying,
@@ -84,7 +86,7 @@ private:
     //How much gold the player recieves for killing the monster
     int goldWorth_;
     //waypoint based movement, the path class provides a queue of waypoints that take the enemies through the path to the end
-    sf::Vector2f velocity;
+    sf::Vector2f velocity_;
 
 	std::queue<sf::Vector2f> waypoints_;
 

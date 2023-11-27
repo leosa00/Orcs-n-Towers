@@ -7,8 +7,10 @@
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 class Game;
+class Enemy;
 
 // Removed inheritance of sf::Transformable. 
 // I checked that sf::Sprite inherits both Drawable and Transformable -Otto
@@ -46,7 +48,7 @@ class Projectile : public sf::Sprite
         virtual ~Projectile() {}
         
         float getSpeed() const;
-        std::string& getType() const;
+        std::string getType() const;
         int getDamage() const;
         sf::Vector2f getShootDir() const;
         sf::Vector2f getVelocity() const;
@@ -67,7 +69,7 @@ class Projectile : public sf::Sprite
          * deals damage to enemy
          * deletes the projectile
         */
-        virtual bool hasHitEnemy(Enemy& enemy) = 0;
+        virtual bool hasHitEnemy(std::shared_ptr<Enemy> enemy) = 0;
 
         /**
          * moves the projectile if it hasn't collided / gone out of range
