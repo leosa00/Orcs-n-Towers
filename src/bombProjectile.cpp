@@ -2,7 +2,7 @@
 #include "game.hpp"
 #include <math.h>
 
-bool BombProjectile::hasHitEnemy(std::shared_ptr<Enemy> enemy){
+bool BombProjectile::hasHitEnemy(std::shared_ptr<Enemy>& enemy){
     sf::Vector2f currPos = this->getPosition(); //function from transformable class
 
     double dist = sqrt(pow((enemy->getPosition().x - currPos.x),2) + pow((enemy->getPosition().y - currPos.y),2));

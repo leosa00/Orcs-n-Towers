@@ -13,7 +13,7 @@ public:
     : Projectile(shootDirection, position, damage, 5.0, "bomb", 50), blastRange_(7) {} 
                                         //  ^            ^  ^  tbd
        
-    bool hasHitEnemy(std::shared_ptr<Enemy> enemy) override;
+    bool hasHitEnemy(std::shared_ptr<Enemy>& enemy) override;
     void update(Game& game);
 };
 
