@@ -19,7 +19,6 @@ void Enemy::update(sf::Time time) {
     }
 	
 	moveEnemy(movement);
-    //std::cout << speed_;
 	if (isWaypointPassed(movement))
 	{
 		findNewWaypoint();

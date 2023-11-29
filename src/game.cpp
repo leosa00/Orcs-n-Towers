@@ -3,7 +3,7 @@
 #include <memory>
 #include "path.hpp"
 #include "button.hpp"
-
+#include <iostream>
 // initialize game object, mainly create window...
 Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     // Set dragging flag
@@ -23,7 +23,8 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     buttons_.push_back(Button(Actions::Tower2, tower_textures_.get(Textures::Tower2), sf::Vector2f(920, 100)));
     // This needs a texture or something
     buttons_.push_back(Button(Actions::Pause, enemy_textures_.get(Textures::Enemy1), sf::Vector2f(900, 760)));
-
+    
+    createPath();
 
     testEnemy();
 
@@ -85,15 +86,30 @@ void Game::update() {
 
     // Pavel: following order of updates is perhaps ok
     
-    for (auto& enemy : enemies_) {
-        enemy->update(getElapsedTime());
-        
+    for (auto it = enemies_.begin(); it != enemies_.end();) {
+    if ((*it)->dead()) {
+        //this if statement and the functions inside are used to test the
+        //enemy split functionality
+        if((*it)->type() == EnemyType::Flying) {
+            sf::Vector2f position = (*it)->getCenter();
+            testEnemySplit(position);
+        }
+        //removes an enemy from the list and subsequently it is destroyed, if the enemy
+        //is dead
+        it = enemies_.erase(it); 
+    } else {
+        std::cout << enemies_.size() << std::endl;
+        (*it)->update(getElapsedTime());
         //if enemy has reached the castle
-        player_.reachedCastle(enemy);
-        if(player_.getHP() <= 0){
+        player_.reachedCastle(*it); //this might not work since enemies are dead once they reach the final
+        //checkpoint (the castle) may not activate this
+          if(player_.getHP() <= 0){
             //game over
             break;
         }
+        ++it;
+    }
+    }
 
         /**
          * depending wether game or palyer keeps track of castle position
@@ -102,7 +118,7 @@ void Game::update() {
             player_.removeHP(10) <-- should prob be enemy specific
         */
 
-    }
+    
     // Pavel: updating towers below. Would someone double-check that logic is correct?
     // Perhaps I could try to migrate tower logic inside tower class, but is there any 
     // simple way to do so as updating tower logic uses private members enemies_ and 
@@ -163,7 +179,13 @@ void Game::update() {
         }
     }
 }
-
+//createPath function used to test the game out, so far the coordinates are
+//hardcoded
+void Game::createPath() {
+    path_.addWaypoint(sf::Vector2f(400, 400));
+    path_.addWaypoint(sf::Vector2f(500, 400));
+    path_.addWaypoint(sf::Vector2f(500, 200));
+}
 // Iterate over objects, render them onto window
 void Game::render() {
     window_.clear();
@@ -252,24 +274,32 @@ sf::Time Game::getElapsedTime() const {
 // Test function for enemy class
 void Game::testEnemy() {
 
-    path newpath;
-    newpath.addWaypoint(sf::Vector2f(400, 400));
-    newpath.addWaypoint(sf::Vector2f(500, 400));
-    newpath.addWaypoint(sf::Vector2f(500, 200));
 
-    Enemy test(1, 100, EnemyType::Ground, 10, newpath);
+    Enemy test(1, 100, EnemyType::Ground, 10, path_);
     test.setPosition(100, 100);
     test.setTexture(enemy_textures_.get(Textures::Enemy1));
 
     enemies_.push_back(std::make_shared<Enemy>(test));
 
-    Enemy test2(1, 60, EnemyType::Ground, 10, newpath);
+    Enemy test2(1, 60, EnemyType::Flying, 10, path_);
     test2.setPosition(50, 50);
     test2.setTexture(enemy_textures_.get(Textures::Enemy1));
     enemies_.push_back(std::make_shared<Enemy>(test2));
 
-    Enemy test3(1, 30, EnemyType::Ground, 10, newpath);
+    Enemy test3(1, 30, EnemyType::Ground, 10, path_);
     test3.setPosition(70, 70);
     test3.setTexture(enemy_textures_.get(Textures::Enemy1));
     enemies_.push_back(std::make_shared<Enemy>(test3));
+}
+//This function is used to test a splitting enemy functionality, i used the
+//tower texture to make it easier to debug, the idea is that a type of enemy, at this
+//point i just used Flying as the tag, upon death will split into two smaller enemies
+//currently this works but the path doesnt seem to work properly yet
+void Game::testEnemySplit(sf::Vector2f position) {
+    Enemy split(1, 60, EnemyType::Ground, 10, path_);
+    split.setPosition(position.x, position.y);
+    split.setTexture(tower_textures_.get(Textures::Tower1));
+
+    enemies_.push_back(std::make_shared<Enemy>(split));
+
 }
