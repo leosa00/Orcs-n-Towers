@@ -12,11 +12,11 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
 
     // Create tower texture container, load texture    
     tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
-    tower_textures_.load(Textures::Tower1, "textures/tower1.png");
-    tower_textures_.load(Textures::Tower2, "textures/tower2.png");
+    tower_textures_.load(Textures::Tower1, "/home/tweety/cpp-course/tower-defense/textures/tower1.png");
+    tower_textures_.load(Textures::Tower2, "/home/tweety/cpp-course/tower-defense/textures/tower2.png");
 
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
-    enemy_textures_.load(Textures::Enemy1, "textures/goblin_test.png");
+    enemy_textures_.load(Textures::Enemy1, "/home/tweety/cpp-course/tower-defense/textures/goblin_test.png");
 
     // Create Buttons
     buttons_.push_back(Button(Actions::Tower1, tower_textures_.get(Textures::Tower1), sf::Vector2f(920, 40)));
@@ -25,7 +25,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     buttons_.push_back(Button(Actions::Pause, enemy_textures_.get(Textures::Enemy1), sf::Vector2f(900, 760)));
 
 
-//    testEnemy();
+    testEnemy();
 
 
     player_ = Player(); 
@@ -177,11 +177,13 @@ void Game::render() {
         window_.draw(*projectile);
     }
     for (auto enemy : enemies_) {
-        window_.draw(*enemy);
+        if(!enemy->dead()) { //added a if statement to check if the enemy is dead, if it is it wont be rendered
+            window_.draw(*enemy);
+        }
+    
     }
     window_.display();
 }
-
 // Check if a button has been pressed and act accordingly
 void Game::checkButtons() {
     for (auto button : buttons_) {
@@ -251,13 +253,23 @@ sf::Time Game::getElapsedTime() const {
 void Game::testEnemy() {
 
     path newpath;
-    newpath.addWaypoint(sf::Vector2f(50, 50));
-    newpath.addWaypoint(sf::Vector2f(300, 300));
+    newpath.addWaypoint(sf::Vector2f(400, 400));
+    newpath.addWaypoint(sf::Vector2f(500, 400));
+    newpath.addWaypoint(sf::Vector2f(500, 200));
 
-
-    Enemy test(10, 1, EnemyType::Ground, 10, newpath);
+    Enemy test(1, 100, EnemyType::Ground, 10, newpath);
     test.setPosition(100, 100);
     test.setTexture(enemy_textures_.get(Textures::Enemy1));
 
     enemies_.push_back(std::make_shared<Enemy>(test));
+
+    Enemy test2(1, 60, EnemyType::Ground, 10, newpath);
+    test2.setPosition(50, 50);
+    test2.setTexture(enemy_textures_.get(Textures::Enemy1));
+    enemies_.push_back(std::make_shared<Enemy>(test2));
+
+    Enemy test3(1, 30, EnemyType::Ground, 10, newpath);
+    test3.setPosition(70, 70);
+    test3.setTexture(enemy_textures_.get(Textures::Enemy1));
+    enemies_.push_back(std::make_shared<Enemy>(test3));
 }

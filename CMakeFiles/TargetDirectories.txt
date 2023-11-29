@@ -1,0 +1,3 @@
+/home/tweety/cpp-course/tower-defense/CMakeFiles/YourExecutable.dir
+/home/tweety/cpp-course/tower-defense/CMakeFiles/edit_cache.dir
+/home/tweety/cpp-course/tower-defense/CMakeFiles/rebuild_cache.dir

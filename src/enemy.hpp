@@ -16,7 +16,7 @@ class Enemy :public sf::Sprite {
 public:
 
     Enemy(int hp, int speed, EnemyType type, int gold, const path& path)
-         : hp_(hp), speed_(speed), effectiveSpeed_(speed), type_(type), goldWorth_(gold), waypoints_(path.getWaypoints()) {
+         : hp_(hp), actualSpeed_(speed), speed_(speed), effectiveSpeed_(speed), type_(type), goldWorth_(gold), waypoints_(path.getWaypoints()) {
         if (!waypoints_.empty()) {
             currentWaypoint_ = waypoints_.front();
         }
@@ -32,7 +32,9 @@ public:
     sf::Vector2f getCenter();
 
     sf::Vector2f getLocation();
-    
+
+    bool dead();
+
     int hp();
     
     float speed();
@@ -69,6 +71,8 @@ private:
     bool dead_= false;
 
     float speed_;
+
+    float actualSpeed_;
 
     float effectiveSpeed_;
 
