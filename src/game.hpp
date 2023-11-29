@@ -30,7 +30,7 @@ public:
     ~Game(){
         
         for(auto i : enemies_){
-            delete i;
+            //delete i;
         }
         enemies_.clear();
 

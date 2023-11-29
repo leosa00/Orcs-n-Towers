@@ -12,11 +12,11 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
 
     // Create tower texture container, load texture    
     tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
-    tower_textures_.load(Textures::Tower1, "/home/tweety/cpp-course/tower-defense/textures/tower1.png");
-    tower_textures_.load(Textures::Tower2, "/home/tweety/cpp-course/tower-defense/textures/tower2.png");
+    tower_textures_.load(Textures::Tower1, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower1.png");
+    tower_textures_.load(Textures::Tower2, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower2.png");
 
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
-    enemy_textures_.load(Textures::Enemy1, "/home/tweety/cpp-course/tower-defense/textures/goblin_test.png");
+    enemy_textures_.load(Textures::Enemy1, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/goblin_test.png");
 
     // Create Buttons
     buttons_.push_back(Button(Actions::Tower1, tower_textures_.get(Textures::Tower1), sf::Vector2f(920, 40)));
@@ -98,7 +98,7 @@ void Game::update() {
         //is dead
         it = enemies_.erase(it); 
     } else {
-        std::cout << enemies_.size() << std::endl;
+//        std::cout << enemies_.size() << std::endl;
         (*it)->update(getElapsedTime());
         //if enemy has reached the castle
         player_.reachedCastle(*it); //this might not work since enemies are dead once they reach the final
@@ -177,7 +177,7 @@ void Game::update() {
         (*i)->update(*this);
 
         if((*i)->isDestroyed()){
-            delete (*i)
+            delete (*i);
             //erase returns next iterator
             i = projectiles_.erase(i);
         }

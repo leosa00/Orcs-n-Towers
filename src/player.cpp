@@ -30,7 +30,7 @@ void Player::addToScore(int amount) {
 }
 
 // 
-void Player::reachedCastle (std::shared_ptr<Enemy> enemy) {
+void Player::reachedCastle (std::shared_ptr<Enemy>& enemy) {
 
     if(this->getGlobalBounds().intersects(enemy->getGlobalBounds())){
         enemy->kill(); //this should kill the enemy (at least i hope so :)
