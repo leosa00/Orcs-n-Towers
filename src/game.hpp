@@ -27,6 +27,24 @@ public:
     Game();
     void run();
 
+    ~Game(){
+        
+        for(auto i : enemies_){
+            delete i;
+        }
+        enemies_.clear();
+
+        for(auto i : projectiles_){
+            delete i;
+        }
+        projectiles_.clear();
+
+        for(auto i : towers_){
+            delete i;
+        }
+        towers_.clear();
+    }
+
 private:
     void processEvents();
     void update();

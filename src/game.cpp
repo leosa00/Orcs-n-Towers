@@ -30,7 +30,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
 
 
     player_ = Player(); 
-    player_.addMoney(500);
+    //player_.updateCastlePosition(**coordinates for end of path**);
 };
 
 
@@ -171,11 +171,18 @@ void Game::update() {
         }      
     }*/
 
-    for (auto* projectile : projectiles_) {
-        projectile->update(*this);
-        
-        if(projectile->isDestroyed()){
-//            delete projectile;
+
+//cleans up list while iterating
+    for(auto i = projectiles_.begin(); i != projectiles_.end();){
+        (*i)->update(*this);
+
+        if((*i)->isDestroyed()){
+            delete (*i)
+            //erase returns next iterator
+            i = projectiles_.erase(i);
+        }
+        else{
+            i++;
         }
     }
 }
@@ -210,6 +217,8 @@ void Game::render() {
 void Game::checkButtons() {
     for (auto button : buttons_) {
         if (button.isClicked((sf::Vector2f) sf::Mouse::getPosition(window_))) {
+            //TODO: check if player can afford before creating tower and handle removing money here
+
             switch (button.getAction())
             {
             case Actions::Tower1 :
