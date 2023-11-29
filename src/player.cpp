@@ -38,7 +38,7 @@ void Player::reachedCastle (std::shared_ptr<Enemy> enemy) {
     }
 }
 
-void Player::buyTower (int cost, Textures::TowerID towerID) {
+/*void Player::buyTower (int cost, Textures::TowerID towerID) {
     
     //cost can maybe be determined from towerID?
     if(cost > wallet_){
@@ -54,32 +54,32 @@ void Player::buyTower (int cost, Textures::TowerID towerID) {
     {
     case Textures::Tower1 :
         /* call right constructor */
-        /* add to towers_ */
+        /* add to towers_ 
         removeMoney(cost);
         break;
 
     case Textures::Tower2 :
-        /* call right constructor */
+        /* call right constructor 
         removeMoney(cost);
         break;
 
     case Textures::Tower3 :
-        /* call right constructor */
+        /* call right constructor 
         removeMoney(cost);
         break;
 
     case Textures::Tower4 :
-        /* call right constructor */
+        /* call right constructor 
         removeMoney(cost);
         break;
     
     case Textures::Tower5 :
-        /* call right constructor */
+        /* call right constructor 
         removeMoney(cost);
         break;
     
     default:
-        /* infrom player of error */
+        /* infrom player of error 
         break;
     }
 }
@@ -109,7 +109,7 @@ void Player::upgradeTower(Tower& tower){
 
     wallet_ -= tower.getUpgradeCost();
     tower.upgradeTower();
-}
+}*/
 
 void Player::updateCastlePosition(sf::Vector2f position){
     position_ = position;

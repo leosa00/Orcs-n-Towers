@@ -24,19 +24,13 @@ class Player : public sf::Sprite
         std::string name_;
         int score_;
         sf::Vector2f position_; //of castle
-        std::vector<Tower*> towers_; //towers the player has bought / owns, pointers or references?
 
     public:
         Player(std::string name = "player") 
         // position_ cannot be initialized as NULL, because it is of type sf::Vector2f
             :name_(name), hp_(500), wallet_(500), score_(0), position_(sf::Vector2f(0, 0)){}
 
-        ~Player() {
-        //    for(auto& i : towers_) {
-        //        delete i;
-        //    }
-        //    towers_.clear();
-        }
+        ~Player() {}
         int getWallet() const;
         int getHP() const;
         std::string getName() const;
@@ -44,10 +38,10 @@ class Player : public sf::Sprite
         void removeMoney(int cost);
         void removeHP(int amount);
         void addToScore(int amount);
-        void reachedCastle (std::shared_ptr<Enemy> enemy); //checks if an enemy has reached the castle or should game do it?
-        void buyTower(int cost, Textures::TowerID towerID);
-        void sellTower(Tower& tower);
-        void upgradeTower(Tower& tower);
+        void reachedCastle (std::shared_ptr<Enemy>& enemy); //checks if an enemy has reached the castle or should game do it?
+        //void buyTower(int cost, Textures::TowerID towerID);
+        //void sellTower(Tower& tower);
+        //void upgradeTower(Tower& tower);
 
         /**
          * updates the position coordinates of castle
