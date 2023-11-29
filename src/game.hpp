@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <list>
 #include "tower.hpp"
+#include "path.hpp"
 #include "enemy.hpp"
 #include "projectile.hpp"
 #include "resource_container.hpp"
@@ -33,6 +34,7 @@ private:
     void addTower(const Tower& tower);
     void addEnemy(const Enemy& enemy);
     void addProjectile(const Projectile& projectile);
+    void createPath(); //this will create the path that the enemies will traverse (this should also be rendered visually in the game)
     void checkButtons();
     void drag();
     void testEnemy();

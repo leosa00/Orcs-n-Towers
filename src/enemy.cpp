@@ -4,7 +4,7 @@
 #include "player.hpp"
 #include <cmath>
 #include <memory>
-
+#include <iostream>
 void Enemy::moveEnemy(sf::Vector2f movement) { 
     this->move(movement);
     //add more implementations for moving other textures
@@ -15,36 +15,42 @@ void Enemy::update(sf::Time time) {
 
     if (slowed_ > 0) {
         //the actual amount the enemy is slowed will be tweaked, for now it is 0.2 f
-        movement -= velocity_ * 0.2f * time.asSeconds();
+        movement -= velocity_ * 0.002f * time.asSeconds();
     }
 	
 	moveEnemy(movement);
-
+    //std::cout << speed_;
 	if (isWaypointPassed(movement))
 	{
 		findNewWaypoint();
 		setVelocity();
 	}
+    //applySlowed(100);
     slowedDamage();
-    poisonDamage();
+    //std::cout << dead_ << std::endl;
+    //poisonDamage();
 
 }
 //checks if the current way point has been passed, returns trur
 //if it has otherwise false
 bool Enemy::isWaypointPassed(sf::Vector2f movement) {
-
-    float currentDistance = fabs(getCenter().x - currentWaypoint_.x) + 
-		fabs(getCenter().y - currentWaypoint_.y);
-    
-
-    float nextDistance = fabs(getCenter().x + movement.x - currentWaypoint_.x) +
-		fabs(getCenter().y + movement.y - currentWaypoint_.y);
-
-    if (nextDistance < currentDistance) {
-        return false;
-    } else {
-        return true;
+    // Check if the enemy has crossed the waypoint's x-coordinate (for horizontal movement)
+    if (velocity_.x != 0) {
+        if ((velocity_.x > 0 && getCenter().x + movement.x >= currentWaypoint_.x) ||
+            (velocity_.x < 0 && getCenter().x + movement.x <= currentWaypoint_.x)) {
+            return true;
+        }
     }
+
+    // Check if the enemy has crossed the waypoint's y-coordinate (for vertical movement)
+    if (velocity_.y != 0) {
+        if ((velocity_.y > 0 && getCenter().y + movement.y >= currentWaypoint_.y) ||
+            (velocity_.y < 0 && getCenter().y + movement.y <= currentWaypoint_.y)) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 
@@ -103,10 +109,20 @@ sf::Vector2f Enemy::getLocation() {
 }
 
 void Enemy::findNewWaypoint() {
-	waypoints_.pop();
-	currentWaypoint_ = waypoints_.front();
+    if (!waypoints_.empty()) {
+        waypoints_.pop();
+        if (!waypoints_.empty()) {
+            currentWaypoint_ = waypoints_.front();
+        } else {
+            dead_ = true; // Mark the enemy as dead
+        }
+    }
 }
 
+
+bool Enemy::dead() {
+    return dead_;
+}
 int Enemy::hp() {
     return hp_;
 }
@@ -162,7 +178,6 @@ void Enemy::poisonDamage() {
 void Enemy::applySlowed(int duration) {
     if(slowed_ == 0) {
         slowed_+=duration;
-        speed_-=2;
     }
 }
 
@@ -170,6 +185,6 @@ void Enemy::slowedDamage() {
     if(slowed_ > 0) {
         slowed_-=1;
     } else {
-        speed_+=2;
+        speed_=actualSpeed_;
     }
 }
