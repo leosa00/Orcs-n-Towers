@@ -38,6 +38,7 @@ private:
     void checkButtons();
     void drag();
     void testEnemy();
+    void testEnemySplit(sf::Vector2f position);
     //adding a function to return the elapsed time
     sf::Time getElapsedTime() const;
     //I am adding a clock and time functionality that will need to be used for enemy movement and updating and other game logic
@@ -62,7 +63,7 @@ private:
         */
     std::list<std::shared_ptr<Enemy>> enemies_;
     std::list<Projectile*> projectiles_;
-    
+    path path_;
     std::list<Button> buttons_; // Stores clickable buttons
     bool dragged_; // Indicates if a tower is currently being dragged into place
     bool paused_; // Is the game paused?
