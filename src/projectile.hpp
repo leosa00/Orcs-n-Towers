@@ -4,6 +4,7 @@
 #include "tower.hpp"
 #include "player.hpp"
 #include "enemy.hpp"
+#include "resource_container.hpp"
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics.hpp>
@@ -78,6 +79,12 @@ class Projectile : public sf::Sprite
          * purely virtual
         */
        virtual void update(Game&) = 0;
+
+        /**
+         * Returns the ID of the texture the projectile type uses
+         * The return value is directly hardcoded in derived classes.
+        */
+       virtual Textures::ProjectileID textureType() = 0;
 };
 #endif
 

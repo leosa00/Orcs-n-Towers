@@ -88,6 +88,7 @@ private:
 
     ResourceContainer<Textures::TowerID, sf::Texture> tower_textures_;
     ResourceContainer<Textures::EnemyID, sf::Texture> enemy_textures_;
+    ResourceContainer<Textures::ProjectileID, sf::Texture> projectile_textures_;
 
     Player player_; 
 };

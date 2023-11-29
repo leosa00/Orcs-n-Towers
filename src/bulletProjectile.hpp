@@ -11,6 +11,7 @@ public:
 
     bool hasHitEnemy(std::shared_ptr<Enemy>& enemy);
     void update(Game& game);
+    Textures::ProjectileID textureType(){ return Textures::Bullet; }
 };
 
 

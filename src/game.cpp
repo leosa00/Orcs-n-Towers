@@ -18,6 +18,10 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
     enemy_textures_.load(Textures::Enemy1, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/goblin_test.png");
 
+    projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
+    projectile_textures_.load(Textures::Bullet, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bullet_test.png");
+    projectile_textures_.load(Textures::Bomb, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bullet_test.png");
+
     // Create Buttons
     buttons_.push_back(Button(Actions::Tower1, tower_textures_.get(Textures::Tower1), sf::Vector2f(920, 40)));
     buttons_.push_back(Button(Actions::Tower2, tower_textures_.get(Textures::Tower2), sf::Vector2f(920, 100)));
@@ -127,7 +131,13 @@ void Game::update() {
         tower->update(enemies_);
         if (tower->getLockedEnemy() != nullptr && 
             tower->getFireTimer().getElapsedTime().asSeconds() >= 1.0f / tower->getFireRate()) {
-                projectiles_.push_back(&(tower->shoot()));
+                // Added an intermediate step into shooting which sets the projectile texture
+                Projectile* newproj = &(tower->shoot());
+                newproj->setTexture(projectile_textures_.get(newproj->textureType()));
+                projectiles_.push_back(newproj);
+                
+                //projectiles_.push_back(&(tower->shoot()));
+                
                 tower->resetFireTimer();
         }
     }
