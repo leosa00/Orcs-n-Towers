@@ -12,18 +12,19 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
 
     // Create tower texture container, load texture    
     tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
-    tower_textures_.load(Textures::Tower1, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower1.png");
-    tower_textures_.load(Textures::Tower2, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower2.png");
+    tower_textures_.load(Textures::Tower1, "/home/tweety/cpp-course/tower-defense/textures/tower1.png");
+    tower_textures_.load(Textures::Tower2, "/home/tweety/cpp-course/tower-defense/textures/tower2.png");
 
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
-    enemy_textures_.load(Textures::Enemy1, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/goblin_test.png");
+    enemy_textures_.load(Textures::Enemy1, "/home/tweety/cpp-course/tower-defense/textures/goblin_test.png");
+    enemy_textures_.load(Textures::Enemy2, "/home/tweety/cpp-course/tower-defense/textures/mikey.png");
 
     projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
-    projectile_textures_.load(Textures::Bullet, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bullet_test.png");
-    projectile_textures_.load(Textures::Bomb, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bullet_test.png");
+    projectile_textures_.load(Textures::Bullet, "/home/tweety/cpp-course/tower-defense/textures/bullet.png");
+    projectile_textures_.load(Textures::Bomb, "/home/tweety/cpp-course/tower-defense/textures/bullet.png");
 
     // Load font
-    font_.loadFromFile("textures/OpenSans_Condensed-Bold.ttf");
+    font_.loadFromFile("/home/tweety/cpp-course/tower-defense/textures/OpenSans_Condensed-Bold.ttf");
     // Create Buttons
     buttons_.push_back(Button(Actions::Tower1, tower_textures_.get(Textures::Tower1), sf::Vector2f(920, 40), "300", font_));
     buttons_.push_back(Button(Actions::Tower2, tower_textures_.get(Textures::Tower2), sf::Vector2f(920, 100), "200", font_));
@@ -96,9 +97,17 @@ void Game::update() {
     if ((*it)->dead()) {
         //this if statement and the functions inside are used to test the
         //enemy split functionality
-        if((*it)->type() == EnemyType::Flying) {
-            sf::Vector2f position = (*it)->getCenter();
-            testEnemySplit(position);
+        if((*it)->getWaypoints().empty()) {
+            player_.removeHP(250);
+            std::cout << player_.getHP() << std::endl;//player hp deduction test (works!!)
+        }
+        if((*it)->type() == EnemyType::Flying) { //now if the enemy dies because it reached the castle it wont split, otherwise it will
+        //I also fixed the split enemies movement
+            std::queue<sf::Vector2f> waypoints = (*it)->getWaypoints();
+            if(!waypoints.empty()) {
+                sf::Vector2f position = (*it)->getCenter();
+                testEnemySplit(position, waypoints);
+            }
         }
         //removes an enemy from the list and subsequently it is destroyed, if the enemy
         //is dead
@@ -204,12 +213,15 @@ void Game::createPath() {
     path_.addWaypoint(sf::Vector2f(400, 400));
     path_.addWaypoint(sf::Vector2f(500, 400));
     path_.addWaypoint(sf::Vector2f(500, 200));
+    path_.addWaypoint(sf::Vector2f(400, 200));
+    path_.addWaypoint(sf::Vector2f(400, 100));
 }
 // Iterate over objects, render them onto window
 void Game::render() {
     window_.clear();
     for (Button button : buttons_) {
         window_.draw(button);
+        window_.setVerticalSyncEnabled(true);//this should help with the major screen tearing i was getting
         window_.draw(button.getLabel());
     }
     for (auto* tower : towers_) {
@@ -297,19 +309,19 @@ sf::Time Game::getElapsedTime() const {
 void Game::testEnemy() {
 
 
-    Enemy test(1, 100, EnemyType::Ground, 10, path_);
+    Enemy test(1, 100, EnemyType::Ground, 10, path_.getWaypoints());
     test.setPosition(100, 100);
     test.setTexture(enemy_textures_.get(Textures::Enemy1));
 
     enemies_.push_back(std::make_shared<Enemy>(test));
 
-    Enemy test2(1, 60, EnemyType::Flying, 10, path_);
-    test2.setPosition(50, 50);
+    Enemy test2(1, 60, EnemyType::Flying, 10, path_.getWaypoints());
+    test2.setPosition(100, 50);
     test2.setTexture(enemy_textures_.get(Textures::Enemy1));
     enemies_.push_back(std::make_shared<Enemy>(test2));
 
-    Enemy test3(1, 30, EnemyType::Ground, 10, path_);
-    test3.setPosition(70, 70);
+    Enemy test3(1, 30, EnemyType::Ground, 10, path_.getWaypoints());
+    test3.setPosition(100, 70);
     test3.setTexture(enemy_textures_.get(Textures::Enemy1));
     enemies_.push_back(std::make_shared<Enemy>(test3));
 }
@@ -317,10 +329,10 @@ void Game::testEnemy() {
 //tower texture to make it easier to debug, the idea is that a type of enemy, at this
 //point i just used Flying as the tag, upon death will split into two smaller enemies
 //currently this works but the path doesnt seem to work properly yet
-void Game::testEnemySplit(sf::Vector2f position) {
-    Enemy split(1, 60, EnemyType::Ground, 10, path_);
+void Game::testEnemySplit(sf::Vector2f position, std::queue<sf::Vector2f> waypoints) {
+    Enemy split(1, 60, EnemyType::Ground, 10, waypoints);
     split.setPosition(position.x, position.y);
-    split.setTexture(tower_textures_.get(Textures::Tower1));
+    split.setTexture(enemy_textures_.get(Textures::Enemy2));
 
     enemies_.push_back(std::make_shared<Enemy>(split));
 

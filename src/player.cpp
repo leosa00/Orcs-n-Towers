@@ -38,6 +38,7 @@ void Player::reachedCastle (std::shared_ptr<Enemy>& enemy) {
     }
 }
 
+
 /*void Player::buyTower (int cost, Textures::TowerID towerID) {
     
     //cost can maybe be determined from towerID?
