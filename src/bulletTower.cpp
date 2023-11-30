@@ -5,7 +5,7 @@
 #include <memory>
 
 BulletTower::BulletTower(sf::Vector2f position)
-    : Tower(position, "Bullet Tower", 200, 100.0f, 0.5f, 15, 1, 300, CanDamage::Both, nullptr, sf::Clock(), false) {}
+    : Tower(position, "Bullet Tower", 200, 1000.0f, 0.5f, 15, 1, 300, CanDamage::Both, nullptr, sf::Clock(), false) {}
                                 // tbd ^    ^      ^     ^      ^      ^
 
 BulletProjectile& BulletTower::shoot() {
