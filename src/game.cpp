@@ -12,21 +12,19 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     std::cout << "testtest" << std::endl;
     // Create tower texture container, load texture    
     tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
-    //tower_textures_.load(Textures::Tower1, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower1.png");
-    //tower_textures_.load(Textures::Tower2, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower2.png");
-    tower_textures_.load(Textures::Tower1, "/mnt/c/cpp-course-autumn-2023/tower-defense-tran-duong-2/textures/tower1.png");
-    tower_textures_.load(Textures::Tower2, "/mnt/c/cpp-course-autumn-2023/tower-defense-tran-duong-2/textures/tower2.png");
+    
+    tower_textures_.load(Textures::Tower1, "/home/tweety/cpp-course/tower-defense/textures/tower1.png");
+    tower_textures_.load(Textures::Tower2, "/home/tweety/cpp-course/tower-defense/textures/tower2.png");
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
-    //enemy_textures_.load(Textures::Enemy1, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/goblin_test.png");
-    enemy_textures_.load(Textures::Enemy1, "/mnt/c/cpp-course-autumn-2023/tower-defense-tran-duong-2/textures/goblin_test.png");
+   
+    enemy_textures_.load(Textures::Enemy1, "/home/tweety/cpp-course/tower-defense/textures/goblin_test.png");
     projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
-    //projectile_textures_.load(Textures::Bullet, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bullet_test.png");
-    //projectile_textures_.load(Textures::Bomb, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bullet_test.png");
-    projectile_textures_.load(Textures::Bullet, "/mnt/c/cpp-course-autumn-2023/tower-defense-tran-duong-2/textures/bullet_test.png");
-    projectile_textures_.load(Textures::Bomb, "/mnt/c/cpp-course-autumn-2023/tower-defense-tran-duong-2/textures/bomb_test.png");
+
+    projectile_textures_.load(Textures::Bullet, "/home/tweety/cpp-course/tower-defense/textures/bullet.png");
+    projectile_textures_.load(Textures::Bomb, "/home/tweety/cpp-course/tower-defense/textures/bullet.png");
     // Load font
-    //font_.loadFromFile("textures/OpenSans_Condensed-Bold.ttf");
-    font_.loadFromFile("/mnt/c/cpp-course-autumn-2023/tower-defense-tran-duong-2/textures/OpenSans_Condensed-Bold.ttf");
+  
+    font_.loadFromFile("/home/tweety/cpp-course/tower-defense/textures/OpenSans_Condensed-Bold.ttf");
     // Create Buttons
     buttons_.push_back(Button(Actions::Tower1, tower_textures_.get(Textures::Tower1), sf::Vector2f(920, 40), "300", font_));
     buttons_.push_back(Button(Actions::Tower2, tower_textures_.get(Textures::Tower2), sf::Vector2f(920, 100), "200", font_));
@@ -101,7 +99,7 @@ void Game::update() {
         //enemy split functionality
         if((*it)->getWaypoints().empty()) {
             player_.removeHP(250);
-            std::cout << player_.getHP() << std::endl;//player hp deduction test (works!!)
+            std::cout << "player health: " << player_.getHP() << std::endl;//player hp deduction test (works!!)
         }
         if((*it)->type() == EnemyType::Flying) { //now if the enemy dies because it reached the castle it wont split, otherwise it will
         //I also fixed the split enemies movement
@@ -109,7 +107,7 @@ void Game::update() {
             if(!waypoints.empty()) {
                 sf::Vector2f position = (*it)->getCenter();
                 testEnemySplit(position, waypoints);
-            }
+                }
         }
         //removes an enemy from the list and subsequently it is destroyed, if the enemy
         //is dead
@@ -223,7 +221,7 @@ void Game::render() {
     window_.clear();
     for (Button button : buttons_) {
         window_.draw(button);
-        window_.setVerticalSyncEnabled(true);//this should help with the major screen tearing i was getting
+        window_.setVerticalSyncEnabled(true);//this should help with the major screen tearing
         window_.draw(button.getLabel());
     }
     for (auto* tower : towers_) {
@@ -318,12 +316,12 @@ void Game::testEnemy() {
 
     enemies_.push_back(std::make_shared<Enemy>(test));
 
-    Enemy test2(1, 60, EnemyType::Flying, 10, path_.getWaypoints());
+    Enemy test2(30, 60, EnemyType::Flying, 10, path_.getWaypoints());
     test2.setPosition(100, 50);
     test2.setTexture(enemy_textures_.get(Textures::Enemy1));
     enemies_.push_back(std::make_shared<Enemy>(test2));
 
-    Enemy test3(1, 30, EnemyType::Ground, 10, path_.getWaypoints());
+    Enemy test3(900, 30, EnemyType::Ground, 10, path_.getWaypoints());
     test3.setPosition(100, 70);
     test3.setTexture(enemy_textures_.get(Textures::Enemy1));
     enemies_.push_back(std::make_shared<Enemy>(test3));

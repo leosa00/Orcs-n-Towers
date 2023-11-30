@@ -48,7 +48,7 @@ Tower::Tower(sf::Vector2f position, const std::string& type,  int baseCost, floa
 
 // upgradeTower()
 void Tower::upgradeTower() { 
-  if (currentLvl_ = 1) {
+  if (currentLvl_ == 1) {
     currentLvl_++;
     damage_ = 1.5 * damage_;
     if (currentLvl_ == TOWER_MAX_LVL) {
@@ -95,7 +95,7 @@ void Tower::update(std::list<std::shared_ptr<Enemy>> &enemies) {
     }
   }
   else {
-    if (lockedEnemy->hp() <= 0 || !enemyWithinRange(lockedEnemy)) {
+    if (lockedEnemy->dead() || !enemyWithinRange(lockedEnemy)) {
       setLockedEnemy(nullptr);
       for (auto& enemy : enemies) {
         if (enemyWithinRange(enemy)) {
