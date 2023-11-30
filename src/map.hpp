@@ -5,6 +5,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include "tower.hpp"
 
 class Tower; // Forward declaration
 
