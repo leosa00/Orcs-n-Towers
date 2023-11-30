@@ -99,7 +99,7 @@ void Game::update() {
         //enemy split functionality
         if((*it)->getWaypoints().empty()) {
             player_.removeHP(250);
-            std::cout << player_.getHP() << std::endl;//player hp deduction test (works!!)
+            std::cout << "player health: " << player_.getHP() << std::endl;//player hp deduction test (works!!)
         }
         if((*it)->type() == EnemyType::Flying) { //now if the enemy dies because it reached the castle it wont split, otherwise it will
         //I also fixed the split enemies movement
@@ -221,7 +221,7 @@ void Game::render() {
     window_.clear();
     for (Button button : buttons_) {
         window_.draw(button);
-        window_.setVerticalSyncEnabled(true);//this should help with the major screen tearing i was getting
+        window_.setVerticalSyncEnabled(true);//this should help with the major screen tearing
         window_.draw(button.getLabel());
     }
     for (auto* tower : towers_) {
