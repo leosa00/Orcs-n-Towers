@@ -22,11 +22,13 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     projectile_textures_.load(Textures::Bullet, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bullet_test.png");
     projectile_textures_.load(Textures::Bomb, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bullet_test.png");
 
+    // Load font
+    font_.loadFromFile("textures/OpenSans_Condensed-Bold.ttf");
     // Create Buttons
-    buttons_.push_back(Button(Actions::Tower1, tower_textures_.get(Textures::Tower1), sf::Vector2f(920, 40)));
-    buttons_.push_back(Button(Actions::Tower2, tower_textures_.get(Textures::Tower2), sf::Vector2f(920, 100)));
+    buttons_.push_back(Button(Actions::Tower1, tower_textures_.get(Textures::Tower1), sf::Vector2f(920, 40), "300", font_));
+    buttons_.push_back(Button(Actions::Tower2, tower_textures_.get(Textures::Tower2), sf::Vector2f(920, 100), "200", font_));
     // This needs a texture or something
-    buttons_.push_back(Button(Actions::Pause, enemy_textures_.get(Textures::Enemy1), sf::Vector2f(900, 760)));
+    buttons_.push_back(Button(Actions::Pause, enemy_textures_.get(Textures::Enemy1), sf::Vector2f(900, 760), "pause", font_));
     
     createPath();
 
@@ -208,6 +210,7 @@ void Game::render() {
     window_.clear();
     for (Button button : buttons_) {
         window_.draw(button);
+        window_.draw(button.getLabel());
     }
     for (auto* tower : towers_) {
         window_.draw(*tower);

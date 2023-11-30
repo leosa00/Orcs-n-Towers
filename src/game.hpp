@@ -86,6 +86,8 @@ private:
     bool dragged_; // Indicates if a tower is currently being dragged into place
     bool paused_; // Is the game paused?
 
+    sf::Font font_; // Stores text font
+
     ResourceContainer<Textures::TowerID, sf::Texture> tower_textures_;
     ResourceContainer<Textures::EnemyID, sf::Texture> enemy_textures_;
     ResourceContainer<Textures::ProjectileID, sf::Texture> projectile_textures_;
