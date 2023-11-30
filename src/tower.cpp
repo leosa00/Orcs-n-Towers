@@ -6,6 +6,7 @@
 #include "game.hpp"
 #include <cmath>
 #include <memory>
+#include <iostream>
 // upgradeCost list is redundant if we limit max lvl to be 2
 // static int upgradeCost[4] = {150, 200, 250, 300}; //subject to change
 
@@ -47,7 +48,7 @@ Tower::Tower(sf::Vector2f position, const std::string& type,  int baseCost, floa
 
 // upgradeTower()
 void Tower::upgradeTower() { 
-  if (currentLvl_ = 1) {
+  if (currentLvl_ == 1) {
     currentLvl_++;
     damage_ = 1.5 * damage_;
     if (currentLvl_ == TOWER_MAX_LVL) {
@@ -58,6 +59,9 @@ void Tower::upgradeTower() {
 
 
 bool Tower::enemyWithinRange(std::shared_ptr<Enemy> enemy) {
+  //std::cout << "enemyWithinRange is called" << std::endl;
+  //std::cout << range_ << std::endl;
+  //std::cout << std::sqrt(std::pow((position_.x - enemy->getPosition().x), 2) + std::pow((position_.y - enemy->getPosition().y), 2)) << std::endl;
   return range_ >= std::sqrt(std::pow((position_.x - enemy->getPosition().x), 2) + std::pow((position_.y - enemy->getPosition().y), 2));
 }
 /* Projectile& Tower::shoot() {
@@ -85,16 +89,18 @@ void Tower::update(std::list<std::shared_ptr<Enemy>> &enemies) {
     for (auto& enemy : enemies) {
       if (enemyWithinRange(enemy)) {
         setLockedEnemy(enemy);
+        std::cout << "Some enemy was locked" << std::endl;
         break;
       }
     }
   }
   else {
-    if (lockedEnemy->hp() <= 0 || !enemyWithinRange(lockedEnemy)) {
+    if (lockedEnemy->dead() || !enemyWithinRange(lockedEnemy)) {
       setLockedEnemy(nullptr);
       for (auto& enemy : enemies) {
         if (enemyWithinRange(enemy)) {
           setLockedEnemy(enemy);
+          std::cout << "Some enemy was locked" << std::endl;
           break;
         }
       }

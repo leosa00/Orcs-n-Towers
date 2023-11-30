@@ -3,9 +3,10 @@
 #include "enemy.hpp"
 #include <cmath>
 #include <memory>
+#include <iostream>
 
 BombTower::BombTower(sf::Vector2f position)
-    : Tower(position, "Bomb Tower", 300, 50.0f, 0.4f, 15, 1, 450, CanDamage::Ground, nullptr, sf::Clock(), false) {}
+    : Tower(position, "Bomb Tower", 300, 500.0f, 0.4f, 15, 1, 450, CanDamage::Ground, nullptr, sf::Clock(), false) {}
                             //tbd    ^   ^      ^     ^       ^
 //since BombTower can only lock on Ground units, update() method has to be overriden
 
@@ -15,6 +16,7 @@ void BombTower::update(std::list<std::shared_ptr<Enemy>> &enemies) {
         for (auto& enemy : enemies) {
             if (enemyWithinRange(enemy) && enemy->type() == EnemyType::Ground) {
                 setLockedEnemy(enemy);
+                std::cout << "Some enemy was locked" << std::endl;
                 break;
             }
 
@@ -26,6 +28,7 @@ void BombTower::update(std::list<std::shared_ptr<Enemy>> &enemies) {
             for (auto& enemy : enemies) {
                 if (enemyWithinRange(enemy) && enemy->type() == EnemyType::Ground) {
                     setLockedEnemy(enemy);
+                    std::cout << "Some enemy was locked" << std::endl;
                     break;
                 }
             }
