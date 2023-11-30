@@ -79,7 +79,7 @@ void Map::buildTower(const std::shared_ptr<Tower>& activeTower) {
     towers.push_back(newTower);
 }
 
-void Map::sellTower(tower * sellingTower)
+void Map::sellTower(Tower * sellingTower)
 {
     for (size_t i = 0; i < towers.size(); ++i)
     {

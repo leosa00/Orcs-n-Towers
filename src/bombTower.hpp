@@ -7,6 +7,7 @@ public:
     BombTower(sf::Vector2f);
     void update(std::list<std::shared_ptr<Enemy>> &enemies) override;
     BombProjectile& shoot() override;
+    std::shared_ptr<Tower> getClassObject() override;
 private:
 //    void draw() override;
 // Draw method is inherited from sf::Sprite so I have commented this out for now
