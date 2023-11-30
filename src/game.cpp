@@ -9,21 +9,24 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     // Set dragging flag
     dragged_ = false;
     paused_ = false;
-
+    std::cout << "testtest" << std::endl;
     // Create tower texture container, load texture    
     tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
-    tower_textures_.load(Textures::Tower1, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower1.png");
-    tower_textures_.load(Textures::Tower2, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower2.png");
-
+    //tower_textures_.load(Textures::Tower1, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower1.png");
+    //tower_textures_.load(Textures::Tower2, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower2.png");
+    tower_textures_.load(Textures::Tower1, "/mnt/c/cpp-course-autumn-2023/tower-defense-tran-duong-2/textures/tower1.png");
+    tower_textures_.load(Textures::Tower2, "/mnt/c/cpp-course-autumn-2023/tower-defense-tran-duong-2/textures/tower2.png");
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
-    enemy_textures_.load(Textures::Enemy1, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/goblin_test.png");
-
+    //enemy_textures_.load(Textures::Enemy1, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/goblin_test.png");
+    enemy_textures_.load(Textures::Enemy1, "/mnt/c/cpp-course-autumn-2023/tower-defense-tran-duong-2/textures/goblin_test.png");
     projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
-    projectile_textures_.load(Textures::Bullet, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bullet_test.png");
-    projectile_textures_.load(Textures::Bomb, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bullet_test.png");
-
+    //projectile_textures_.load(Textures::Bullet, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bullet_test.png");
+    //projectile_textures_.load(Textures::Bomb, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bullet_test.png");
+    projectile_textures_.load(Textures::Bullet, "/mnt/c/cpp-course-autumn-2023/tower-defense-tran-duong-2/textures/bullet_test.png");
+    projectile_textures_.load(Textures::Bomb, "/mnt/c/cpp-course-autumn-2023/tower-defense-tran-duong-2/textures/bomb_test.png");
     // Load font
-    font_.loadFromFile("textures/OpenSans_Condensed-Bold.ttf");
+    //font_.loadFromFile("textures/OpenSans_Condensed-Bold.ttf");
+    font_.loadFromFile("/mnt/c/cpp-course-autumn-2023/tower-defense-tran-duong-2/textures/OpenSans_Condensed-Bold.ttf");
     // Create Buttons
     buttons_.push_back(Button(Actions::Tower1, tower_textures_.get(Textures::Tower1), sf::Vector2f(920, 40), "300", font_));
     buttons_.push_back(Button(Actions::Tower2, tower_textures_.get(Textures::Tower2), sf::Vector2f(920, 100), "200", font_));
@@ -256,6 +259,7 @@ void Game::checkButtons() {
 
                 // Set flag which indicates an object is being dragged
                 dragged_ = true;
+                break;
             }
             case Actions::Pause :
             {
