@@ -15,8 +15,8 @@ enum class EnemyType {
 class Enemy :public sf::Sprite {
 public:
 
-    Enemy(int hp, int speed, EnemyType type, int gold, const path& path)
-         : hp_(hp), actualSpeed_(speed), speed_(speed), effectiveSpeed_(speed), type_(type), goldWorth_(gold), waypoints_(path.getWaypoints()) {
+    Enemy(int hp, int speed, EnemyType type, int gold, std::queue<sf::Vector2f> waypoints)
+         : hp_(hp), actualSpeed_(speed), speed_(speed), effectiveSpeed_(speed), type_(type), goldWorth_(gold), waypoints_(waypoints) {
         if (!waypoints_.empty()) {
             currentWaypoint_ = waypoints_.front();
         }
@@ -63,7 +63,10 @@ public:
 
 	void findNewWaypoint();
 
+    std::queue<sf::Vector2f> getWaypoints();
+
 	void moveEnemy(sf::Vector2f movement);
+
 
 private:
     int hp_;
@@ -86,6 +89,7 @@ private:
     //How much gold the player recieves for killing the monster
     int goldWorth_;
     //waypoint based movement, the path class provides a queue of waypoints that take the enemies through the path to the end
+
     sf::Vector2f velocity_;
 
 	std::queue<sf::Vector2f> waypoints_;

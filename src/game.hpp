@@ -56,7 +56,7 @@ private:
     void checkButtons();
     void drag();
     void testEnemy();
-    void testEnemySplit(sf::Vector2f position);
+    void testEnemySplit(sf::Vector2f position, std::queue<sf::Vector2f> waypoints);
     //adding a function to return the elapsed time
     sf::Time getElapsedTime() const;
     //I am adding a clock and time functionality that will need to be used for enemy movement and updating and other game logic
