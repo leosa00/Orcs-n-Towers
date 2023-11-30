@@ -13,10 +13,10 @@ list(FILTER SOURCES EXCLUDE REGEX "src/map.cpp")
 list(FILTER SOURCES EXCLUDE REGEX "include/map.hpp")
 
 # Create executable
-add_executable(YourExecutable ${SOURCES})
+add_executable(TD ${SOURCES})
 
 # Link SFML
-target_link_libraries(YourExecutable PRIVATE sfml-graphics sfml-audio)
+target_link_libraries(TD PRIVATE sfml-graphics sfml-audio)
 
 # Set include directories
-target_include_directories(YourExecutable PRIVATE include)
+target_include_directories(TD PRIVATE include)
