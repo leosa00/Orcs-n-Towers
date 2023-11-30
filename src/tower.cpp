@@ -56,6 +56,7 @@ void Tower::upgradeTower() {
   }
 }
 
+
 bool Tower::enemyWithinRange(std::shared_ptr<Enemy> enemy) {
   return range_ >= std::sqrt(std::pow((position_.x - enemy->getPosition().x), 2) + std::pow((position_.y - enemy->getPosition().y), 2));
 }
@@ -99,4 +100,33 @@ void Tower::update(std::list<std::shared_ptr<Enemy>> &enemies) {
       }
     }
   }
+}
+
+
+bool Tower::isActive()
+{
+    return HUDactive;
+}
+
+void Tower::activateHUD()
+{
+    HUDactive = true;
+}
+
+void Tower::unactiveHUD()
+{
+    HUDactive = false;
+}
+
+void Tower::build()
+{
+    builded = true;
+}
+
+sf::Vector2f Tower::getSize()
+{
+    sf::Vector2f size;
+    size.x = this->getGlobalBounds().width;
+    size.y = this->getGlobalBounds().height;
+    return size;
 }

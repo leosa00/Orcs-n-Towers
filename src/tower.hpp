@@ -51,6 +51,15 @@ public:
     /* update() method is declared as virtual. Some derived
        classes will use base update() and other will use override*/
     virtual void update(std::list<std::shared_ptr<Enemy>> &enemies);
+    //This is what I add to support for the map class
+    virtual std::shared_ptr<Tower> getClassObject() = 0; //Type of Tower
+    bool isActive();//Whether the Tower is active or not
+    bool HUDactive = false;//Temporary variable hold the state of the Tower
+    void unactiveHUD();//Function to deactivate Tower (when sell)
+    void activateHUD();//Function to activate Tower (when buy)
+    sf::Vector2f getSize();//Get the height and width of the Tower we want to build
+    virtual void build(); //build function which change the temporary variable builded to tru
+    bool builded = false; //Temporary variable define whether the tower is built or not.
 private:
 //    virtual void draw();
     const std::string type_;

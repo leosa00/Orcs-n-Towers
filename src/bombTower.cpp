@@ -40,3 +40,11 @@ BombProjectile& BombTower::shoot() {
     // Constructor for BombProjectile does not accept shared_ptr<Enemy> as input...
     return *bombProjectile;    
 }
+
+std::shared_ptr<Tower> BombTower::getClassObject()
+{
+    sf::Vector2f defaultPosition(0.0f, 0.0f);  // You can change the default position as needed
+    std::shared_ptr<Tower> obj = std::make_shared<BombTower>(defaultPosition);
+
+    return obj;
+}
