@@ -118,6 +118,9 @@ void Enemy::findNewWaypoint() {
     }
 }
 
+std::queue<sf::Vector2f> Enemy::getWaypoints() {
+    return waypoints_;
+}
 
 bool Enemy::dead() {
     return dead_;
