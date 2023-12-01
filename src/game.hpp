@@ -25,7 +25,7 @@ class Game {
     friend class BulletProjectile;
 
 public:
-    Map Map;
+    Map map;
     Game();
     void run();
 
