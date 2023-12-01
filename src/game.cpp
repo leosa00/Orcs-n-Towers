@@ -4,6 +4,7 @@
 #include "path.hpp"
 #include "button.hpp"
 #include <iostream>
+
 // initialize game object, mainly create window...
 Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     // Set dragging flag
@@ -11,8 +12,9 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     paused_ = false;
     std::cout << "testtest" << std::endl;
 
+
     //Load the Map texture
-    if (!map.texture.loadFromFile("../textures/grass.jpeg"))
+    if (!map.texture.loadFromFile("/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/grass.jpeg"))
     {
         return;
     }
@@ -21,13 +23,13 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     // Create tower texture container, load texture    
     tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
     
-    tower_textures_.load(Textures::Tower1, "../textures/tower1.png");
-    tower_textures_.load(Textures::Tower2, "../textures/tower2.png");
-    tower_textures_.load(Textures::Tower3, "../textures/pausebutton.png");//pause button texture needs to be changed to its own texture class later
+    tower_textures_.load(Textures::Tower1, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower1.png");
+    tower_textures_.load(Textures::Tower2, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower2.png");
+    tower_textures_.load(Textures::Tower3, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/pausebutton.png");//pause button texture needs to be changed to its own texture class later
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
    
-    enemy_textures_.load(Textures::Enemy1, "../textures/goblin_test.png");
-    enemy_textures_.load(Textures::Enemy2, "../textures/mikey.png");
+    enemy_textures_.load(Textures::Enemy1, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/goblin_test.png");
+    enemy_textures_.load(Textures::Enemy2, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/mikey.png");
     
     projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
 
@@ -36,13 +38,15 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     projectile_textures_.load(Textures::Missile, "../textures/mikey.png");
     // Load font
   
-    font_.loadFromFile("../textures/OpenSans_Condensed-Bold.ttf");
-    // Create Buttons
-    buttons_.push_back(Button(Actions::Tower1, tower_textures_.get(Textures::Tower1), sf::Vector2f(920, 40), "300", font_));
-    buttons_.push_back(Button(Actions::Tower2, tower_textures_.get(Textures::Tower2), sf::Vector2f(920, 100), "200", font_));
-    // This needs a texture or something
-    buttons_.push_back(Button(Actions::Pause, tower_textures_.get(Textures::Tower3), sf::Vector2f(900, 700), "pause", font_));//uses pause button texture as tower3
+    font_.loadFromFile("/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/OpenSans_Condensed-Bold.ttf");
     
+
+    // Initialize menus
+    shop_ = new Menu();
+    shop_->createMenu(MenuType::Shop, this);
+    upgrade_ = nullptr;
+    upgradedTower_ = nullptr;
+
     //game over text
     gameOverText.setFont(font_);
     gameOverText.setString("Game Over Loser!!");
@@ -87,7 +91,10 @@ void Game::processEvents(){
             // if MouseButtonPressed event only happens when button is initially pressed
             // this if statement is unnesessary
             if (!dragged_) {
-                checkButtons(); // Check if some button has been pressed
+                shop_->checkButtons(this);
+                if (!dragged_) {
+                    checkTowers(); // If no button was pressed check if a tower has been clicked
+                }
                 break;
             } 
 
@@ -241,12 +248,15 @@ void Game::render() {
     window_.draw(map);
 
     
-    
-    for (Button button : buttons_) {
-        window_.draw(button);
-        window_.setVerticalSyncEnabled(true);//this should help with the major screen tearing
-        window_.draw(button.getLabel());
+    shop_->draw(window_);
+    if (upgrade_ != nullptr) {
+        upgrade_->draw(window_);
     }
+    //for (Button button : buttons_) {
+    //    window_.draw(button);
+    //    window_.setVerticalSyncEnabled(true);//this should help with the major screen tearing
+    //    window_.draw(button.getLabel());
+    //}
     for (auto* tower : towers_) {
         window_.draw(*tower);
     }
@@ -263,50 +273,6 @@ void Game::render() {
         window_.draw(gameOverText);
     }
     window_.display();
-}
-// Check if a button has been pressed and act accordingly
-void Game::checkButtons() {
-    for (auto button : buttons_) {
-        if (button.isClicked((sf::Vector2f) sf::Mouse::getPosition(window_))) {
-            //TODO: check if player can afford before creating tower and handle removing money here
-
-            switch (button.getAction())
-            {
-            case Actions::Tower1 :
-            {
-                BombTower* new_bomb = new BombTower((sf::Vector2f) sf::Mouse::getPosition(window_));
-                new_bomb->setTexture(tower_textures_.get(Textures::Tower1));
-                /* New tower takes first place in array of towers. 
-                   This is enough to identify the new tower which is being dragged, as only one tower 
-                   can be added at a time
-                */
-                towers_.push_front(new_bomb);
-
-                // Set flag which indicates an object is being dragged
-                dragged_ = true;
-                break;
-            }
-            case Actions::Tower2 :
-            {
-                BulletTower* new_bullet = new BulletTower((sf::Vector2f) sf::Mouse::getPosition(window_));
-                new_bullet->setTexture(tower_textures_.get(Textures::Tower2));
-                towers_.push_front(new_bullet);
-
-                // Set flag which indicates an object is being dragged
-                dragged_ = true;
-                break;
-            }
-            case Actions::Pause :
-            {
-                paused_ = !paused_;
-                break;
-            }
-            default:
-                break;
-            }
-        }    
-        }
-
 }
 
 // If a tower is being dragged into place this handles it's movement
@@ -330,6 +296,20 @@ void Game::drag() {
 
 sf::Time Game::getElapsedTime() const {
     return time_;
+}
+
+void Game::checkTowers() {
+    sf::Vector2f mousepos = (sf::Vector2f) sf::Mouse::getPosition(window_);
+    for (auto* tower : towers_) {
+        if (tower->getGlobalBounds().contains(mousepos)) {
+            // This stores the pointer to the tower that the upgrade button
+            // Will potentially upgrade
+            upgradedTower_ = tower;
+            upgrade_ = new Menu();
+            upgrade_->createMenu(MenuType::Upgrade, this);
+            //std::cout << "TOWER CLICKED" << std::endl;
+        }
+    }
 }
 
 // Test function for enemy class
@@ -368,3 +348,4 @@ void Game::testEnemySplit(sf::Vector2f position, std::queue<sf::Vector2f> waypoi
     enemies_.push_back(std::make_shared<Enemy>(split));
 
 }
+
