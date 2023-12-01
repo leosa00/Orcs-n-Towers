@@ -12,11 +12,11 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     std::cout << "testtest" << std::endl;
 
     //Load the Map texture
-    if (!Map.texture.loadFromFile("grass.jpeg"))
+    if (!map.texture.loadFromFile("../textures/grass.jpeg"))
     {
         return;
     }
-    Map.background.setTexture(Map.texture);
+    map.background.setTexture(map.texture);
 
     // Create tower texture container, load texture    
     tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
@@ -26,6 +26,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
    
     enemy_textures_.load(Textures::Enemy1, "../textures/goblin_test.png");
+    enemy_textures_.load(Textures::Enemy2, "../textures/mikey.png");
     projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
 
     projectile_textures_.load(Textures::Bullet, "../textures/bullet.png");
@@ -114,7 +115,7 @@ void Game::update() {
             std::queue<sf::Vector2f> waypoints = (*it)->getWaypoints();
             if(!waypoints.empty()) {
                 sf::Vector2f position = (*it)->getCenter();
-                //testEnemySplit(position, waypoints);
+                testEnemySplit(position, waypoints);
                 }
         }
         //removes an enemy from the list and subsequently it is destroyed, if the enemy
@@ -128,7 +129,8 @@ void Game::update() {
         //checkpoint (the castle) may not activate this
           if(player_.getHP() <= 0){
             //game over
-            break;
+            std::cout << "game over sucker!!" << std::endl;
+            return;
         }
         ++it;
     }
@@ -227,7 +229,7 @@ void Game::createPath() {
 // Iterate over objects, render them onto window
 void Game::render() {
     window_.clear();
-    window_.draw(Map);
+    window_.draw(map);
     for (Button button : buttons_) {
         window_.draw(button);
         window_.setVerticalSyncEnabled(true);//this should help with the major screen tearing
