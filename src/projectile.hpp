@@ -9,6 +9,7 @@
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics.hpp>
 #include <memory>
+#include <iostream>
 
 class Game;
 class Enemy;
@@ -40,7 +41,9 @@ class Projectile : public sf::Sprite
         //abstract class, don't call this constructor
         Projectile(sf::Vector2f shootDirection, sf::Vector2f position, int damage, float speed, std::string type, int maxDistance) 
         : shootDirection_(shootDirection), position_(position), damage_(damage), speed_(speed), type_(type), maxDistance_(maxDistance),
-        isDestroyed_(false){}
+        isDestroyed_(false){
+            this->setPosition(position_);
+        }
 
         // shootdirection, position, damage comes from tower
         // speed, type, maxDistance come from derived classes 

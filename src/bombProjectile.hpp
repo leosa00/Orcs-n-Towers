@@ -10,7 +10,7 @@ private:
     int blastRange_;
 public:
     BombProjectile(sf::Vector2f shootDirection, sf::Vector2f position, int damage) // <- tbd
-    : Projectile(shootDirection, position, damage, 5.0, "bomb", 50), blastRange_(1000) {}
+    : Projectile(shootDirection, position, damage, 60.0, "bomb", 50), blastRange_(1000) {}
                                         //  ^            ^  ^  tbd
        
     bool hasHitEnemy(std::shared_ptr<Enemy>& enemy) override;

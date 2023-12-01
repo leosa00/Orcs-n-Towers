@@ -5,6 +5,7 @@ bool BulletProjectile::hasHitEnemy(std::shared_ptr<Enemy>& enemy) {
 
     if(this->getGlobalBounds().intersects(enemy->getGlobalBounds())){
         enemy->takeDamage(this->getDamage());
+        std::cout << "hit enemy" << std::endl;
         return true;
     }
     return false;

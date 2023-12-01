@@ -10,6 +10,7 @@ bool BombProjectile::hasHitEnemy(std::shared_ptr<Enemy>& enemy){
     if(dist <= blastRange_)
     {
         enemy->takeDamage(this->getDamage());
+        std::cout << "exploded" << std::endl;
         return true;
     }
     return false;
