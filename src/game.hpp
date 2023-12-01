@@ -13,6 +13,7 @@
 #include "bulletTower.hpp"
 #include "button.hpp"
 #include "map.hpp"
+#include "missileProjectile.hpp"
 
 // Class for running the game logic
 
@@ -23,6 +24,7 @@ class Game {
     friend class BombTower;
     friend class BombProjectile;
     friend class BulletProjectile;
+    friend class MissileProjectile;
 
 public:
     Map map;

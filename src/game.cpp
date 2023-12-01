@@ -33,6 +33,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
 
     projectile_textures_.load(Textures::Bullet, "../textures/bullet.png");
     projectile_textures_.load(Textures::Bomb, "../textures/bullet.png");
+    projectile_textures_.load(Textures::Missile, "../textures/mikey.png");
     // Load font
   
     font_.loadFromFile("../textures/OpenSans_Condensed-Bold.ttf");
@@ -53,8 +54,8 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
 
     testEnemy();
 
-
-    player_ = Player(); 
+    player_ = Player();
+    
     //player_.updateCastlePosition(**coordinates for end of path**);
 };
 
@@ -350,6 +351,10 @@ void Game::testEnemy() {
     test3.setPosition(100, 70);
     test3.setTexture(enemy_textures_.get(Textures::Enemy1));
     enemies_.push_back(std::make_shared<Enemy>(test3));
+
+    //Projectile* missl = new MissileProjectile(sf::Vector2f(300,100), 50, enemies_.front());
+
+    //projectiles_.push_back(missl);
 }
 //This function is used to test a splitting enemy functionality, i used the
 //tower texture to make it easier to debug, the idea is that a type of enemy, at this
