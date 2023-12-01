@@ -10,6 +10,14 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     dragged_ = false;
     paused_ = false;
     std::cout << "testtest" << std::endl;
+
+    //Load the Map texture
+    if (!Map.texture.loadFromFile("grass.jpeg"))
+    {
+        return;
+    }
+    Map.background.setTexture(Map.texture);
+
     // Create tower texture container, load texture    
     tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
     
@@ -219,6 +227,7 @@ void Game::createPath() {
 // Iterate over objects, render them onto window
 void Game::render() {
     window_.clear();
+    window_.draw(Map);
     for (Button button : buttons_) {
         window_.draw(button);
         window_.setVerticalSyncEnabled(true);//this should help with the major screen tearing

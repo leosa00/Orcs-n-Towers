@@ -12,7 +12,7 @@ Map::~Map() {
 
 void Map::loadMap(const std::string& fileName) {
     if (!texture.loadFromFile("textures/" + fileName)) {
-//     MessageBox(nullptr, ("Unable to open " + fileName + " to load map").c_str(), 0, 0);
+
         return;
     }
 

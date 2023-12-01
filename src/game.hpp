@@ -12,6 +12,7 @@
 #include <memory> //for shared_ptr
 #include "bulletTower.hpp"
 #include "button.hpp"
+#include "map.hpp"
 
 // Class for running the game logic
 
@@ -24,6 +25,7 @@ class Game {
     friend class BulletProjectile;
 
 public:
+    Map Map;
     Game();
     void run();
 

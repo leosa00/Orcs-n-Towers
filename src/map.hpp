@@ -13,10 +13,11 @@ class Map : public sf::Drawable, public sf::Transformable {
     friend class MainGame;
     friend class TowerManagement;
 
-    sf::Texture texture;
-    sf::Sprite background;
+
 
 public:
+    sf::Texture texture;
+    sf::Sprite background;
     Map();
     ~Map();
 
