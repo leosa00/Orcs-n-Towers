@@ -5,6 +5,9 @@
 #include "button.hpp"
 #include "game.hpp"
 
+// These are used in createMenu()
+// the enum determines what type of menu is created:
+// Which buttons are added etc.
 enum class MenuType{
     Shop,
     Upgrade

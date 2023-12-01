@@ -95,9 +95,9 @@ private:
     sf::Font font_; // Stores text font
     sf::Text gameOverText;
 
-    Menu* shop_;
-    Menu* upgrade_;
-    Tower* upgradedTower_;
+    Menu* shop_; // Shop on left side
+    Menu* upgrade_; // Upgrade menu when some tower is clicked, otherwise nullptr
+    Tower* upgradedTower_; // Pointer to tower that is being upgraded
 
     ResourceContainer<Textures::TowerID, sf::Texture> tower_textures_;
     ResourceContainer<Textures::EnemyID, sf::Texture> enemy_textures_;

@@ -39,12 +39,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
   
     font_.loadFromFile("/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/OpenSans_Condensed-Bold.ttf");
     
-    //// Create Buttons NOTE: Commented out as migrated to menu
-    //buttons_.push_back(Button(Actions::Tower1, tower_textures_.get(Textures::Tower1), sf::Vector2f(920, 40), "300", font_));
-    //buttons_.push_back(Button(Actions::Tower2, tower_textures_.get(Textures::Tower2), sf::Vector2f(920, 100), "200", font_));
-    //// This needs a texture or something
-    //buttons_.push_back(Button(Actions::Pause, tower_textures_.get(Textures::Tower3), sf::Vector2f(900, 700), "pause", font_));//uses pause button texture as tower3
-    
+
     // Initialize menus
     shop_ = new Menu();
     shop_->createMenu(MenuType::Shop, this);
@@ -95,7 +90,6 @@ void Game::processEvents(){
             // if MouseButtonPressed event only happens when button is initially pressed
             // this if statement is unnesessary
             if (!dragged_) {
-                //checkButtons(); // Check if some button has been pressed
                 shop_->checkButtons(this);
                 if (!dragged_) {
                     checkTowers(); // If no button was pressed check if a tower has been clicked
@@ -254,8 +248,8 @@ void Game::render() {
 
     
     shop_->draw(window_);
-    if (upgrade_) {
-        upgrade_ -> draw(window_);
+    if (upgrade_ != nullptr) {
+        upgrade_->draw(window_);
     }
     //for (Button button : buttons_) {
     //    window_.draw(button);
@@ -278,50 +272,6 @@ void Game::render() {
         window_.draw(gameOverText);
     }
     window_.display();
-}
-// Check if a button has been pressed and act accordingly
-void Game::checkButtons() {
-    for (auto button : buttons_) {
-        if (button.isClicked((sf::Vector2f) sf::Mouse::getPosition(window_))) {
-            //TODO: check if player can afford before creating tower and handle removing money here
-
-            switch (button.getAction())
-            {
-            case Actions::Tower1 :
-            {
-                BombTower* new_bomb = new BombTower((sf::Vector2f) sf::Mouse::getPosition(window_));
-                new_bomb->setTexture(tower_textures_.get(Textures::Tower1));
-                /* New tower takes first place in array of towers. 
-                   This is enough to identify the new tower which is being dragged, as only one tower 
-                   can be added at a time
-                */
-                towers_.push_front(new_bomb);
-
-                // Set flag which indicates an object is being dragged
-                dragged_ = true;
-                break;
-            }
-            case Actions::Tower2 :
-            {
-                BulletTower* new_bullet = new BulletTower((sf::Vector2f) sf::Mouse::getPosition(window_));
-                new_bullet->setTexture(tower_textures_.get(Textures::Tower2));
-                towers_.push_front(new_bullet);
-
-                // Set flag which indicates an object is being dragged
-                dragged_ = true;
-                break;
-            }
-            case Actions::Pause :
-            {
-                paused_ = !paused_;
-                break;
-            }
-            default:
-                break;
-            }
-        }    
-        }
-
 }
 
 // If a tower is being dragged into place this handles it's movement
@@ -351,6 +301,8 @@ void Game::checkTowers() {
     sf::Vector2f mousepos = (sf::Vector2f) sf::Mouse::getPosition(window_);
     for (auto* tower : towers_) {
         if (tower->getGlobalBounds().contains(mousepos)) {
+            // This stores the pointer to the tower that the upgrade button
+            // Will potentially upgrade
             upgradedTower_ = tower;
             upgrade_ = new Menu();
             upgrade_->createMenu(MenuType::Upgrade, this);

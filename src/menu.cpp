@@ -3,6 +3,7 @@
 #include "bulletTower.hpp"
 #include <stdio.h>
 
+// Draws all the buttons in the menu
 void Menu::draw(sf::RenderWindow& window) {
     for (auto button : buttons_) {
         window.draw(button);
@@ -11,6 +12,8 @@ void Menu::draw(sf::RenderWindow& window) {
     }
 }
 
+// Iterates through the buttons in the menu and checks if something is clicked
+// Chooses action based on button type
 void Menu::checkButtons(Game* game) {
     for (auto button : buttons_) {
         if (button.isClicked((sf::Vector2f) sf::Mouse::getPosition(game->window_))) {
@@ -49,6 +52,15 @@ void Menu::checkButtons(Game* game) {
             {
 
             }
+            case Actions::Close :
+            {
+                // TODO: This does not work
+                //  also will probably leak memory :D
+                game->upgrade_ = nullptr;
+                game->upgradedTower_ = nullptr;
+                delete this;
+
+            }
             case Actions::Pause :
             {
                 game->paused_ = !game->paused_;
@@ -62,6 +74,7 @@ void Menu::checkButtons(Game* game) {
 
 }
 
+// Creates menu based on the input enum given
 void Menu::createMenu(MenuType menu, Game* game) {
     switch (menu)
     {
@@ -76,6 +89,7 @@ void Menu::createMenu(MenuType menu, Game* game) {
         break;
     case MenuType::Upgrade:
         {
+            buttons_.push_back(Button(Actions::Close, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(100, 600), "Close", game->font_));
             std::cout << "Upgrade menu created" << std::endl;
         }
     default:

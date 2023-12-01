@@ -9,7 +9,8 @@ enum class Actions{
     Tower4,
     Tower5,
     Pause,
-    Upgrade
+    Upgrade,
+    Close  // Appears in upgrade menu, closes upgrade menu.
 };
 
 class Button : public sf::Sprite {
