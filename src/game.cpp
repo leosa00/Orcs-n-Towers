@@ -332,9 +332,11 @@ void Game::testEnemy() {
     test3.setTexture(enemy_textures_.get(Textures::Enemy1));
     enemies_.push_back(std::make_shared<Enemy>(test3));
 
-    //Projectile* missl = new MissileProjectile(sf::Vector2f(300,100), 50, enemies_.front());
+    Projectile* missl = new MissileProjectile(sf::Vector2f(300,100), 50, enemies_.front());
+    //this actually renders
+    missl->setTexture(tower_textures_.get(Textures::Tower2));
 
-    //projectiles_.push_back(missl);
+    projectiles_.push_back(missl);
 }
 //This function is used to test a splitting enemy functionality, i used the
 //tower texture to make it easier to debug, the idea is that a type of enemy, at this
