@@ -13,7 +13,9 @@
 #include "bulletTower.hpp"
 #include "button.hpp"
 #include "map.hpp"
+#include "menu.hpp"
 
+class Menu;
 // Class for running the game logic
 
 class Game {
@@ -92,6 +94,10 @@ private:
     bool isGameOver_=false; //is the game over because the player has died to an enemy
     sf::Font font_; // Stores text font
     sf::Text gameOverText;
+
+    Menu* shop_;
+    Menu* upgrade_;
+    Tower* upgradedTower_;
 
     ResourceContainer<Textures::TowerID, sf::Texture> tower_textures_;
     ResourceContainer<Textures::EnemyID, sf::Texture> enemy_textures_;

@@ -38,12 +38,19 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     // Load font
   
     font_.loadFromFile("/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/OpenSans_Condensed-Bold.ttf");
-    // Create Buttons
-    buttons_.push_back(Button(Actions::Tower1, tower_textures_.get(Textures::Tower1), sf::Vector2f(920, 40), "300", font_));
-    buttons_.push_back(Button(Actions::Tower2, tower_textures_.get(Textures::Tower2), sf::Vector2f(920, 100), "200", font_));
-    // This needs a texture or something
-    buttons_.push_back(Button(Actions::Pause, tower_textures_.get(Textures::Tower3), sf::Vector2f(900, 700), "pause", font_));//uses pause button texture as tower3
     
+    //// Create Buttons NOTE: Commented out as migrated to menu
+    //buttons_.push_back(Button(Actions::Tower1, tower_textures_.get(Textures::Tower1), sf::Vector2f(920, 40), "300", font_));
+    //buttons_.push_back(Button(Actions::Tower2, tower_textures_.get(Textures::Tower2), sf::Vector2f(920, 100), "200", font_));
+    //// This needs a texture or something
+    //buttons_.push_back(Button(Actions::Pause, tower_textures_.get(Textures::Tower3), sf::Vector2f(900, 700), "pause", font_));//uses pause button texture as tower3
+    
+    // Initialize menus
+    shop_ = new Menu();
+    shop_->createMenu(MenuType::Shop, this);
+    upgrade_ = nullptr;
+    upgradedTower_ = nullptr;
+
     //game over text
     gameOverText.setFont(font_);
     gameOverText.setString("Game Over Loser!!");
@@ -88,7 +95,8 @@ void Game::processEvents(){
             // if MouseButtonPressed event only happens when button is initially pressed
             // this if statement is unnesessary
             if (!dragged_) {
-                checkButtons(); // Check if some button has been pressed
+                //checkButtons(); // Check if some button has been pressed
+                shop_->checkButtons(this);
                 if (!dragged_) {
                     checkTowers(); // If no button was pressed check if a tower has been clicked
                 }
@@ -245,12 +253,15 @@ void Game::render() {
     window_.draw(map);
 
     
-    
-    for (Button button : buttons_) {
-        window_.draw(button);
-        window_.setVerticalSyncEnabled(true);//this should help with the major screen tearing
-        window_.draw(button.getLabel());
+    shop_->draw(window_);
+    if (upgrade_) {
+        upgrade_ -> draw(window_);
     }
+    //for (Button button : buttons_) {
+    //    window_.draw(button);
+    //    window_.setVerticalSyncEnabled(true);//this should help with the major screen tearing
+    //    window_.draw(button.getLabel());
+    //}
     for (auto* tower : towers_) {
         window_.draw(*tower);
     }
@@ -340,7 +351,10 @@ void Game::checkTowers() {
     sf::Vector2f mousepos = (sf::Vector2f) sf::Mouse::getPosition(window_);
     for (auto* tower : towers_) {
         if (tower->getGlobalBounds().contains(mousepos)) {
-            std::cout << "TOWER CLICKED" << std::endl;
+            upgradedTower_ = tower;
+            upgrade_ = new Menu();
+            upgrade_->createMenu(MenuType::Upgrade, this);
+            //std::cout << "TOWER CLICKED" << std::endl;
         }
     }
 }

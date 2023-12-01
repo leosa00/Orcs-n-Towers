@@ -5,7 +5,10 @@
 #include "button.hpp"
 #include "game.hpp"
 
-
+enum class MenuType{
+    Shop,
+    Upgrade
+};
 /**
  * @brief Class for storing a collection of buttons, a menu.
  *
@@ -13,10 +16,11 @@
 class Menu {
 public:
     void draw(sf::RenderWindow& window);
-    void checkButtons(Game& game);
-    void addButtons();
+    void checkButtons(Game* game);
+    void createMenu(MenuType menu, Game* game);
 private:
     std::list<Button> buttons_;
+    std::list<sf::Text> texts_;
 };
 
 #endif
