@@ -106,7 +106,7 @@ void Game::update() {
             std::queue<sf::Vector2f> waypoints = (*it)->getWaypoints();
             if(!waypoints.empty()) {
                 sf::Vector2f position = (*it)->getCenter();
-                testEnemySplit(position, waypoints);
+                //testEnemySplit(position, waypoints);
                 }
         }
         //removes an enemy from the list and subsequently it is destroyed, if the enemy
