@@ -21,6 +21,7 @@ public:
     void draw(sf::RenderWindow& window);
     void checkButtons(Game* game);
     void createMenu(MenuType menu, Game* game);
+    void update(Player& player);
 private:
     std::list<Button> buttons_;
     std::list<sf::Text> texts_;

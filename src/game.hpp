@@ -60,7 +60,6 @@ private:
     void addEnemy(const Enemy& enemy);
     void addProjectile(const Projectile& projectile);
     void createPath(); //this will create the path that the enemies will traverse (this should also be rendered visually in the game)
-    void checkButtons();
     void checkTowers();
     void drag();
     void testEnemy();

@@ -1,6 +1,7 @@
 #include "menu.hpp"
 #include "bombTower.hpp"
 #include "bulletTower.hpp"
+#include <string>
 #include <stdio.h>
 
 // Draws all the buttons in the menu
@@ -9,6 +10,10 @@ void Menu::draw(sf::RenderWindow& window) {
         window.draw(button);
         window.setVerticalSyncEnabled(true);//this should help with the major screen tearing
         window.draw(button.getLabel());
+    }
+
+    for (auto text : texts_) {
+        window.draw(text);
     }
 }
 
@@ -85,6 +90,16 @@ void Menu::createMenu(MenuType menu, Game* game) {
             buttons_.push_back(Button(Actions::Tower2, game->tower_textures_.get(Textures::Tower2), sf::Vector2f(920, 100), "200", game->font_));
             // This needs a texture or something
             buttons_.push_back(Button(Actions::Pause, game->tower_textures_.get(Textures::Tower3), sf::Vector2f(900, 700), "pause", game->font_));//uses pause button texture as tower3
+            
+            std::string money = std::to_string(game->player_.getWallet());
+            std::string health = std::to_string(game->player_.getHP());
+            sf::Text euro(money + " EUR", game->font_, 20);
+            sf::Text hp(health + " HP", game->font_, 20);
+            euro.setPosition(900, 600);
+            hp.setPosition(900, 650);
+            texts_.push_back(euro);
+            texts_.push_back(hp);
+            
         }
         break;
     case MenuType::Upgrade:
@@ -95,4 +110,11 @@ void Menu::createMenu(MenuType menu, Game* game) {
     default:
         break;
     }
+}
+
+void Menu::update(Player& player){
+    std::string money = std::to_string(player.getWallet()) + " EUR";
+    std::string health = std::to_string(player.getHP()) + " HP";
+    texts_.front().setString(money);
+    texts_.back().setString(health);
 }

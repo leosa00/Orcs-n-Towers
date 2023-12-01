@@ -15,8 +15,8 @@ enum class EnemyType {
 class Enemy :public sf::Sprite {
 public:
 
-    Enemy(int hp, int speed, EnemyType type, int gold, std::queue<sf::Vector2f> waypoints)
-         : hp_(hp), actualSpeed_(speed), speed_(speed), effectiveSpeed_(speed), type_(type), goldWorth_(gold), waypoints_(waypoints) {
+    Enemy(int hp, int speed, EnemyType type, int money, std::queue<sf::Vector2f> waypoints)
+         : hp_(hp), actualSpeed_(speed), speed_(speed), effectiveSpeed_(speed), type_(type), money_(money), waypoints_(waypoints) {
         if (!waypoints_.empty()) {
             currentWaypoint_ = waypoints_.front();
         }
@@ -67,6 +67,8 @@ public:
 
 	void moveEnemy(sf::Vector2f movement);
 
+    int getMoney() const;
+
 
 private:
     int hp_;
@@ -86,8 +88,8 @@ private:
     // the length of time that the enemy is poisoned for depends on how large the poison
     //value is as the number decreases incrimently until 0
     int slowed_=0; 
-    //How much gold the player recieves for killing the monster
-    int goldWorth_;
+    //How much money the player recieves for killing the monster
+    int money_;
     //waypoint based movement, the path class provides a queue of waypoints that take the enemies through the path to the end
 
     sf::Vector2f velocity_;

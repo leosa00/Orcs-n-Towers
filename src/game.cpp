@@ -121,8 +121,11 @@ void Game::update() {
             isGameOver_ = true;
             return;
     }
-    // Pavel: following order of updates is perhaps ok
     
+    // Updates displayed wallet amount and health
+    shop_->update(player_);
+    
+    // Pavel: following order of updates is perhaps ok
     for (auto it = enemies_.begin(); it != enemies_.end();) {
     if ((*it)->dead()) {
         //this if statement and the functions inside are used to test the
@@ -130,6 +133,9 @@ void Game::update() {
         if((*it)->getWaypoints().empty()) {
             player_.removeHP(250);
             std::cout << "player health: " << player_.getHP() << std::endl;//player hp deduction test (works!!)
+        } else {
+            // Add money to player for successful kill
+            player_.addMoney((*it)->getMoney());
         }
         if((*it)->type() == EnemyType::Flying) { //now if the enemy dies because it reached the castle it wont split, otherwise it will
         //I also fixed the split enemies movement
