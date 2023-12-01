@@ -23,10 +23,12 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     
     tower_textures_.load(Textures::Tower1, "../textures/tower1.png");
     tower_textures_.load(Textures::Tower2, "../textures/tower2.png");
+    tower_textures_.load(Textures::Tower3, "../textures/pausebutton.png");//pause button texture needs to be changed to its own texture class later
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
    
     enemy_textures_.load(Textures::Enemy1, "../textures/goblin_test.png");
     enemy_textures_.load(Textures::Enemy2, "../textures/mikey.png");
+    
     projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
 
     projectile_textures_.load(Textures::Bullet, "../textures/bullet.png");
@@ -38,8 +40,15 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     buttons_.push_back(Button(Actions::Tower1, tower_textures_.get(Textures::Tower1), sf::Vector2f(920, 40), "300", font_));
     buttons_.push_back(Button(Actions::Tower2, tower_textures_.get(Textures::Tower2), sf::Vector2f(920, 100), "200", font_));
     // This needs a texture or something
-    buttons_.push_back(Button(Actions::Pause, enemy_textures_.get(Textures::Enemy1), sf::Vector2f(900, 760), "pause", font_));
+    buttons_.push_back(Button(Actions::Pause, tower_textures_.get(Textures::Tower3), sf::Vector2f(900, 700), "pause", font_));//uses pause button texture as tower3
     
+    //game over text
+    gameOverText.setFont(font_);
+    gameOverText.setString("Game Over Loser!!");
+    gameOverText.setCharacterSize(24); 
+    gameOverText.setFillColor(sf::Color::Black);
+    gameOverText.setStyle(sf::Text::Bold);
+    gameOverText.setPosition(400, 200);
     createPath();
 
     testEnemy();
@@ -99,7 +108,11 @@ void Game::update() {
     if (paused_) {
         return;
     }
-
+    if(player_.getHP() <= 0){
+            //game over
+            isGameOver_ = true;
+            return;
+    }
     // Pavel: following order of updates is perhaps ok
     
     for (auto it = enemies_.begin(); it != enemies_.end();) {
@@ -125,13 +138,8 @@ void Game::update() {
 //        std::cout << enemies_.size() << std::endl;
         (*it)->update(getElapsedTime());
         //if enemy has reached the castle
-        player_.reachedCastle(*it); //this might not work since enemies are dead once they reach the final
+       //player_.reachedCastle(*it); //this might not work since enemies are dead once they reach the final
         //checkpoint (the castle) may not activate this
-          if(player_.getHP() <= 0){
-            //game over
-            std::cout << "game over sucker!!" << std::endl;
-            return;
-        }
         ++it;
     }
     }
@@ -230,6 +238,9 @@ void Game::createPath() {
 void Game::render() {
     window_.clear();
     window_.draw(map);
+
+    
+    
     for (Button button : buttons_) {
         window_.draw(button);
         window_.setVerticalSyncEnabled(true);//this should help with the major screen tearing
@@ -246,6 +257,9 @@ void Game::render() {
             window_.draw(*enemy);
         }
     
+    }
+    if(isGameOver_) {
+        window_.draw(gameOverText);
     }
     window_.display();
 }
