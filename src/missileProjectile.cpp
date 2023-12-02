@@ -20,7 +20,7 @@ void MissileProjectile::update(Game& game){
      * occassionally works tho and prints
     */
 
-    if(targetEnemy_ != nullptr && targetEnemy_.use_count() > 0){ //hasn't been destroyed
+    if(targetEnemy_.get() != nullptr && targetEnemy_.use_count() > 0){ //hasn't been destroyed
         if(hasHitEnemy(targetEnemy_)){
             destroy();
         }
