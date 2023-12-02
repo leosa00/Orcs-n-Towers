@@ -29,7 +29,7 @@ public:
     /*Tower(sf::Vector2f position);*/
     // I think there is really no need for copy constructor or copy assignment operator
     const std::string& getType() const {return type_;}
-    const sf::Vector2f getPosition() const {return position_;}
+    //const sf::Vector2f getPosition() const {return position_;}
     const int getBaseCost() const {return baseCost_;}
     const float getFireRate() const {return fireRate_;}
     const CanDamage getDamageType() const {return damageType_;}

@@ -59,6 +59,7 @@ void Menu::checkButtons(Game* game) {
                 int upgradecost = game->upgradedTower_->getUpgradeCost();
                 if (game->player_.getWallet() >= upgradecost) {
                     // Remove money and upgrade
+                    // TODO: This does not check that tower is not at max level
                     game->player_.removeMoney(upgradecost);
                     game->upgradedTower_->upgradeTower();
 
@@ -78,7 +79,6 @@ void Menu::checkButtons(Game* game) {
             }
             case Actions::Pause :
             {
-                // TODO: The pause button gets often accidentally activated
                 game->paused_ = !game->paused_;
                 break;
             }

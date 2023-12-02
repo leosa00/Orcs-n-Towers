@@ -13,7 +13,7 @@ bool BulletProjectile::hasHitEnemy(std::shared_ptr<Enemy>& enemy) {
 
 //without targetEnemy (makes more sense if bullet can hit any enemy), logic might be clumsy
 void BulletProjectile::update(Game& game){
-    float dt = game.getElapsedTime().asSeconds();
+    float dt = game.getTime().asSeconds();
     //only move the projectile if it hasn't collided or gone out of range
     if(distToTower()){
         destroy();

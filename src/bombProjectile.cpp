@@ -17,7 +17,7 @@ bool BombProjectile::hasHitEnemy(std::shared_ptr<Enemy>& enemy){
 }
 
 void BombProjectile::update(Game& game){
-    float dt = game.getElapsedTime().asSeconds();
+    float dt = game.getTime().asSeconds();
     //bomb should stop moving at a certain distance
         if(distToTower()){
             //has reached "landing spot"
