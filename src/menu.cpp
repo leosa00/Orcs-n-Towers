@@ -55,21 +55,31 @@ void Menu::checkButtons(Game* game) {
             // And the tower which wi want to upgrade is known
             case Actions::Upgrade :
             {
+                // Check that there is enough money for upgrading
+                int upgradecost = game->upgradedTower_->getUpgradeCost();
+                if (game->player_.getWallet() >= upgradecost) {
+                    // Remove money and upgrade
+                    game->player_.removeMoney(upgradecost);
+                    game->upgradedTower_->upgradeTower();
 
+                    // Update texts of current damage and level
+                    texts_.front().setString("Level: " + std::to_string(game->upgradedTower_->getCurrentLvl()));
+                    texts_.back().setString("Damage: " + std::to_string(game->upgradedTower_->getDamage()));
+
+                }
             }
             case Actions::Close :
             {
-                // TODO: This does not work
-                //  also will probably leak memory :D
-                game->upgrade_ = nullptr;
-                game->upgradedTower_ = nullptr;
-                delete this;
+                // Afraid that this leaks memory...
+                //game->upgrade_ = nullptr;
+                //game->upgradedTower_ = nullptr;
 
             }
             case Actions::Pause :
             {
-                game->paused_ = !game->paused_;
-                break;
+                // TODO: The pause button gets often accidentally activated
+                //game->paused_ = !game->paused_;
+                //break;
             }
             default:
                 break;
@@ -104,8 +114,27 @@ void Menu::createMenu(MenuType menu, Game* game) {
         break;
     case MenuType::Upgrade:
         {
-            buttons_.push_back(Button(Actions::Close, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(100, 600), "Close", game->font_));
+            // Create upgrade and close buttons
+            buttons_.push_back(Button(Actions::Close, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(400, 700), "Close", game->font_));
             std::cout << "Upgrade menu created" << std::endl;
+            std::string cost = std::to_string(game->upgradedTower_->getUpgradeCost());
+            buttons_.push_back(Button(Actions::Upgrade, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(150, 700), cost, game->font_));
+
+            // create texts of type current damage and level
+            // + operator with string handles conversion
+            sf::Text damage(("Damage: " + std::to_string(game->upgradedTower_->getDamage())), game->font_, 20);
+            sf::Text level(("Level: " + std::to_string(game->upgradedTower_->getCurrentLvl())), game->font_, 20);
+            sf::Text type(game->upgradedTower_->getType(), game->font_, 20);
+            
+            type.setPosition(30, 700);
+            level.setPosition(30, 720);
+            damage.setPosition(30, 740);
+
+            // This is a dumb solution, but level is stored first and damage last
+            // So they are easy to access if they get updated
+            texts_.push_back(level);
+            texts_.push_back(type);
+            texts_.push_back(damage);
         }
     default:
         break;
