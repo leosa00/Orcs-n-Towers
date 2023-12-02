@@ -63,7 +63,7 @@ public:
 private:
 //    virtual void draw();
     const std::string type_;
-    const sf::Vector2f position_;
+    //const sf::Vector2f position_;
     const int baseCost_;
     const float range_;
     int damage_; 

@@ -33,8 +33,8 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     
     projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
 
-    projectile_textures_.load(Textures::Bullet, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bullet.png");
-    projectile_textures_.load(Textures::Bomb, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bullet.png");
+    projectile_textures_.load(Textures::Bullet, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bullet_test.png");
+    projectile_textures_.load(Textures::Bomb, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bomb_test.png");
     projectile_textures_.load(Textures::Missile, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/mikey.png");
     // Load font
   
