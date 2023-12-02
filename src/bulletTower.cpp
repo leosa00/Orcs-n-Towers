@@ -9,7 +9,7 @@ BulletTower::BulletTower(sf::Vector2f position)
                                 // tbd ^    ^      ^     ^      ^      ^
 
 BulletProjectile& BulletTower::shoot() {
-    sf::Vector2f direction = getPosition() - getLockedEnemy()->getPosition();
+    sf::Vector2f direction = getLockedEnemy()->getPosition() - getPosition();
     float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
     sf::Vector2f normalizedDirection = direction / length;
     BulletProjectile* bulletProjectile = new BulletProjectile(normalizedDirection, getPosition(), getDamage());

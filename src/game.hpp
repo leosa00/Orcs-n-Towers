@@ -13,7 +13,10 @@
 #include "bulletTower.hpp"
 #include "button.hpp"
 #include "map.hpp"
+#include "missileProjectile.hpp"
+#include "menu.hpp"
 
+class Menu;
 // Class for running the game logic
 
 class Game {
@@ -23,6 +26,8 @@ class Game {
     friend class BombTower;
     friend class BombProjectile;
     friend class BulletProjectile;
+    friend class MissileProjectile;
+    friend class Menu; 
 
 public:
     Map map;
@@ -55,12 +60,12 @@ private:
     void addEnemy(const Enemy& enemy);
     void addProjectile(const Projectile& projectile);
     void createPath(); //this will create the path that the enemies will traverse (this should also be rendered visually in the game)
-    void checkButtons();
+    void checkTowers();
     void drag();
     void testEnemy();
     void testEnemySplit(sf::Vector2f position, std::queue<sf::Vector2f> waypoints);
     //adding a function to return the elapsed time
-    sf::Time getElapsedTime() const;
+    sf::Time getTime() const;
     //I am adding a clock and time functionality that will need to be used for enemy movement and updating and other game logic
     sf::Clock clock_;
     sf::Time time_;
@@ -90,6 +95,10 @@ private:
     bool isGameOver_=false; //is the game over because the player has died to an enemy
     sf::Font font_; // Stores text font
     sf::Text gameOverText;
+
+    Menu* shop_; // Shop on left side
+    Menu* upgrade_; // Upgrade menu when some tower is clicked, otherwise nullptr
+    Tower* upgradedTower_; // Pointer to tower that is being upgraded
 
     ResourceContainer<Textures::TowerID, sf::Texture> tower_textures_;
     ResourceContainer<Textures::EnemyID, sf::Texture> enemy_textures_;

@@ -190,3 +190,8 @@ void Enemy::slowedDamage() {
         speed_=actualSpeed_;
     }
 }
+
+// Returns the amount of money this enemy provides when killed
+int Enemy::getMoney() const {
+    return money_;
+}

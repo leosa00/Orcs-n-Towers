@@ -29,8 +29,7 @@
 Tower::Tower(sf::Vector2f position, const std::string& type,  int baseCost, float range, float fireRate,
           int damage, int currentLvl, int upgradeCost, CanDamage damageType, std::shared_ptr<Enemy> lockedEnemy,
           sf::Clock fireTimer, bool maxLevelReached)
-      : position_(position),
-        type_(type),
+      : type_(type),
         baseCost_(baseCost), // subject to change
         range_(range), // subject to change
         fireRate_(fireRate), // subject to change
@@ -40,7 +39,9 @@ Tower::Tower(sf::Vector2f position, const std::string& type,  int baseCost, floa
         damageType_(damageType),
         lockedEnemy_(lockedEnemy), // initially no locked enemy
         fireTimer_(fireTimer),
-        maxLevelReached_(maxLevelReached) {}
+        maxLevelReached_(maxLevelReached) {
+          setPosition(position);
+        }
 
 /*int Tower::getUpgradeCost() const { // How we should handle when tower is already at maximum lvl, what interface should display? 
   return upgradeCost_[currentLvl_ - 1];   // Maybe something like "Max level reached"
@@ -62,7 +63,11 @@ bool Tower::enemyWithinRange(std::shared_ptr<Enemy> enemy) {
   //std::cout << "enemyWithinRange is called" << std::endl;
   //std::cout << range_ << std::endl;
   //std::cout << std::sqrt(std::pow((position_.x - enemy->getPosition().x), 2) + std::pow((position_.y - enemy->getPosition().y), 2)) << std::endl;
-  return range_ >= std::sqrt(std::pow((position_.x - enemy->getPosition().x), 2) + std::pow((position_.y - enemy->getPosition().y), 2));
+  
+  // LINE UNDER USES GLOBAL POS
+  //return range_ >= std::sqrt(std::pow((position_.x - enemy->getPosition().x), 2) + std::pow((position_.y - enemy->getPosition().y), 2));
+
+  return range_ >= std::sqrt(std::pow((getPosition().x - enemy->getPosition().x), 2) + std::pow((getPosition().y - enemy->getPosition().y), 2));
 }
 /* Projectile& Tower::shoot() {
      Assuming speed is 100.0

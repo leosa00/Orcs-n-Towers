@@ -114,4 +114,5 @@ void Player::upgradeTower(Tower& tower){
 
 void Player::updateCastlePosition(sf::Vector2f position){
     position_ = position;
+    this->setPosition(position);
 }

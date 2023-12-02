@@ -4,12 +4,14 @@
 #include "path.hpp"
 #include "button.hpp"
 #include <iostream>
+
 // initialize game object, mainly create window...
 Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     // Set dragging flag
     dragged_ = false;
     paused_ = false;
     std::cout << "game started" << std::endl;
+
 
     //Load the Map texture
     if (!map.texture.loadFromFile("../textures/grass.jpeg"))
@@ -31,17 +33,20 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     
     projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
 
-    projectile_textures_.load(Textures::Bullet, "../textures/bullet.png");
-    projectile_textures_.load(Textures::Bomb, "../textures/bullet.png");
+    projectile_textures_.load(Textures::Bullet, "../textures/bullet_test.png");
+    projectile_textures_.load(Textures::Bomb, "../textures/bomb_test.png");
+    projectile_textures_.load(Textures::Missile, "../textures/mikey.png");
     // Load font
   
     font_.loadFromFile("../textures/OpenSans_Condensed-Bold.ttf");
-    // Create Buttons
-    buttons_.push_back(Button(Actions::Tower1, tower_textures_.get(Textures::Tower1), sf::Vector2f(920, 40), "300", font_));
-    buttons_.push_back(Button(Actions::Tower2, tower_textures_.get(Textures::Tower2), sf::Vector2f(920, 100), "200", font_));
-    // This needs a texture or something
-    buttons_.push_back(Button(Actions::Pause, tower_textures_.get(Textures::Tower3), sf::Vector2f(900, 700), "pause", font_));//uses pause button texture as tower3
     
+
+    // Initialize menus
+    shop_ = new Menu();
+    shop_->createMenu(MenuType::Shop, this);
+    upgrade_ = nullptr;
+    upgradedTower_ = nullptr;
+
     //game over text
     gameOverText.setFont(font_);
     gameOverText.setString("Game Over Loser!!");
@@ -53,8 +58,8 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
 
     testEnemy();
 
-
-    player_ = Player(); 
+    player_ = Player();
+    
     //player_.updateCastlePosition(**coordinates for end of path**);
 };
 
@@ -86,7 +91,13 @@ void Game::processEvents(){
             // if MouseButtonPressed event only happens when button is initially pressed
             // this if statement is unnesessary
             if (!dragged_) {
-                checkButtons(); // Check if some button has been pressed
+                shop_->checkButtons(this);
+                if (upgrade_) {
+                    upgrade_->checkButtons(this);
+                }
+                if (!dragged_) {
+                    checkTowers(); // If no button was pressed check if a tower has been clicked
+                }
                 break;
             } 
 
@@ -113,8 +124,11 @@ void Game::update() {
             isGameOver_ = true;
             return;
     }
-    // Pavel: following order of updates is perhaps ok
     
+    // Updates displayed wallet amount and health
+    shop_->update(player_);
+    
+    // Pavel: following order of updates is perhaps ok
     for (auto it = enemies_.begin(); it != enemies_.end();) {
     if ((*it)->dead()) {
         //this if statement and the functions inside are used to test the
@@ -122,6 +136,9 @@ void Game::update() {
         if((*it)->getWaypoints().empty()) {
             player_.removeHP(250);
             std::cout << "player health: " << player_.getHP() << std::endl;//player hp deduction test (works!!)
+        } else {
+            // Add money to player for successful kill
+            player_.addMoney((*it)->getMoney());
         }
         if((*it)->type() == EnemyType::Flying) { //now if the enemy dies because it reached the castle it wont split, otherwise it will
         //I also fixed the split enemies movement
@@ -136,7 +153,7 @@ void Game::update() {
         it = enemies_.erase(it); 
     } else {
 //        std::cout << enemies_.size() << std::endl;
-        (*it)->update(getElapsedTime());
+        (*it)->update(getTime());
         //if enemy has reached the castle
        //player_.reachedCastle(*it); //this might not work since enemies are dead once they reach the final
         //checkpoint (the castle) may not activate this
@@ -163,6 +180,7 @@ void Game::update() {
                 // Added an intermediate step into shooting which sets the projectile texture
                 Projectile* newproj = &(tower->shoot());
                 newproj->setTexture(projectile_textures_.get(newproj->textureType()));
+                //newproj->setPosition(tower->getPosition());
                 projectiles_.push_back(newproj);
                 
                 //projectiles_.push_back(&(tower->shoot()));
@@ -240,11 +258,9 @@ void Game::render() {
     window_.draw(map);
 
     
-    
-    for (Button button : buttons_) {
-        window_.draw(button);
-        window_.setVerticalSyncEnabled(true);//this should help with the major screen tearing
-        window_.draw(button.getLabel());
+    shop_->draw(window_);
+    if (upgrade_ != nullptr) {
+        upgrade_->draw(window_);
     }
     for (auto* tower : towers_) {
         window_.draw(*tower);
@@ -263,56 +279,11 @@ void Game::render() {
     }
     window_.display();
 }
-// Check if a button has been pressed and act accordingly
-void Game::checkButtons() {
-    for (auto button : buttons_) {
-        if (button.isClicked((sf::Vector2f) sf::Mouse::getPosition(window_))) {
-            //TODO: check if player can afford before creating tower and handle removing money here
-
-            switch (button.getAction())
-            {
-            case Actions::Tower1 :
-            {
-                BombTower* new_bomb = new BombTower((sf::Vector2f) sf::Mouse::getPosition(window_));
-                new_bomb->setTexture(tower_textures_.get(Textures::Tower1));
-                /* New tower takes first place in array of towers. 
-                   This is enough to identify the new tower which is being dragged, as only one tower 
-                   can be added at a time
-                */
-                towers_.push_front(new_bomb);
-
-                // Set flag which indicates an object is being dragged
-                dragged_ = true;
-                break;
-            }
-            case Actions::Tower2 :
-            {
-                BulletTower* new_bullet = new BulletTower((sf::Vector2f) sf::Mouse::getPosition(window_));
-                new_bullet->setTexture(tower_textures_.get(Textures::Tower2));
-                towers_.push_front(new_bullet);
-
-                // Set flag which indicates an object is being dragged
-                dragged_ = true;
-                break;
-            }
-            case Actions::Pause :
-            {
-                paused_ = !paused_;
-                break;
-            }
-            default:
-                break;
-            }
-        }    
-        }
-
-}
 
 // If a tower is being dragged into place this handles it's movement
 void Game::drag() {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         towers_.front()->setPosition(sf::Mouse::getPosition(window_).x, sf::Mouse::getPosition(window_).y);
-        //printf("Position: %f, %f \n", dragged_->getPosition().x, dragged_->getPosition().y);
     } else {
         Tower* bought_tower = towers_.front();
         if (player_.getWallet() < bought_tower->getBaseCost()) {
@@ -322,13 +293,24 @@ void Game::drag() {
             player_.removeMoney(bought_tower->getBaseCost());
         }
         dragged_ = false;
-        // TODO: Check tower collision conds
-        // TODO: Work with player class to check money
     }
 }
 
-sf::Time Game::getElapsedTime() const {
+sf::Time Game::getTime() const {
     return time_;
+}
+
+void Game::checkTowers() {
+    sf::Vector2f mousepos = (sf::Vector2f) sf::Mouse::getPosition(window_);
+    for (auto* tower : towers_) {
+        if (tower->getGlobalBounds().contains(mousepos)) {
+            // This stores the pointer to the tower that the upgrade button
+            // Will potentially upgrade
+            upgradedTower_ = tower;
+            upgrade_ = new Menu();
+            upgrade_->createMenu(MenuType::Upgrade, this);
+        }
+    }
 }
 
 // Test function for enemy class
@@ -350,6 +332,12 @@ void Game::testEnemy() {
     test3.setPosition(100, 70);
     test3.setTexture(enemy_textures_.get(Textures::Enemy1));
     enemies_.push_back(std::make_shared<Enemy>(test3));
+
+    //Projectile* missl = new MissileProjectile(sf::Vector2f(300,100), 50, enemies_.front());
+    ////this actually renders
+    //missl->setTexture(tower_textures_.get(Textures::Tower2));
+
+    //projectiles_.push_back(missl);
 }
 //This function is used to test a splitting enemy functionality, i used the
 //tower texture to make it easier to debug, the idea is that a type of enemy, at this
@@ -363,3 +351,4 @@ void Game::testEnemySplit(sf::Vector2f position, std::queue<sf::Vector2f> waypoi
     enemies_.push_back(std::make_shared<Enemy>(split));
 
 }
+

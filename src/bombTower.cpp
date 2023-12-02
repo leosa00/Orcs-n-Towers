@@ -36,7 +36,7 @@ void BombTower::update(std::list<std::shared_ptr<Enemy>> &enemies) {
     }
 }
 BombProjectile& BombTower::shoot() {
-    sf::Vector2f direction = getPosition() - getLockedEnemy()->getPosition();
+    sf::Vector2f direction = getLockedEnemy()->getPosition() - getPosition();
     float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
     sf::Vector2f normalizedDirection = direction / length;
     BombProjectile* bombProjectile = new BombProjectile(normalizedDirection, getPosition(), getDamage());//, getLockedEnemy())
