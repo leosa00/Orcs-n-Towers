@@ -65,21 +65,22 @@ void Menu::checkButtons(Game* game) {
                     // Update texts of current damage and level
                     texts_.front().setString("Level: " + std::to_string(game->upgradedTower_->getCurrentLvl()));
                     texts_.back().setString("Damage: " + std::to_string(game->upgradedTower_->getDamage()));
-
                 }
+                break;
             }
             case Actions::Close :
             {
                 // Afraid that this leaks memory...
-                //game->upgrade_ = nullptr;
-                //game->upgradedTower_ = nullptr;
-
+                game->upgrade_ = nullptr;
+                game->upgradedTower_ = nullptr;
+                sf::Rect buttonbounds = button.getGlobalBounds();
+                break;
             }
             case Actions::Pause :
             {
                 // TODO: The pause button gets often accidentally activated
-                //game->paused_ = !game->paused_;
-                //break;
+                game->paused_ = !game->paused_;
+                break;
             }
             default:
                 break;
@@ -116,7 +117,6 @@ void Menu::createMenu(MenuType menu, Game* game) {
         {
             // Create upgrade and close buttons
             buttons_.push_back(Button(Actions::Close, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(400, 700), "Close", game->font_));
-            std::cout << "Upgrade menu created" << std::endl;
             std::string cost = std::to_string(game->upgradedTower_->getUpgradeCost());
             buttons_.push_back(Button(Actions::Upgrade, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(150, 700), cost, game->font_));
 
