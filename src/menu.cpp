@@ -29,7 +29,7 @@ void Menu::checkButtons(Game* game) {
             case Actions::Tower1 :
             {
                 BombTower* new_bomb = new BombTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
-                new_bomb->setTexture(game->tower_textures_.get(Textures::Tower1));
+                new_bomb->setTexture(game->tower_textures_.get(Textures::BulletTower));
                 /* New tower takes first place in array of towers. 
                    This is enough to identify the new tower which is being dragged, as only one tower 
                    can be added at a time
@@ -43,7 +43,7 @@ void Menu::checkButtons(Game* game) {
             case Actions::Tower2 :
             {
                 BulletTower* new_bullet = new BulletTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
-                new_bullet->setTexture(game->tower_textures_.get(Textures::Tower2));
+                new_bullet->setTexture(game->tower_textures_.get(Textures::BombTower));
                 game->towers_.push_front(new_bullet);
 
                 // Set flag which indicates an object is being dragged
@@ -58,14 +58,15 @@ void Menu::checkButtons(Game* game) {
                 // Check that there is enough money for upgrading
                 int upgradecost = game->upgradedTower_->getUpgradeCost();
                 if (game->player_.getWallet() >= upgradecost) {
-                    // Remove money and upgrade
-                    // TODO: This does not check that tower is not at max level
-                    game->player_.removeMoney(upgradecost);
-                    game->upgradedTower_->upgradeTower();
-
-                    // Update texts of current damage and level
-                    texts_.front().setString("Level: " + std::to_string(game->upgradedTower_->getCurrentLvl()));
-                    texts_.back().setString("Damage: " + std::to_string(game->upgradedTower_->getDamage()));
+                    // Check that max level is not reached
+                    if (!game->upgradedTower_->isMaxLevelReached()){
+                        // Remove money and upgrade
+                        game->player_.removeMoney(upgradecost);
+                        game->upgradedTower_->upgradeTower();
+                        // Update texts of current damage and level
+                        texts_.front().setString("Level: " + std::to_string(game->upgradedTower_->getCurrentLvl()));
+                        texts_.back().setString("Damage: " + std::to_string(game->upgradedTower_->getDamage()));
+                    }
                 }
                 break;
             }
@@ -97,10 +98,10 @@ void Menu::createMenu(MenuType menu, Game* game) {
     case MenuType::Shop:
         {
             // Create Buttons
-            buttons_.push_back(Button(Actions::Tower1, game->tower_textures_.get(Textures::Tower1), sf::Vector2f(920, 40), "300", game->font_));
-            buttons_.push_back(Button(Actions::Tower2, game->tower_textures_.get(Textures::Tower2), sf::Vector2f(920, 100), "200", game->font_));
+            buttons_.push_back(Button(Actions::Tower1, game->tower_textures_.get(Textures::BulletTower), sf::Vector2f(920, 40), "300", game->font_));
+            buttons_.push_back(Button(Actions::Tower2, game->tower_textures_.get(Textures::BombTower), sf::Vector2f(920, 100), "200", game->font_));
             // This needs a texture or something
-            buttons_.push_back(Button(Actions::Pause, game->tower_textures_.get(Textures::Tower3), sf::Vector2f(900, 700), "pause", game->font_));//uses pause button texture as tower3
+            buttons_.push_back(Button(Actions::Pause, game->tower_textures_.get(Textures::MissileTower), sf::Vector2f(900, 700), "pause", game->font_));//uses pause button texture as tower3
             
             std::string money = std::to_string(game->player_.getWallet());
             std::string health = std::to_string(game->player_.getHP());
