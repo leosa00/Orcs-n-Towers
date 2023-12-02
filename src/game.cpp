@@ -92,6 +92,9 @@ void Game::processEvents(){
             // this if statement is unnesessary
             if (!dragged_) {
                 shop_->checkButtons(this);
+                if (upgrade_) {
+                    upgrade_->checkButtons(this);
+                }
                 if (!dragged_) {
                     checkTowers(); // If no button was pressed check if a tower has been clicked
                 }
@@ -258,11 +261,6 @@ void Game::render() {
     if (upgrade_ != nullptr) {
         upgrade_->draw(window_);
     }
-    //for (Button button : buttons_) {
-    //    window_.draw(button);
-    //    window_.setVerticalSyncEnabled(true);//this should help with the major screen tearing
-    //    window_.draw(button.getLabel());
-    //}
     for (auto* tower : towers_) {
         window_.draw(*tower);
     }
@@ -285,7 +283,6 @@ void Game::render() {
 void Game::drag() {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
         towers_.front()->setPosition(sf::Mouse::getPosition(window_).x, sf::Mouse::getPosition(window_).y);
-        //printf("Position: %f, %f \n", dragged_->getPosition().x, dragged_->getPosition().y);
     } else {
         Tower* bought_tower = towers_.front();
         if (player_.getWallet() < bought_tower->getBaseCost()) {
@@ -295,8 +292,6 @@ void Game::drag() {
             player_.removeMoney(bought_tower->getBaseCost());
         }
         dragged_ = false;
-        // TODO: Check tower collision conds
-        // TODO: Work with player class to check money
     }
 }
 
@@ -313,7 +308,6 @@ void Game::checkTowers() {
             upgradedTower_ = tower;
             upgrade_ = new Menu();
             upgrade_->createMenu(MenuType::Upgrade, this);
-            //std::cout << "TOWER CLICKED" << std::endl;
         }
     }
 }
