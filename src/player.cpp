@@ -13,6 +13,10 @@ std::string Player::getName() const {
     return name_;
 }
 
+int Player::getLevel() const {
+    return level_;
+}
+
 void Player::addMoney(int amount) {
     wallet_ += amount;
 }
@@ -38,7 +42,60 @@ void Player::reachedCastle (std::shared_ptr<Enemy>& enemy) {
     }
 }
 
+std::list<std::shared_ptr<Enemy>> Player::increaseLevel(ResourceContainer<Textures::EnemyID, sf::Texture>& enemytextures, path& path){
+    // Increase level, spawn corresponding enemies
+    std::list<std::shared_ptr<Enemy>> newround;
+    // Create enemies depending on the number of levels
+    // NOTE: Probably best to eventually create multiple specific types of enemies in for loops
+    // These could also be separate functions which take amount of enemies to be created as an input
+    switch (++level_)
+    {
+    case 1:
+    {
+        Enemy test(1, 100, EnemyType::Ground, 10, path.getWaypoints());
+        test.setPosition(100, 100);
+        test.setTexture(enemytextures.get(Textures::Enemy1));
 
+        newround.push_back(std::make_shared<Enemy>(test));
+
+        Enemy test2(30, 60, EnemyType::Flying, 10, path.getWaypoints());
+        test2.setPosition(100, 50);
+        test2.setTexture(enemytextures.get(Textures::Enemy1));
+        newround.push_back(std::make_shared<Enemy>(test2));
+
+        Enemy test3(900, 30, EnemyType::Ground, 10, path.getWaypoints());
+        test3.setPosition(100, 70);
+        test3.setTexture(enemytextures.get(Textures::Enemy1));
+        newround.push_back(std::make_shared<Enemy>(test3));
+        break;
+    }    
+    case 2:
+    {
+        Enemy test(1, 100, EnemyType::Ground, 10, path.getWaypoints());
+        test.setPosition(100, 100);
+        test.setTexture(enemytextures.get(Textures::Enemy1));
+
+        newround.push_back(std::make_shared<Enemy>(test));
+
+        Enemy test2(30, 60, EnemyType::Flying, 10, path.getWaypoints());
+        test2.setPosition(100, 50);
+        test2.setTexture(enemytextures.get(Textures::Enemy1));
+        newround.push_back(std::make_shared<Enemy>(test2));
+
+        Enemy test3(900, 30, EnemyType::Ground, 10, path.getWaypoints());
+        test3.setPosition(100, 70);
+        test3.setTexture(enemytextures.get(Textures::Enemy1));
+        newround.push_back(std::make_shared<Enemy>(test3));
+        break;
+    }
+    default:
+        break;
+    }
+
+    return newround;
+    // Create list of shared_ptr<enemy>
+    // Push enemies 
+}
 /*void Player::buyTower (int cost, Textures::TowerID towerID) {
     
     //cost can maybe be determined from towerID?

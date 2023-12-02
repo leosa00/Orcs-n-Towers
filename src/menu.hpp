@@ -10,7 +10,9 @@
 // Which buttons are added etc.
 enum class MenuType{
     Shop,
-    Upgrade
+    Upgrade,
+    Begin,
+    Level
 };
 /**
  * @brief Class for storing a collection of buttons, a menu.

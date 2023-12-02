@@ -24,21 +24,24 @@ class Player : public sf::Sprite
         std::string name_;
         int score_;
         sf::Vector2f position_; //of castle
+        int level_;
 
     public:
         Player(std::string name = "player") 
         // position_ cannot be initialized as NULL, because it is of type sf::Vector2f
-            :name_(name), hp_(500), wallet_(500), score_(0), position_(sf::Vector2f(0, 0)){}
+            :name_(name), hp_(500), wallet_(500), score_(0), position_(sf::Vector2f(0, 0)), level_(0){}
 
         ~Player() {}
         int getWallet() const;
         int getHP() const;
         std::string getName() const;
+        int getLevel() const;
         void addMoney(int amount);
         void removeMoney(int cost);
         void removeHP(int amount);
         void addToScore(int amount);
         void reachedCastle (std::shared_ptr<Enemy>& enemy); //checks if an enemy has reached the castle or should game do it?
+        std::list<std::shared_ptr<Enemy>> increaseLevel(ResourceContainer<Textures::EnemyID, sf::Texture>& enemytextures, path& path);
         //void buyTower(int cost, Textures::TowerID towerID);
         //void sellTower(Tower& tower);
         //void upgradeTower(Tower& tower);

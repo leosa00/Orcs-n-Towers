@@ -26,7 +26,7 @@ void Menu::checkButtons(Game* game) {
 
             switch (button.getAction())
             {
-            case Actions::Tower1 :
+            case Actions::Tower1:
             {
                 BombTower* new_bomb = new BombTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
                 new_bomb->setTexture(game->tower_textures_.get(Textures::BulletTower));
@@ -40,7 +40,7 @@ void Menu::checkButtons(Game* game) {
                 game->dragged_ = true;
                 break;
             }
-            case Actions::Tower2 :
+            case Actions::Tower2:
             {
                 BulletTower* new_bullet = new BulletTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
                 new_bullet->setTexture(game->tower_textures_.get(Textures::BombTower));
@@ -53,7 +53,7 @@ void Menu::checkButtons(Game* game) {
 
             // If the button upgrade is pressed, there is already a upgrade menu in existence
             // And the tower which wi want to upgrade is known
-            case Actions::Upgrade :
+            case Actions::Upgrade:
             {
                 // Check that there is enough money for upgrading
                 int upgradecost = game->upgradedTower_->getUpgradeCost();
@@ -70,7 +70,7 @@ void Menu::checkButtons(Game* game) {
                 }
                 break;
             }
-            case Actions::Close :
+            case Actions::Close:
             {
                 // Afraid that this leaks memory...
                 game->upgrade_ = nullptr;
@@ -78,9 +78,16 @@ void Menu::checkButtons(Game* game) {
                 sf::Rect buttonbounds = button.getGlobalBounds();
                 break;
             }
-            case Actions::Pause :
+            case Actions::Pause:
             {
                 game->paused_ = !game->paused_;
+                break;
+            }
+            case Actions::Level:
+            {
+                game->enemies_ = game->player_.increaseLevel(game->enemy_textures_, game->path_);
+                game->paused_ = false;
+                game->upgrade_ = nullptr;
                 break;
             }
             default:
@@ -136,6 +143,26 @@ void Menu::createMenu(MenuType menu, Game* game) {
             texts_.push_back(level);
             texts_.push_back(type);
             texts_.push_back(damage);
+            break;
+        }
+    case MenuType::Begin:
+        {
+            buttons_.push_back(Button(Actions::Level, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(400, 450), "Begin", game->font_));
+
+            sf::Text intro("Welcome to Orcs n Towers\nClick to start the first level!", game->font_, 20);
+            intro.setPosition(400, 400);
+            texts_.push_back(intro);
+            break;
+        }
+    case MenuType::Level:
+        {
+            // TODO: It would be nice to have a money bonus for completing each level
+            buttons_.push_back(Button(Actions::Level, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(400, 440), "Next level", game->font_));
+            // FIXME: The text does not include the first letter :(
+            sf::Text intro(("Congratulations for completing level " + game->player_.getLevel()), game->font_, 20);
+            intro.setPosition(400, 400);
+            texts_.push_back(intro);
+            break;
         }
     default:
         break;
