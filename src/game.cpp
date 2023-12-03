@@ -23,9 +23,9 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     // Create tower texture container, load texture    
     tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
     
-    tower_textures_.load(Textures::Tower1, "../textures/tower1.png");
-    tower_textures_.load(Textures::Tower2, "../textures/tower2.png");
-    tower_textures_.load(Textures::Tower3, "../textures/pausebutton.png");//pause button texture needs to be changed to its own texture class later
+    tower_textures_.load(Textures::BulletTower, "../textures/tower1.png");
+    tower_textures_.load(Textures::BombTower, "../textures/tower2.png");
+    tower_textures_.load(Textures::MissileTower, "../textures/pausebutton.png");//pause button texture needs to be changed to its own texture class later
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
    
     enemy_textures_.load(Textures::Enemy1, "../textures/goblin_test.png");
@@ -56,7 +56,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     gameOverText.setPosition(400, 200);
     createPath();
 
-    testEnemy();
+    //testEnemy();
 
     player_ = Player();
     
@@ -115,6 +115,7 @@ void Game::update() {
         drag();
     }
 
+    
     // If the game is paused stop updating
     if (paused_) {
         return;
@@ -123,6 +124,23 @@ void Game::update() {
             //game over
             isGameOver_ = true;
             return;
+    }
+
+    // TODO: Make this into own function to clean code?
+    // If the round has ended open round end menu
+    if (!isGameOver_ && enemies_.empty()) {
+        // if upgrade menu occupied delete it
+        if (upgrade_) {
+            delete upgrade_;
+        }
+        upgrade_ = new Menu();
+        if (player_.getLevel() == 0) {
+            upgrade_->createMenu(MenuType::Begin, this);
+        } else {
+            upgrade_->createMenu(MenuType::Level, this);
+        }
+        paused_ = true;
+        return;
     }
     
     // Updates displayed wallet amount and health
@@ -313,7 +331,7 @@ void Game::checkTowers() {
     }
 }
 
-// Test function for enemy class
+// Test function for enemy clas..
 void Game::testEnemy() {
 
 
@@ -339,6 +357,7 @@ void Game::testEnemy() {
 
     //projectiles_.push_back(missl);
 }
+
 //This function is used to test a splitting enemy functionality, i used the
 //tower texture to make it easier to debug, the idea is that a type of enemy, at this
 //point i just used Flying as the tag, upon death will split into two smaller enemies

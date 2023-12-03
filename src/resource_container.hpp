@@ -8,7 +8,7 @@
 namespace Textures{
     
     // NOTE: these could also be stored in one big enum...
-    enum TowerID {Tower1, Tower2, Tower3, Tower4, Tower5};
+    enum TowerID {BulletTower, BombTower, MissileTower, Tower4, Tower5};
     enum EnemyID {Enemy1, Enemy2, Enemy3, Enemy4, Enemy5};
     enum ProjectileID{Bullet, Bomb, Missile};
 
