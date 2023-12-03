@@ -1,6 +1,7 @@
 #include "menu.hpp"
 #include "bombTower.hpp"
 #include "bulletTower.hpp"
+#include "missileTower.hpp"
 #include <string>
 #include <stdio.h>
 
@@ -50,6 +51,14 @@ void Menu::checkButtons(Game* game) {
                 game->dragged_ = true;
                 break;
             }
+            case Actions::Tower3:
+            {
+                MissileTower* new_missile = new MissileTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
+                new_missile->setTexture(game->tower_textures_.get(Textures::MissileTower));
+                game->towers_.push_front(new_missile);
+                game->dragged_ = true;
+                break;
+            }
 
             // If the button upgrade is pressed, there is already a upgrade menu in existence
             // And the tower which wi want to upgrade is known
@@ -75,7 +84,7 @@ void Menu::checkButtons(Game* game) {
                 // Afraid that this leaks memory...
                 game->upgrade_ = nullptr;
                 game->upgradedTower_ = nullptr;
-                sf::Rect buttonbounds = button.getGlobalBounds();
+                sf::FloatRect buttonbounds = button.getGlobalBounds();
                 break;
             }
             case Actions::Pause:
@@ -107,8 +116,9 @@ void Menu::createMenu(MenuType menu, Game* game) {
             // Create Buttons
             buttons_.push_back(Button(Actions::Tower1, game->tower_textures_.get(Textures::BulletTower), sf::Vector2f(920, 40), "300", game->font_));
             buttons_.push_back(Button(Actions::Tower2, game->tower_textures_.get(Textures::BombTower), sf::Vector2f(920, 100), "200", game->font_));
+            buttons_.push_back(Button(Actions::Tower3, game->tower_textures_.get(Textures::MissileTower), sf::Vector2f(920, 160), "200", game->font_));
             // This needs a texture or something
-            buttons_.push_back(Button(Actions::Pause, game->tower_textures_.get(Textures::MissileTower), sf::Vector2f(900, 700), "pause", game->font_));//uses pause button texture as tower3
+            buttons_.push_back(Button(Actions::Pause, game->various_textures_.get(Textures::Pause), sf::Vector2f(900, 700), "pause", game->font_));//uses pause button texture as tower3
             
             std::string money = std::to_string(game->player_.getWallet());
             std::string health = std::to_string(game->player_.getHP());

@@ -10,7 +10,6 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     // Set dragging flag
     dragged_ = false;
     paused_ = false;
-    std::cout << "testtest" << std::endl;
 
 
     //Load the Map texture
@@ -25,7 +24,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     
     tower_textures_.load(Textures::BulletTower, "../textures/tower1.png");
     tower_textures_.load(Textures::BombTower, "../textures/tower2.png");
-    tower_textures_.load(Textures::MissileTower, "../textures/pausebutton.png");//pause button texture needs to be changed to its own texture class later
+    tower_textures_.load(Textures::MissileTower, "../textures/tower3.png");//pause button texture needs to be changed to its own texture class later
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
    
     enemy_textures_.load(Textures::Enemy1, "../textures/goblin_test.png");
@@ -36,6 +35,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     projectile_textures_.load(Textures::Bullet, "../textures/bullet_test.png");
     projectile_textures_.load(Textures::Bomb, "../textures/bomb_test.png");
     projectile_textures_.load(Textures::Missile, "../textures/mikey.png");
+    various_textures_.load(Textures::Pause, "../textures/pausebutton.png");
     // Load font
   
     font_.loadFromFile("../textures/OpenSans_Condensed-Bold.ttf");
