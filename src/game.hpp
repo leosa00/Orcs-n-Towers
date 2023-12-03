@@ -98,8 +98,8 @@ private:
     sf::Text gameOverText;
 
     Menu* shop_; // Shop on left side
-    Menu* upgrade_; // Upgrade menu when some tower is clicked, otherwise nullptr
-    Tower* upgradedTower_; // Pointer to tower that is being upgraded
+    Menu* alternativeMenu_; // stores menu for upgrading, beginning game, and advancing to next level
+    Tower* activeTower_; // Pointer to tower that is being upgraded
 
     ResourceContainer<Textures::TowerID, sf::Texture> tower_textures_;
     ResourceContainer<Textures::EnemyID, sf::Texture> enemy_textures_;

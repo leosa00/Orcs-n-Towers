@@ -14,7 +14,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
 
 
     //Load the Map texture
-    if (!map.texture.loadFromFile("../textures/grass.jpeg"))
+    if (!map.texture.loadFromFile("/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/grass.jpeg"))
     {
         return;
     }
@@ -23,30 +23,30 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     // Create tower texture container, load texture    
     tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
     
-    tower_textures_.load(Textures::BulletTower, "../textures/tower1.png");
-    tower_textures_.load(Textures::BombTower, "../textures/tower2.png");
-    tower_textures_.load(Textures::MissileTower, "../textures/tower3.png");//pause button texture needs to be changed to its own texture class later
+    tower_textures_.load(Textures::BulletTower, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower1.png");
+    tower_textures_.load(Textures::BombTower, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower2.png");
+    tower_textures_.load(Textures::MissileTower, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower3.png");//pause button texture needs to be changed to its own texture class later
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
    
-    enemy_textures_.load(Textures::Enemy1, "../textures/goblin_test.png");
-    enemy_textures_.load(Textures::Enemy2, "../textures/mikey.png");
+    enemy_textures_.load(Textures::Enemy1, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/goblin_test.png");
+    enemy_textures_.load(Textures::Enemy2, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/mikey.png");
     
     projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
 
-    projectile_textures_.load(Textures::Bullet, "../textures/bullet_test.png");
-    projectile_textures_.load(Textures::Bomb, "../textures/bomb_test.png");
-    projectile_textures_.load(Textures::Missile, "../textures/mikey.png");
-    various_textures_.load(Textures::Pause, "../textures/pausebutton.png");
+    projectile_textures_.load(Textures::Bullet, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bullet_test.png");
+    projectile_textures_.load(Textures::Bomb, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bomb_test.png");
+    projectile_textures_.load(Textures::Missile, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/mikey.png");
+    various_textures_.load(Textures::Pause, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/pausebutton.png");
     // Load font
   
-    font_.loadFromFile("../textures/OpenSans_Condensed-Bold.ttf");
+    font_.loadFromFile("/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/OpenSans_Condensed-Bold.ttf");
     
 
     // Initialize menus
     shop_ = new Menu();
     shop_->createMenu(MenuType::Shop, this);
-    upgrade_ = nullptr;
-    upgradedTower_ = nullptr;
+    alternativeMenu_ = nullptr;
+    activeTower_ = nullptr;
 
     //game over text
     gameOverText.setFont(font_);
@@ -93,8 +93,8 @@ void Game::processEvents(){
             // this if statement is unnesessary
             if (!dragged_) {
                 shop_->checkButtons(this);
-                if (upgrade_) {
-                    upgrade_->checkButtons(this);
+                if (alternativeMenu_) {
+                    alternativeMenu_->checkButtons(this);
                 }
                 if (!dragged_) {
                     checkTowers(); // If no button was pressed check if a tower has been clicked
@@ -113,7 +113,7 @@ void Game::update() {
     time_=clock_.restart();
     // If a tower is being dragged, update it's position
     if (dragged_) {
-        drag();
+        shop_->drag(this);
     }
 
     
@@ -131,14 +131,14 @@ void Game::update() {
     // If the round has ended open round end menu
     if (!isGameOver_ && enemies_.empty()) {
         // if upgrade menu occupied delete it
-        if (upgrade_) {
-            delete upgrade_;
+        if (alternativeMenu_) {
+            delete alternativeMenu_;
         }
-        upgrade_ = new Menu();
+        alternativeMenu_ = new Menu();
         if (player_.getLevel() == 0) {
-            upgrade_->createMenu(MenuType::Begin, this);
+            alternativeMenu_->createMenu(MenuType::Begin, this);
         } else {
-            upgrade_->createMenu(MenuType::Level, this);
+            alternativeMenu_->createMenu(MenuType::Level, this);
         }
         paused_ = true;
         return;
@@ -278,8 +278,8 @@ void Game::render() {
 
     
     shop_->draw(window_);
-    if (upgrade_ != nullptr) {
-        upgrade_->draw(window_);
+    if (alternativeMenu_) {
+        alternativeMenu_->draw(window_);
     }
     for (auto* tower : towers_) {
         window_.draw(*tower);
@@ -325,9 +325,9 @@ void Game::checkTowers() {
         if (tower->getGlobalBounds().contains(mousepos)) {
             // This stores the pointer to the tower that the upgrade button
             // Will potentially upgrade
-            upgradedTower_ = tower;
-            upgrade_ = new Menu();
-            upgrade_->createMenu(MenuType::Upgrade, this);
+            activeTower_ = tower;
+            alternativeMenu_ = new Menu();
+            alternativeMenu_->createMenu(MenuType::Upgrade, this);
         }
     }
 }
