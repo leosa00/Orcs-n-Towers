@@ -24,6 +24,7 @@ class Game {
     friend class Tower;
     friend class BulletTower;
     friend class BombTower;
+    friend class MissileTower;
     friend class BombProjectile;
     friend class BulletProjectile;
     friend class MissileProjectile;
@@ -103,6 +104,7 @@ private:
     ResourceContainer<Textures::TowerID, sf::Texture> tower_textures_;
     ResourceContainer<Textures::EnemyID, sf::Texture> enemy_textures_;
     ResourceContainer<Textures::ProjectileID, sf::Texture> projectile_textures_;
+    ResourceContainer<Textures::Various, sf::Texture> various_textures_;
 
     Player player_; 
 };
