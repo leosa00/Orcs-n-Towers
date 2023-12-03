@@ -10,6 +10,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     // Set dragging flag
     dragged_ = false;
     paused_ = false;
+    std::cout << "game started" << std::endl;
 
 
     //Load the Map texture
