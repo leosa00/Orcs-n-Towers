@@ -25,17 +25,23 @@ void Menu::checkButtons(Game* game) {
     for (auto button : buttons_) {
         if (button.isClicked((sf::Vector2f) sf::Mouse::getPosition(game->window_))) {
 
+            // TODO: this is highly repetitive in tower creation, could probably be somehow streamlined...
             switch (button.getAction())
             {
             case Actions::Tower1:
             {
+                if (game->activeTower_) {
+                    delete game->alternativeMenu_;
+                    game->alternativeMenu_ = nullptr;
+                    game->activeTower_ = nullptr;
+                }
                 BombTower* new_bomb = new BombTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
-                new_bomb->setTexture(game->tower_textures_.get(Textures::BulletTower));
+                new_bomb->setTexture(game->tower_textures_.get(Textures::BombTower));
                 /* New tower takes first place in array of towers. 
                    This is enough to identify the new tower which is being dragged, as only one tower 
                    can be added at a time
                 */
-                game->towers_.push_front(new_bomb);
+                game->activeTower_ = new_bomb;
 
                 // Set flag which indicates an object is being dragged
                 game->dragged_ = true;
@@ -46,9 +52,14 @@ void Menu::checkButtons(Game* game) {
             }
             case Actions::Tower2:
             {
+                 if (game->activeTower_) {
+                    delete game->alternativeMenu_;
+                    game->alternativeMenu_ = nullptr;
+                    game->activeTower_ = nullptr;
+                }
                 BulletTower* new_bullet = new BulletTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
-                new_bullet->setTexture(game->tower_textures_.get(Textures::BombTower));
-                game->towers_.push_front(new_bullet);
+                new_bullet->setTexture(game->tower_textures_.get(Textures::BulletTower));
+                game->activeTower_ = new_bullet;
 
                 // Set flag which indicates an object is being dragged
                 game->dragged_ = true;
@@ -57,9 +68,14 @@ void Menu::checkButtons(Game* game) {
             }
             case Actions::Tower3:
             {
+                 if (game->activeTower_) {
+                    delete game->alternativeMenu_;
+                    game->alternativeMenu_ = nullptr;
+                    game->activeTower_ = nullptr;
+                }
                 MissileTower* new_missile = new MissileTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
                 new_missile->setTexture(game->tower_textures_.get(Textures::MissileTower));
-                game->towers_.push_front(new_missile);
+                game->activeTower_ = new_missile;
                 game->dragged_ = true;
                 bg_.setFillColor(sf::Color(100, 26, 26, 100));
                 break;
@@ -123,8 +139,8 @@ void Menu::createMenu(MenuType menu, Game* game) {
             bg_.setPosition(900, 0);
             bg_.setFillColor(sf::Color(0, 26, 26, 100));
             // Create Buttons
-            buttons_.push_back(Button(Actions::Tower1, game->tower_textures_.get(Textures::BulletTower), sf::Vector2f(920, 40), "300", game->font_));
-            buttons_.push_back(Button(Actions::Tower2, game->tower_textures_.get(Textures::BombTower), sf::Vector2f(920, 100), "200", game->font_));
+            buttons_.push_back(Button(Actions::Tower1, game->tower_textures_.get(Textures::BombTower), sf::Vector2f(920, 40), "300", game->font_));
+            buttons_.push_back(Button(Actions::Tower2, game->tower_textures_.get(Textures::BulletTower), sf::Vector2f(920, 100), "200", game->font_));
             buttons_.push_back(Button(Actions::Tower3, game->tower_textures_.get(Textures::MissileTower), sf::Vector2f(920, 160), "200", game->font_));
             // This needs a texture or something
             buttons_.push_back(Button(Actions::Pause, game->various_textures_.get(Textures::Pause), sf::Vector2f(900, 700), "pause", game->font_));//uses pause button texture as tower3
@@ -197,15 +213,15 @@ void Menu::update(Player& player){
 
 void Menu::drag(Game* game) {
     if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        game->towers_.front()->setPosition(sf::Mouse::getPosition(game->window_).x, sf::Mouse::getPosition(game->window_).y);
+        game->activeTower_->setPosition(sf::Mouse::getPosition(game->window_).x, sf::Mouse::getPosition(game->window_).y);
     } else {
-        Tower* bought_tower = game->towers_.front();
-        if (game->player_.getWallet() < bought_tower->getBaseCost() || !canBePlaced(game)) {
-            game->towers_.pop_front();
-            delete bought_tower;
+        if (game->player_.getWallet() < game->activeTower_->getBaseCost() || !canBePlaced(game)) {
+            delete game->activeTower_;
         } else {
-            game->player_.removeMoney(bought_tower->getBaseCost());
+            game->player_.removeMoney(game->activeTower_->getBaseCost());
+            game->towers_.push_front(game->activeTower_);
         }
+        game->activeTower_ = nullptr;
         game->dragged_ = false;
         bg_.setFillColor(sf::Color(0, 26, 26, 100));
     }
@@ -214,27 +230,23 @@ void Menu::drag(Game* game) {
 bool Menu::canBePlaced(Game* game){
     // TODO: Check intersection with path
 
-    sf::Rect pos = game->towers_.front()->getGlobalBounds();
+    sf::Rect pos = game->activeTower_->getGlobalBounds();
     // Check intersection with window
     if (!pos.intersects(sf::Rect(sf::Vector2f(0, 0), (sf::Vector2f) game->window_.getSize()))) {
-        std::cout << "INTERSECTION: not in window" << std::endl;
         return false;
     }
 
     // Check intersection with delete area
     if (bg_.getGlobalBounds().intersects(pos)){
-        std::cout << "INTERSECTION: delete area" << std::endl;
         return false;
     }
 
     // Check intersection with other towers
-    // TODO: ALWAYS INTERSECTS SELF
-    //for (auto tower : game->towers_) {
-    //    if (pos.intersects(tower->getGlobalBounds())) {
-    //        std::cout << "INTERSECTION: tower" << std::endl;
-    //        return false;
-    //    }
-    //}
+    for (auto tower : game->towers_) {
+        if (pos.intersects(tower->getGlobalBounds())) {
+            return false;
+        }
+    }
 
     return true;
 }

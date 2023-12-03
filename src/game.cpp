@@ -14,7 +14,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
 
 
     //Load the Map texture
-    if (!map.texture.loadFromFile("/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/grass.jpeg"))
+    if (!map.texture.loadFromFile("../textures/grass.jpeg"))
     {
         return;
     }
@@ -23,23 +23,23 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     // Create tower texture container, load texture    
     tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
     
-    tower_textures_.load(Textures::BulletTower, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower1.png");
-    tower_textures_.load(Textures::BombTower, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower2.png");
-    tower_textures_.load(Textures::MissileTower, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower3.png");//pause button texture needs to be changed to its own texture class later
+    tower_textures_.load(Textures::BulletTower, "../textures/tower1.png");
+    tower_textures_.load(Textures::BombTower, "../textures/tower2.png");
+    tower_textures_.load(Textures::MissileTower, "../textures/tower3.png");//pause button texture needs to be changed to its own texture class later
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
    
-    enemy_textures_.load(Textures::Enemy1, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/goblin_test.png");
-    enemy_textures_.load(Textures::Enemy2, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/mikey.png");
+    enemy_textures_.load(Textures::Enemy1, "../textures/goblin_test.png");
+    enemy_textures_.load(Textures::Enemy2, "../textures/mikey.png");
     
     projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
 
-    projectile_textures_.load(Textures::Bullet, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bullet_test.png");
-    projectile_textures_.load(Textures::Bomb, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bomb_test.png");
-    projectile_textures_.load(Textures::Missile, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/mikey.png");
-    various_textures_.load(Textures::Pause, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/pausebutton.png");
+    projectile_textures_.load(Textures::Bullet, "../textures/bullet_test.png");
+    projectile_textures_.load(Textures::Bomb, "../textures/bomb_test.png");
+    projectile_textures_.load(Textures::Missile, "../textures/mikey.png");
+    various_textures_.load(Textures::Pause, "../textures/pausebutton.png");
     // Load font
   
-    font_.loadFromFile("/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/OpenSans_Condensed-Bold.ttf");
+    font_.loadFromFile("../textures/OpenSans_Condensed-Bold.ttf");
     
 
     // Initialize menus
@@ -281,6 +281,9 @@ void Game::render() {
     if (alternativeMenu_) {
         alternativeMenu_->draw(window_);
     }
+    if (activeTower_) {
+        window_.draw(*activeTower_);
+    }
     for (auto* tower : towers_) {
         window_.draw(*tower);
     }
@@ -299,21 +302,6 @@ void Game::render() {
     window_.display();
 }
 
-// If a tower is being dragged into place this handles it's movement
-void Game::drag() {
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-        towers_.front()->setPosition(sf::Mouse::getPosition(window_).x, sf::Mouse::getPosition(window_).y);
-    } else {
-        Tower* bought_tower = towers_.front();
-        if (player_.getWallet() < bought_tower->getBaseCost()) {
-            towers_.pop_front();
-            delete bought_tower;
-        } else {
-            player_.removeMoney(bought_tower->getBaseCost());
-        }
-        dragged_ = false;
-    }
-}
 
 sf::Time Game::getTime() const {
     return time_;
