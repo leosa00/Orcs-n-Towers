@@ -24,9 +24,12 @@ public:
     void checkButtons(Game* game);
     void createMenu(MenuType menu, Game* game);
     void update(Player& player);
+    bool canBePlaced(Game* game);
+    void drag(Game* game);
 private:
     std::list<Button> buttons_;
     std::list<sf::Text> texts_;
+    sf::RectangleShape bg_;
 };
 
 #endif

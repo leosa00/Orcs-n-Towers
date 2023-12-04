@@ -24,6 +24,7 @@ class Game {
     friend class Tower;
     friend class BulletTower;
     friend class BombTower;
+    friend class MissileTower;
     friend class BombProjectile;
     friend class BulletProjectile;
     friend class MissileProjectile;
@@ -61,7 +62,6 @@ private:
     void addProjectile(const Projectile& projectile);
     void createPath(); //this will create the path that the enemies will traverse (this should also be rendered visually in the game)
     void checkTowers();
-    void drag();
     void testEnemy();
     void testEnemySplit(sf::Vector2f position, std::queue<sf::Vector2f> waypoints);
     //adding a function to return the elapsed time
@@ -97,12 +97,13 @@ private:
     sf::Text gameOverText;
 
     Menu* shop_; // Shop on left side
-    Menu* upgrade_; // Upgrade menu when some tower is clicked, otherwise nullptr
-    Tower* upgradedTower_; // Pointer to tower that is being upgraded
+    Menu* alternativeMenu_; // stores menu for upgrading, beginning game, and advancing to next level
+    Tower* activeTower_; // Pointer to tower that is being upgraded
 
     ResourceContainer<Textures::TowerID, sf::Texture> tower_textures_;
     ResourceContainer<Textures::EnemyID, sf::Texture> enemy_textures_;
     ResourceContainer<Textures::ProjectileID, sf::Texture> projectile_textures_;
+    ResourceContainer<Textures::Various, sf::Texture> various_textures_;
 
     Player player_; 
 };

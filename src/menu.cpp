@@ -1,11 +1,13 @@
 #include "menu.hpp"
 #include "bombTower.hpp"
 #include "bulletTower.hpp"
+#include "missileTower.hpp"
 #include <string>
 #include <stdio.h>
 
 // Draws all the buttons in the menu
 void Menu::draw(sf::RenderWindow& window) {
+    window.draw(bg_);
     for (auto button : buttons_) {
         window.draw(button);
         window.setVerticalSyncEnabled(true);//this should help with the major screen tearing
@@ -22,32 +24,60 @@ void Menu::draw(sf::RenderWindow& window) {
 void Menu::checkButtons(Game* game) {
     for (auto button : buttons_) {
         if (button.isClicked((sf::Vector2f) sf::Mouse::getPosition(game->window_))) {
-            //TODO: check if player can afford before creating tower and handle removing money here
 
+            // TODO: this is highly repetitive in tower creation, could probably be somehow streamlined...
             switch (button.getAction())
             {
             case Actions::Tower1:
             {
+                if (game->activeTower_) {
+                    delete game->alternativeMenu_;
+                    game->alternativeMenu_ = nullptr;
+                    game->activeTower_ = nullptr;
+                }
                 BombTower* new_bomb = new BombTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
-                new_bomb->setTexture(game->tower_textures_.get(Textures::BulletTower));
+                new_bomb->setTexture(game->tower_textures_.get(Textures::BombTower));
                 /* New tower takes first place in array of towers. 
                    This is enough to identify the new tower which is being dragged, as only one tower 
                    can be added at a time
                 */
-                game->towers_.push_front(new_bomb);
+                game->activeTower_ = new_bomb;
 
                 // Set flag which indicates an object is being dragged
                 game->dragged_ = true;
+
+                // Color remove area red
+                bg_.setFillColor(sf::Color(100, 26, 26, 100));
                 break;
             }
             case Actions::Tower2:
             {
+                 if (game->activeTower_) {
+                    delete game->alternativeMenu_;
+                    game->alternativeMenu_ = nullptr;
+                    game->activeTower_ = nullptr;
+                }
                 BulletTower* new_bullet = new BulletTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
-                new_bullet->setTexture(game->tower_textures_.get(Textures::BombTower));
-                game->towers_.push_front(new_bullet);
+                new_bullet->setTexture(game->tower_textures_.get(Textures::BulletTower));
+                game->activeTower_ = new_bullet;
 
                 // Set flag which indicates an object is being dragged
                 game->dragged_ = true;
+                bg_.setFillColor(sf::Color(100, 26, 26, 100));
+                break;
+            }
+            case Actions::Tower3:
+            {
+                 if (game->activeTower_) {
+                    delete game->alternativeMenu_;
+                    game->alternativeMenu_ = nullptr;
+                    game->activeTower_ = nullptr;
+                }
+                MissileTower* new_missile = new MissileTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
+                new_missile->setTexture(game->tower_textures_.get(Textures::MissileTower));
+                game->activeTower_ = new_missile;
+                game->dragged_ = true;
+                bg_.setFillColor(sf::Color(100, 26, 26, 100));
                 break;
             }
 
@@ -56,16 +86,16 @@ void Menu::checkButtons(Game* game) {
             case Actions::Upgrade:
             {
                 // Check that there is enough money for upgrading
-                int upgradecost = game->upgradedTower_->getUpgradeCost();
+                int upgradecost = game->activeTower_->getUpgradeCost();
                 if (game->player_.getWallet() >= upgradecost) {
                     // Check that max level is not reached
-                    if (!game->upgradedTower_->isMaxLevelReached()){
+                    if (!game->activeTower_->isMaxLevelReached()){
                         // Remove money and upgrade
                         game->player_.removeMoney(upgradecost);
-                        game->upgradedTower_->upgradeTower();
+                        game->activeTower_->upgradeTower();
                         // Update texts of current damage and level
-                        texts_.front().setString("Level: " + std::to_string(game->upgradedTower_->getCurrentLvl()));
-                        texts_.back().setString("Damage: " + std::to_string(game->upgradedTower_->getDamage()));
+                        texts_.front().setString("Level: " + std::to_string(game->activeTower_->getCurrentLvl()));
+                        texts_.back().setString("Damage: " + std::to_string(game->activeTower_->getDamage()));
                     }
                 }
                 break;
@@ -75,7 +105,7 @@ void Menu::checkButtons(Game* game) {
                 // Afraid that this leaks memory...
                 game->upgrade_ = nullptr;
                 game->upgradedTower_ = nullptr;
-                //sf::Rect buttonbounds = button.getGlobalBounds();
+                sf::Rect buttonbounds = button.getGlobalBounds();
                 break;
             }
             case Actions::Pause:
@@ -87,7 +117,7 @@ void Menu::checkButtons(Game* game) {
             {
                 game->enemies_ = game->player_.increaseLevel(game->enemy_textures_, game->path_);
                 game->paused_ = false;
-                game->upgrade_ = nullptr;
+                game->alternativeMenu_ = nullptr;
                 break;
             }
             default:
@@ -104,11 +134,16 @@ void Menu::createMenu(MenuType menu, Game* game) {
     {
     case MenuType::Shop:
         {
+            // Create background
+            bg_ = sf::RectangleShape(sf::Vector2f(100, 800));
+            bg_.setPosition(900, 0);
+            bg_.setFillColor(sf::Color(0, 26, 26, 100));
             // Create Buttons
-            buttons_.push_back(Button(Actions::Tower1, game->tower_textures_.get(Textures::BulletTower), sf::Vector2f(920, 40), "300", game->font_));
-            buttons_.push_back(Button(Actions::Tower2, game->tower_textures_.get(Textures::BombTower), sf::Vector2f(920, 100), "200", game->font_));
+            buttons_.push_back(Button(Actions::Tower1, game->tower_textures_.get(Textures::BombTower), sf::Vector2f(920, 40), "300", game->font_));
+            buttons_.push_back(Button(Actions::Tower2, game->tower_textures_.get(Textures::BulletTower), sf::Vector2f(920, 100), "200", game->font_));
+            buttons_.push_back(Button(Actions::Tower3, game->tower_textures_.get(Textures::MissileTower), sf::Vector2f(920, 160), "200", game->font_));
             // This needs a texture or something
-            buttons_.push_back(Button(Actions::Pause, game->tower_textures_.get(Textures::MissileTower), sf::Vector2f(900, 700), "pause", game->font_));//uses pause button texture as tower3
+            buttons_.push_back(Button(Actions::Pause, game->various_textures_.get(Textures::Pause), sf::Vector2f(900, 700), "pause", game->font_));//uses pause button texture as tower3
             
             std::string money = std::to_string(game->player_.getWallet());
             std::string health = std::to_string(game->player_.getHP());
@@ -125,14 +160,14 @@ void Menu::createMenu(MenuType menu, Game* game) {
         {
             // Create upgrade and close buttons
             buttons_.push_back(Button(Actions::Close, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(400, 700), "Close", game->font_));
-            std::string cost = std::to_string(game->upgradedTower_->getUpgradeCost());
+            std::string cost = std::to_string(game->activeTower_->getUpgradeCost());
             buttons_.push_back(Button(Actions::Upgrade, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(150, 700), cost, game->font_));
 
             // create texts of type current damage and level
             // + operator with string handles conversion
-            sf::Text damage(("Damage: " + std::to_string(game->upgradedTower_->getDamage())), game->font_, 20);
-            sf::Text level(("Level: " + std::to_string(game->upgradedTower_->getCurrentLvl())), game->font_, 20);
-            sf::Text type(game->upgradedTower_->getType(), game->font_, 20);
+            sf::Text damage(("Damage: " + std::to_string(game->activeTower_->getDamage())), game->font_, 20);
+            sf::Text level(("Level: " + std::to_string(game->activeTower_->getCurrentLvl())), game->font_, 20);
+            sf::Text type(game->activeTower_->getType(), game->font_, 20);
             
             type.setPosition(30, 700);
             level.setPosition(30, 720);
@@ -174,4 +209,44 @@ void Menu::update(Player& player){
     std::string health = std::to_string(player.getHP()) + " HP";
     texts_.front().setString(money);
     texts_.back().setString(health);
+}
+
+void Menu::drag(Game* game) {
+    if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+        game->activeTower_->setPosition(sf::Mouse::getPosition(game->window_).x, sf::Mouse::getPosition(game->window_).y);
+    } else {
+        if (game->player_.getWallet() < game->activeTower_->getBaseCost() || !canBePlaced(game)) {
+            delete game->activeTower_;
+        } else {
+            game->player_.removeMoney(game->activeTower_->getBaseCost());
+            game->towers_.push_front(game->activeTower_);
+        }
+        game->activeTower_ = nullptr;
+        game->dragged_ = false;
+        bg_.setFillColor(sf::Color(0, 26, 26, 100));
+    }
+}
+
+bool Menu::canBePlaced(Game* game){
+    // TODO: Check intersection with path
+
+    sf::Rect pos = game->activeTower_->getGlobalBounds();
+    // Check intersection with window
+    if (!pos.intersects(sf::Rect(sf::Vector2f(0, 0), (sf::Vector2f) game->window_.getSize()))) {
+        return false;
+    }
+
+    // Check intersection with delete area
+    if (bg_.getGlobalBounds().intersects(pos)){
+        return false;
+    }
+
+    // Check intersection with other towers
+    for (auto tower : game->towers_) {
+        if (pos.intersects(tower->getGlobalBounds())) {
+            return false;
+        }
+    }
+
+    return true;
 }
