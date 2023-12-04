@@ -75,7 +75,7 @@ void Menu::checkButtons(Game* game) {
                 // Afraid that this leaks memory...
                 game->upgrade_ = nullptr;
                 game->upgradedTower_ = nullptr;
-                sf::Rect buttonbounds = button.getGlobalBounds();
+                //sf::Rect buttonbounds = button.getGlobalBounds();
                 break;
             }
             case Actions::Pause:
