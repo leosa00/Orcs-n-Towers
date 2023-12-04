@@ -103,9 +103,9 @@ void Menu::checkButtons(Game* game) {
             case Actions::Close:
             {
                 // Afraid that this leaks memory...
-                game->upgrade_ = nullptr;
-                game->upgradedTower_ = nullptr;
-                sf::Rect buttonbounds = button.getGlobalBounds();
+                game->alternativeMenu_ = nullptr;
+                game->activeTower_ = nullptr;
+                sf::FloatRect buttonbounds = button.getGlobalBounds();
                 break;
             }
             case Actions::Pause:
@@ -230,9 +230,9 @@ void Menu::drag(Game* game) {
 bool Menu::canBePlaced(Game* game){
     // TODO: Check intersection with path
 
-    sf::Rect pos = game->activeTower_->getGlobalBounds();
+    sf::FloatRect pos = game->activeTower_->getGlobalBounds();
     // Check intersection with window
-    if (!pos.intersects(sf::Rect(sf::Vector2f(0, 0), (sf::Vector2f) game->window_.getSize()))) {
+    if (!pos.intersects(sf::FloatRect(sf::Vector2f(0, 0), (sf::Vector2f) game->window_.getSize()))) {
         return false;
     }
 
