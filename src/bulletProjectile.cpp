@@ -1,6 +1,5 @@
 #include "bulletProjectile.hpp"
 #include "game.hpp"
-#include <cmath>
 
 bool BulletProjectile::hasHitEnemy(std::shared_ptr<Enemy>& enemy) {
 
@@ -10,9 +9,6 @@ bool BulletProjectile::hasHitEnemy(std::shared_ptr<Enemy>& enemy) {
         return true;
     }
     return false;
-}
-float BulletProjectile::rotationAngle() const {
-    return std::atan2(getShootDir().x, getShootDir().y) * (180.f / static_cast<float>(M_PI));
 }
 
 //without targetEnemy (makes more sense if bullet can hit any enemy), logic might be clumsy
