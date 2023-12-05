@@ -89,10 +89,24 @@ bool Tower::enemyWithinRange(std::shared_ptr<Enemy> enemy) {
 } */
 
 void Tower::update(std::list<std::shared_ptr<Enemy>> &enemies) { 
-  auto lockedEnemy = getLockedEnemy();
+    auto lockedEnemy = getLockedEnemy();
+    if (lockedEnemy == nullptr || lockedEnemy->dead() || !enemyWithinRange(lockedEnemy)) {
+        setLockedEnemy(nullptr);
+        float highestSpeed = 0.f; //added logic for prioritazing enemies moving at higher speeds
+        for (std::shared_ptr<Enemy>& enemy : enemies) {
+            if (enemyWithinRange(enemy) && !enemy->dead()) {
+                if (highestSpeed < enemy->speed()) {
+                  highestSpeed = enemy->speed();
+                  setLockedEnemy(enemy);
+                  std::cout << "Some enemy was locked" << std::endl;
+                }
+            }
+        }
+    }
+  /*auto lockedEnemy = getLockedEnemy();
   if (lockedEnemy == nullptr) {
     for (auto& enemy : enemies) {
-      if (enemyWithinRange(enemy)) {
+      if (enemyWithinRange(enemy) && !enemy->dead()) {
         setLockedEnemy(enemy);
         std::cout << "Some enemy was locked" << std::endl;
         break;
@@ -103,14 +117,14 @@ void Tower::update(std::list<std::shared_ptr<Enemy>> &enemies) {
     if (lockedEnemy->dead() || !enemyWithinRange(lockedEnemy)) {
       setLockedEnemy(nullptr);
       for (auto& enemy : enemies) {
-        if (enemyWithinRange(enemy)) {
+        if (enemyWithinRange(enemy) && !enemy->dead()) {
           setLockedEnemy(enemy);
           std::cout << "Some enemy was locked" << std::endl;
           break;
         }
       }
     }
-  }
+  } */
 }
 
 
