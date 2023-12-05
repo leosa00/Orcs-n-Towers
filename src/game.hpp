@@ -15,6 +15,7 @@
 #include "map.hpp"
 #include "missileProjectile.hpp"
 #include "menu.hpp"
+#include <vector>
 
 class Menu;
 // Class for running the game logic
