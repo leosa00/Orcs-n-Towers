@@ -16,6 +16,7 @@
 #include "missileProjectile.hpp"
 #include "menu.hpp"
 #include <vector>
+#include "levelManager.hpp"
 
 class Menu;
 // Class for running the game logic
@@ -30,6 +31,7 @@ class Game {
     friend class BulletProjectile;
     friend class MissileProjectile;
     friend class Menu; 
+    friend class LevelManager;
 
 public:
     Map map;
