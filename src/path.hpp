@@ -2,7 +2,7 @@
 #define PATH_HPP
 #include <queue>
 #include <SFML/System/Vector2.hpp>
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp> 
 #include <vector>
 
 class path {
@@ -11,13 +11,13 @@ public:
     path();//creates a path and populates the waypoints queue with
     //all the waypoints required for the enemy class to traverse the path
 
-
+    
     ~path() {
-
+        
     }
 
     void addWaypoint(const sf::Vector2f& point);
-
+    
     std::queue<sf::Vector2f> getWaypoints() const;
     void makeUnBuildablePath();
     static const float width;
@@ -26,7 +26,7 @@ public:
     std::vector <sf::FloatRect> unBuildable;
 
 private:
-
+    
 };
 
 #endif

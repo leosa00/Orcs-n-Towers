@@ -14,15 +14,15 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
 
 
     //Load the Map texture
-    if (!map.texture.loadFromFile("../textures/grass.jpeg"))
+    if (!map.texture.loadFromFile("grass.jpeg"))
     {
         return;
     }
     map.background.setTexture(map.texture);
 
+    
 
-
-    // Create tower texture container, load texture
+    // Create tower texture container, load texture    
     tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
 
     tower_textures_.load(Textures::BulletTower, "../textures/tower1.png");
@@ -58,8 +58,8 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     gameOverText.setStyle(sf::Text::Bold);
     gameOverText.setPosition(400, 200);
     createPath();
-
-
+    
+    
 
     //testEnemy();
 
@@ -87,27 +87,27 @@ void Game::processEvents() {
     {
         switch (event.type)
         {
-            case sf::Event::Closed:
-                window_.close();
-                break;
+        case sf::Event::Closed:
+            window_.close();
+            break;
 
-            case sf::Event::MouseButtonPressed:
-                // If statement checks that nothing is being dragged currently
-                // if MouseButtonPressed event only happens when button is initially pressed
-                // this if statement is unnesessary
-                if (!dragged_) {
-                    shop_->checkButtons(this);
-                    if (alternativeMenu_) {
-                        alternativeMenu_->checkButtons(this);
-                    }
-                    if (!dragged_) {
-                        checkTowers(); // If no button was pressed check if a tower has been clicked
-                    }
-                    break;
+        case sf::Event::MouseButtonPressed:
+            // If statement checks that nothing is being dragged currently
+            // if MouseButtonPressed event only happens when button is initially pressed
+            // this if statement is unnesessary
+            if (!dragged_) {
+                shop_->checkButtons(this);
+                if (alternativeMenu_) {
+                    alternativeMenu_->checkButtons(this);
                 }
-
-            default:
+                if (!dragged_) {
+                    checkTowers(); // If no button was pressed check if a tower has been clicked
+                }
                 break;
+            }
+
+        default:
+            break;
         }
     }
 }
@@ -181,7 +181,7 @@ void Game::update() {
             //        std::cout << enemies_.size() << std::endl;
             (*it)->update(getTime());
             //if enemy has reached the castle
-            //player_.reachedCastle(*it); //this might not work since enemies are dead once they reach the final
+           //player_.reachedCastle(*it); //this might not work since enemies are dead once they reach the final
             //checkpoint (the castle) may not activate this
             ++it;
         }
@@ -196,26 +196,26 @@ void Game::update() {
 
 
     // Pavel: updating towers below. Would someone double-check that logic is correct?
-    // Perhaps I could try to migrate tower logic inside tower class, but is there any
-    // simple way to do so as updating tower logic uses private members enemies_ and
+    // Perhaps I could try to migrate tower logic inside tower class, but is there any 
+    // simple way to do so as updating tower logic uses private members enemies_ and 
     // projectiles_?
     for (auto* tower : towers_) {
-        tower->update(enemies_);
-        if (tower->getLockedEnemy() != nullptr &&
-            tower->getFireTimer().getElapsedTime().asSeconds() >= 1.0f / tower->getFireRate()) {
-            // Added an intermediate step into shooting which sets the projectile texture
-            Projectile* newproj = &(tower->shoot());
-            newproj->setTexture(projectile_textures_.get(newproj->textureType()));
-            //newproj->setPosition(tower->getPosition());
-            projectiles_.push_back(newproj);
+            tower->update(enemies_);
+            if (tower->getLockedEnemy() != nullptr &&
+                tower->getFireTimer().getElapsedTime().asSeconds() >= 1.0f / tower->getFireRate()) {
+                // Added an intermediate step into shooting which sets the projectile texture
+                Projectile* newproj = &(tower->shoot());
+                newproj->setTexture(projectile_textures_.get(newproj->textureType()));
+                //newproj->setPosition(tower->getPosition());
+                projectiles_.push_back(newproj);
 
-            //projectiles_.push_back(&(tower->shoot()));
+                //projectiles_.push_back(&(tower->shoot()));
 
-            tower->resetFireTimer();
+                tower->resetFireTimer();
 
+            }
         }
-    }
-
+     
 
     /*for (auto& tower : towers_) {
         auto lockedEnemy = tower.getLockedEnemy();
@@ -388,7 +388,4 @@ void Game::testEnemySplit(sf::Vector2f position, std::queue<sf::Vector2f> waypoi
     enemies_.push_back(std::make_shared<Enemy>(split));
 
 }
-
-
-
 
