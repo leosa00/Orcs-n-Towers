@@ -3,6 +3,7 @@
 #include <queue>
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp> 
+#include <vector>
 
 class path {
     friend class enemy;
@@ -18,8 +19,14 @@ public:
     void addWaypoint(const sf::Vector2f& point);
     
     std::queue<sf::Vector2f> getWaypoints() const;
-private:
+    void makeUnBuildablePath();
+    static const float width;
     std::queue<sf::Vector2f> waypoints_;
+    std::vector <sf::Vector2f> wayPoints;
+    std::vector <sf::FloatRect> unBuildable;
+
+private:
+    
 };
 
 #endif

@@ -248,5 +248,11 @@ bool Menu::canBePlaced(Game* game){
         }
     }
 
+    for (auto unBuild : game->map.unBuildable) {
+        if (pos.intersects(unBuild)) {
+            return false;
+        }
+    }
+
     return true;
 }
