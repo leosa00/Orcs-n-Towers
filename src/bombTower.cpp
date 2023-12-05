@@ -12,9 +12,21 @@ BombTower::BombTower(sf::Vector2f position)
 
 void BombTower::update(std::list<std::shared_ptr<Enemy>> &enemies) {
     auto lockedEnemy = getLockedEnemy();
+    if (lockedEnemy == nullptr || lockedEnemy->dead() || !enemyWithinRange(lockedEnemy)) {
+        setLockedEnemy(nullptr);
+        float highestSpeed = 0.f;
+        for (std::shared_ptr<Enemy>& enemy : enemies) {
+            if (enemyWithinRange(enemy) && enemy->type() == EnemyType::Ground && !enemy->dead()) {
+                highestSpeed = enemy->speed();
+                setLockedEnemy(enemy);
+                std::cout << "Some enemy was locked" << std::endl;
+            }
+        }
+    }   
+    /*auto lockedEnemy = getLockedEnemy();
     if (lockedEnemy == nullptr) {
         for (auto& enemy : enemies) {
-            if (enemyWithinRange(enemy) && enemy->type() == EnemyType::Ground) {
+            if (enemyWithinRange(enemy) && enemy->type() == EnemyType::Ground && !enemy->dead()) {
                 setLockedEnemy(enemy);
                 std::cout << "Some enemy was locked" << std::endl;
                 break;
@@ -26,14 +38,14 @@ void BombTower::update(std::list<std::shared_ptr<Enemy>> &enemies) {
         if (lockedEnemy->hp() <= 0 || !enemyWithinRange(lockedEnemy)) {
             setLockedEnemy(nullptr);
             for (auto& enemy : enemies) {
-                if (enemyWithinRange(enemy) && enemy->type() == EnemyType::Ground) {
+                if (enemyWithinRange(enemy) && enemy->type() == EnemyType::Ground && !enemy->dead()) {
                     setLockedEnemy(enemy);
                     std::cout << "Some enemy was locked" << std::endl;
                     break;
                 }
             }
         }
-    }
+    }*/
 }
 BombProjectile& BombTower::shoot() {
     sf::Vector2f direction = getLockedEnemy()->getPosition() - getPosition();
