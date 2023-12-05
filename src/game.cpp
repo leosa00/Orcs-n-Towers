@@ -14,7 +14,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
 
 
     //Load the Map texture
-    if (!map.texture.loadFromFile("grass.jpeg"))
+    if (!map.texture.loadFromFile("../textures/grass.jpeg"))
     {
         return;
     }
