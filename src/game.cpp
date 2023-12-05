@@ -14,7 +14,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
 
 
     //Load the Map texture
-    if (!map.texture.loadFromFile("grass.jpeg"))
+    if (!map.texture.loadFromFile("../textures/grass.jpeg"))
     {
         return;
     }
@@ -58,6 +58,10 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     gameOverText.setStyle(sf::Text::Bold);
     gameOverText.setPosition(400, 200);
     createPath();
+    path_.makeUnBuildablePath();
+    for (auto path : path_.unBuildable) {
+        map.unBuildable.push_back(path);
+    }
     
     
 
@@ -286,12 +290,10 @@ void Game::createPath() {
 void Game::render() {
     window_.clear();
     window_.draw(map);
-    path_.makeUnBuildablePath();
     for (auto path : path_.unBuildable) {
         sf::RectangleShape rectShape(sf::Vector2f(path.width, path.height));
         rectShape.setPosition(path.left, path.top);
         rectShape.setFillColor(sf::Color::Cyan);
-        map.unBuildable.push_back(path);
         window_.draw(rectShape);
     }
 
