@@ -306,15 +306,7 @@ void Game::render() {
         window_.draw(*activeTower_);
     }
     for (auto* tower : towers_) {
-        auto temp = false;
-        for (auto unBuild : map.unBuildable) {
-            if (tower->getGlobalBounds().intersects(unBuild)) {
-                temp = true;
-            }
-        }
-        if (!temp) {
-            window_.draw(*tower);
-        }
+        window_.draw(*tower);
     }
     for (auto* projectile : projectiles_) {
         window_.draw(*projectile);
