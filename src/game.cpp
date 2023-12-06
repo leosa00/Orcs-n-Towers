@@ -283,8 +283,10 @@ void Game::createPath() {
     path_.addWaypoint(sf::Vector2f(400, 400));
     path_.addWaypoint(sf::Vector2f(500, 400));
     path_.addWaypoint(sf::Vector2f(500, 200));
-    path_.addWaypoint(sf::Vector2f(400, 200));
-    path_.addWaypoint(sf::Vector2f(400, 100));
+    path_.addWaypoint(sf::Vector2f(500, 300));
+    path_.addWaypoint(sf::Vector2f(700, 300));
+    path_.addWaypoint(sf::Vector2f(700, 500));
+    path_.addWaypoint(sf::Vector2f(700, 700));
 }
 // Iterate over objects, render them onto window
 void Game::render() {
