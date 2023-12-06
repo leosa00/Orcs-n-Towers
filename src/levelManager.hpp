@@ -1,6 +1,8 @@
 #ifndef LEVELMANAGER
 #define LEVELMANAGER
 
+#pragma once
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -11,8 +13,9 @@
 #include <random>
 
 #include "enemy.hpp"
-#include "game.hpp"
 #include "path.hpp"
+
+class Game;
 
 class LevelManager {
 

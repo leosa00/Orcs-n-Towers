@@ -1,4 +1,5 @@
 #include "levelManager.hpp"
+#include "game.hpp"
 
 int LevelManager::getCurrentLevel(){
     return currLevel_;
