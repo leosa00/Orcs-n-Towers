@@ -115,7 +115,7 @@ void Menu::checkButtons(Game* game) {
             }
             case Actions::Level:
             {
-                game->enemies_ = game->player_.increaseLevel(game->enemy_textures_, game->path_);
+                //game->enemies_ = game->player_.increaseLevel(game->enemy_textures_, game->path_);
                 game->paused_ = false;
                 game->alternativeMenu_ = nullptr;
                 break;

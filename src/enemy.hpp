@@ -17,6 +17,9 @@ public:
 
     Enemy(int hp, int speed, EnemyType type, int money, std::queue<sf::Vector2f> waypoints)
          : hp_(hp), actualSpeed_(speed), speed_(speed), effectiveSpeed_(speed), type_(type), money_(money), waypoints_(waypoints) {
+        //Ellen: enemies can set their own position, since it will be same for everyone
+        setPosition(waypoints_.front());
+        
         if (!waypoints_.empty()) {
             currentWaypoint_ = waypoints_.front();
         }

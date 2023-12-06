@@ -79,6 +79,7 @@ void LevelManager::update(){
     }
     else { 
         std::cout << "Leveling up" << std::endl;
+        player_.addMoney(10*currLevel_);
         currLevel_ ++; //move to next level
         player_.levelUp();
         waitTime_ = timeBtwnLevels_;
