@@ -39,9 +39,11 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     projectile_textures_.load(Textures::Bomb, "../textures/bomb_test.png");
     projectile_textures_.load(Textures::Missile, "../textures/mikey.png");
     various_textures_.load(Textures::Pause, "../textures/pausebutton.png");
+    various_textures_.load(Textures::Castle, "../textures/castle.png");
     // Load font
 
     font_.loadFromFile("../textures/OpenSans_Condensed-Bold.ttf");
+
 
 
     // Initialize menus
@@ -63,6 +65,11 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
         map.unBuildable.push_back(path);
     }
     
+     //Draws castle sprite
+    sf::Texture& castleTexture = various_textures_.get(Textures::Castle);
+    castle_sprite_.setTexture(castleTexture);
+    sf::Vector2f castlePosition = sf::Vector2f(600, 600);
+    castle_sprite_.setPosition(castlePosition);
     
 
     //testEnemy();
@@ -299,7 +306,7 @@ void Game::render() {
         window_.draw(rectShape);
     }
 
-
+    window_.draw(castle_sprite_);
 
     shop_->draw(window_);
     if (alternativeMenu_) {

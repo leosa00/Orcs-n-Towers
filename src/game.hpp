@@ -96,6 +96,7 @@ private:
     bool isGameOver_=false; //is the game over because the player has died to an enemy
     sf::Font font_; // Stores text font
     sf::Text gameOverText;
+    sf::Sprite castle_sprite_;
 
     Menu* shop_; // Shop on left side
     Menu* alternativeMenu_; // stores menu for upgrading, beginning game, and advancing to next level
