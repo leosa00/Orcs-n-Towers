@@ -74,6 +74,8 @@ class LevelManager {
     */
     bool readingSuccessfull(); //need to abort game if reading fails, use this to check
 
+    //void printLevelSpecs();
+
     private:
 
     /**

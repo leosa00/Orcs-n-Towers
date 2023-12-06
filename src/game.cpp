@@ -12,9 +12,13 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers"), levelManager_
     paused_ = false;
     std::cout << "game started" << std::endl;
 
+    //issues with reading from file
+    if(!levelManager_.readingSuccessfull()){
+        return;
+    }
 
     //Load the Map texture
-    if (!map.texture.loadFromFile("grass.jpeg"))
+    if (!map.texture.loadFromFile("../textures/grass.jpeg"))
     {
         return;
     }
@@ -116,15 +120,6 @@ void Game::update() {
         shop_->drag(this);
     }
 
-    //game has been completed, should probably do something else than just pause
-    //lm update will increase current level by one even after it has run out of waves for the last level
-    if(levelManager_.getCurrentLevel() >= levelManager_.getLevelTotal()){
-        paused_ = true;
-        return;
-    }
-
-    levelManager_.update();
-
     // If the game is paused stop updating
     if (paused_) {
         return;
@@ -134,6 +129,15 @@ void Game::update() {
         isGameOver_ = true;
         return;
     }
+
+    //game has been completed, should probably do something else than just pause
+    //lm update will increase current level by one even after it has run out of waves for the last level
+    if(levelManager_.getCurrentLevel() >= levelManager_.getLevelTotal()){
+        paused_ = true;
+        return;
+    }
+
+    levelManager_.update();
 
     // TODO: Make this into own function to clean code?
     // If the round has ended open round end menu

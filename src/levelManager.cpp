@@ -13,6 +13,18 @@ bool LevelManager::readingSuccessfull(){
     return readingSuccess_;
 }
 
+/*void LevelManager::printLevelSpecs(){
+    std::cout << "Num of enemies: " << std::get<int>(levelSpecs_[currLevel_]["enemyAmount"]) << std::endl;
+    std::cout << "num of waves: " << std::get<int>(levelSpecs_[currLevel_]["waves"]) << std::endl;
+    std::cout << "wait time: " << std::get<float>(levelSpecs_[currLevel_]["waitTime"]) << std::endl;
+    std::cout << "allowed enemies: " << std::endl;
+    auto pair = levelSpecs_[currLevel_].find("enemyTypes");
+    const std::vector<int>& vec = std::get<std::vector<int>>(pair->second);
+    for(auto& i : vec){
+        std::cout << i << std::endl;
+    }
+}*/
+
 void LevelManager::readLevels(){
     std::ifstream file(src_);
 
@@ -47,7 +59,7 @@ void LevelManager::readLevels(){
             enemyTypes.push_back(enemyType);
         }
         
-        if (iss.fail() || iss.bad() && !iss.eof()){ //failure
+        if (iss.fail() && !iss.eof()){ //failure
             readingSuccess_ = false;
             return;
         }
@@ -70,9 +82,13 @@ void LevelManager::update(){
 
     waitTime_ -= dt;
 
-    if(waitTime_ > 0) return; //time left, return early
+    if(waitTime_ > 0) {
+        return;} //time left, return early
 
     //if there are waves left for the level
+
+    std::cout << "waves: " << std::get<int>(levelSpecs_[currLevel_]["waves"]) << std::endl;
+
     if(std::get<int>(levelSpecs_[currLevel_]["waves"]) > 0) {
         
         std::cout << "Initialising enemies..." << std::endl;
@@ -114,7 +130,7 @@ void LevelManager::initiateEnemies(){
         }
         case 1:
         {
-            Enemy enemy(30, 60, EnemyType::Flying, 10, path_.getWaypoints());
+            Enemy enemy(30, 80, EnemyType::Flying, 10, path_.getWaypoints());
             enemy.setTexture(game_.enemy_textures_.get(Textures::Enemy2));
             game_.enemies_.push_back(std::make_shared<Enemy>(enemy));
             break;
