@@ -95,11 +95,26 @@ void LevelManager::update(){
         initiateEnemies(); 
     }
     else { 
-        std::cout << "Leveling up" << std::endl;
-        player_.addMoney(10*currLevel_);
-        currLevel_ ++; //move to next level
-        player_.levelUp();
-        waitTime_ = timeBtwnLevels_;
+        // Check if all enemies are dead before advancing level
+        if (game_.enemies_.empty()) {
+
+        
+            std::cout << "Leveling up" << std::endl;
+            player_.addMoney(10*currLevel_);
+            currLevel_ ++; //move to next level
+            player_.levelUp();
+            
+            if (game_.alternativeMenu_) {
+                delete game_.alternativeMenu_;
+            }
+            game_.alternativeMenu_ = new Menu();
+            game_.alternativeMenu_->createMenu(MenuType::Level, &game_);
+            game_.paused_ = true;
+
+            // Pressing the advance to next level button will now unpause game
+            // and new enemies will be spawned -Otto
+            //waitTime_ = timeBtwnLevels_;
+        }
     }
 
 }

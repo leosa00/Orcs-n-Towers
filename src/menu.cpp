@@ -191,7 +191,6 @@ void Menu::createMenu(MenuType menu, Game* game) {
         }
     case MenuType::Level:
         {
-            // TODO: It would be nice to have a money bonus for completing each level
             buttons_.push_back(Button(Actions::Level, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(400, 440), "Next level", game->font_));
             // FIXME: The text does not include the first letter :(
             sf::Text intro(("Congratulations for completing level " + game->player_.getLevel()), game->font_, 20);
