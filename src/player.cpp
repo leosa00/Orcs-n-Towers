@@ -33,16 +33,20 @@ void Player::addToScore(int amount) {
     score_ += amount;
 }
 
+void Player::levelUp(){
+    level_++;
+}
+
 // 
-void Player::reachedCastle (std::shared_ptr<Enemy>& enemy) {
+/*void Player::reachedCastle (std::shared_ptr<Enemy>& enemy) {
 
     if(this->getGlobalBounds().intersects(enemy->getGlobalBounds())){
         enemy->kill(); //this should kill the enemy (at least i hope so :)
         removeHP(10);//should different enemies affect affect differently
     }
-}
+}*/
 
-std::list<std::shared_ptr<Enemy>> Player::increaseLevel(ResourceContainer<Textures::EnemyID, sf::Texture>& enemytextures, path& path){
+/*std::list<std::shared_ptr<Enemy>> Player::increaseLevel(ResourceContainer<Textures::EnemyID, sf::Texture>& enemytextures, path& path){
     // Increase level, spawn corresponding enemies
     std::list<std::shared_ptr<Enemy>> newround;
     // Create enemies depending on the number of levels
@@ -169,7 +173,7 @@ void Player::upgradeTower(Tower& tower){
     tower.upgradeTower();
 }*/
 
-void Player::updateCastlePosition(sf::Vector2f position){
+/*void Player::updateCastlePosition(sf::Vector2f position){
     position_ = position;
     this->setPosition(position);
-}
+}*/

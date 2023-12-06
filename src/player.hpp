@@ -36,12 +36,13 @@ class Player : public sf::Sprite
         int getHP() const;
         std::string getName() const;
         int getLevel() const;
+        void levelUp();
         void addMoney(int amount);
         void removeMoney(int cost);
         void removeHP(int amount);
         void addToScore(int amount);
-        void reachedCastle (std::shared_ptr<Enemy>& enemy); //checks if an enemy has reached the castle or should game do it?
-        std::list<std::shared_ptr<Enemy>> increaseLevel(ResourceContainer<Textures::EnemyID, sf::Texture>& enemytextures, path& path);
+        //void reachedCastle (std::shared_ptr<Enemy>& enemy); //checks if an enemy has reached the castle or should game do it?
+        //std::list<std::shared_ptr<Enemy>> increaseLevel(ResourceContainer<Textures::EnemyID, sf::Texture>& enemytextures, path& path);
         //void buyTower(int cost, Textures::TowerID towerID);
         //void sellTower(Tower& tower);
         //void upgradeTower(Tower& tower);
@@ -51,7 +52,7 @@ class Player : public sf::Sprite
          * should be called whenever map changes
          * and probably during first load of a map, since player is initiated before map is loaded?
         */
-        void updateCastlePosition(sf::Vector2f position);
+        //void updateCastlePosition(sf::Vector2f position);
 };
 
 #endif

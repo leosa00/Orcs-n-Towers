@@ -6,12 +6,16 @@
 #include <iostream>
 
 // initialize game object, mainly create window...
-Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
+Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers"), levelManager_("../textures/levels.csv", path_, *this, player_) {
     // Set dragging flag
     dragged_ = false;
     paused_ = false;
     std::cout << "game started" << std::endl;
 
+    //issues with reading from file
+    if(!levelManager_.readingSuccessfull()){
+        return;
+    }
 
     //Load the Map texture
     if (!map.texture.loadFromFile("../textures/grass.jpeg"))
@@ -75,8 +79,6 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     //testEnemy();
 
     player_ = Player();
-
-    //player_.updateCastlePosition(**coordinates for end of path**);
 };
 
 
@@ -131,7 +133,6 @@ void Game::update() {
         shop_->drag(this);
     }
 
-
     // If the game is paused stop updating
     if (paused_) {
         return;
@@ -141,6 +142,15 @@ void Game::update() {
         isGameOver_ = true;
         return;
     }
+
+    //game has been completed, should probably do something else than just pause
+    //lm update will increase current level by one even after it has run out of waves for the last level
+    if(levelManager_.getCurrentLevel() >= levelManager_.getLevelTotal()){
+        paused_ = true;
+        return;
+    }
+
+    levelManager_.update();
 
     // TODO: Make this into own function to clean code?
     // If the round has ended open round end menu
