@@ -384,11 +384,10 @@ void Game::testEnemy() {
 //point i just used Flying as the tag, upon death will split into two smaller enemies
 //currently this works but the path doesnt seem to work properly yet
 void Game::testEnemySplit(sf::Vector2f position, std::queue<sf::Vector2f> waypoints) {
-    Enemy split(1, 60, EnemyType::Ground, 10, waypoints);
-    split.setPosition(position.x, position.y);
-    split.setTexture(enemy_textures_.get(Textures::Enemy2));
+    Enemy split(30, 60, EnemyType::Ground, 10, waypoints);
+    split.setPosition(position);
+    split.setTexture(enemy_textures_.get(Textures::Enemy1));
 
     enemies_.push_back(std::make_shared<Enemy>(split));
-
 }
 
