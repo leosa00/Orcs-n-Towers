@@ -32,8 +32,9 @@ class LevelManager {
      * @param src is the source of level information file that is to be read
      * @param path is a reference to the path instance that creates the path of the game
      * @param game is a reference to the running game instance
+     * @param player is a reference to the player instance of the game
     */
-    LevelManager(const std::string& src, path& path, Game& game) : src_(src), path_(path), game_(game) {
+    LevelManager(const std::string& src, path& path, Game& game, Player& player) : src_(src), path_(path), game_(game), player_(player) {
         readLevels();
 
         currLevel_ = 0;
@@ -116,6 +117,7 @@ class LevelManager {
 
     path& path_;
     Game& game_;
+    Player& player_;
 };
 
 #endif

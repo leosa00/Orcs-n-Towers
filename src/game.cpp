@@ -6,7 +6,7 @@
 #include <iostream>
 
 // initialize game object, mainly create window...
-Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
+Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers"), levelManager_("../textures/levels.csv", path_, *this, player_) {
     // Set dragging flag
     dragged_ = false;
     paused_ = false;
@@ -57,15 +57,11 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     gameOverText.setFillColor(sf::Color::Black);
     gameOverText.setStyle(sf::Text::Bold);
     gameOverText.setPosition(400, 200);
-    createPath();
-    
-    
+    createPath(); 
 
     //testEnemy();
 
     player_ = Player();
-
-    //player_.updateCastlePosition(**coordinates for end of path**);
 };
 
 
@@ -120,6 +116,14 @@ void Game::update() {
         shop_->drag(this);
     }
 
+    //game has been completed, should probably do something else than just pause
+    //lm update will increase current level by one even after it has run out of waves for the last level
+    if(levelManager_.getCurrentLevel() >= levelManager_.getLevelTotal()){
+        paused_ = true;
+        return;
+    }
+
+    levelManager_.update();
 
     // If the game is paused stop updating
     if (paused_) {

@@ -109,6 +109,8 @@ private:
     ResourceContainer<Textures::Various, sf::Texture> various_textures_;
 
     Player player_; 
+
+    LevelManager levelManager_;
 };
 
 #endif

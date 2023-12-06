@@ -46,7 +46,7 @@ void LevelManager::readLevels(){
             enemyTypes.push_back(enemyType);
         }
         
-        if (iss.fail() && !iss.eof()){ //failure
+        if (iss.fail() || iss.bad() && !iss.eof()){ //failure
             readingSuccess_ = false;
             return;
         }
@@ -62,17 +62,12 @@ void LevelManager::readLevels(){
     }
 }
 
-/**
- * waitime between levels will be waittime of the previous level - one frame (i think)
- * alternatively there could be a universal waittime for between levels which gets set when leveling up
-*/
+
 void LevelManager::update(){
     //this needs to come from game
-    float dt = 1.0;
+    float dt = game_.getTime().asSeconds();
 
     waitTime_ -= dt;
-
-    std::cout << "waitTime: " << waitTime_ << std::endl;
 
     if(waitTime_ > 0) return; //time left, return early
 
@@ -85,6 +80,7 @@ void LevelManager::update(){
     else { 
         std::cout << "Leveling up" << std::endl;
         currLevel_ ++; //move to next level
+        player_.levelUp();
         waitTime_ = timeBtwnLevels_;
     }
 
@@ -95,6 +91,7 @@ void LevelManager::initiateEnemies(){
     auto entry = levelSpecs_[currLevel_].find("enemyTypes");
     const std::vector<int>& enemyTypes = std::get<std::vector<int>>(entry->second);
 
+    //provided more variance than rand()
     std::random_device rd;
     std::uniform_int_distribution<int> range (0, enemyTypes.size()-1);
 
@@ -109,12 +106,14 @@ void LevelManager::initiateEnemies(){
         case 0:
         {
             Enemy enemy(30, 60, EnemyType::Ground, 10, path_.getWaypoints());
+            enemy.setTexture(game_.enemy_textures_.get(Textures::Enemy1));
             game_.enemies_.push_back(std::make_shared<Enemy>(enemy));
             break;
         }
         case 1:
         {
             Enemy enemy(30, 60, EnemyType::Flying, 10, path_.getWaypoints());
+            enemy.setTexture(game_.enemy_textures_.get(Textures::Enemy2));
             game_.enemies_.push_back(std::make_shared<Enemy>(enemy));
             break;
         }
