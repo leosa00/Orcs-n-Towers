@@ -27,18 +27,17 @@ class Projectile : public sf::Sprite
         sf::Vector2f shootDirection_;
         bool isDestroyed_;
 
-        //derived classes keep track of their target enemy/ies
-
     public:
-        //derived classes should have default speed, type, damage
-        
-        //Pavel: I assumed you want normalized shootdirection when passing this
-        //argument to Projectile constructor inside Tower::shoot().
-        //I also commented out my alternative implementation for Projectile constructor below:
-        //I think it should be preferred as it makes it more clear which initializers are default
-        //and which are passed as an argument from Tower::shoot() method. 
 
-        //abstract class, don't call this constructor
+        /**
+         * @brief Construcs a projectile and sets it's position
+         * @param shootDirection is the normalised directional vector used to move the projectile, determined by the creating tower
+         * @param position is position of the tower that created the projectile, is used as a starting position
+         * @param damage is the amount of damage that the projectile will cause the enemy it hits, determined by the creating tover
+         * @param speed is the speed at which the projectile moves, pre-defiened for each derived type
+         * @param type is the type of the projectile, pre-defiened for each derived type
+         * @param maxDistance is the maximum distance the projectile is allowed to move from it's tower, pre-definened for each derived type
+        */
         Projectile(sf::Vector2f shootDirection, sf::Vector2f position, int damage, float speed, std::string type, int maxDistance) 
         : shootDirection_(shootDirection), position_(position), damage_(damage), speed_(speed), type_(type), maxDistance_(maxDistance),
         isDestroyed_(false){
@@ -51,35 +50,52 @@ class Projectile : public sf::Sprite
         
         virtual ~Projectile() {}
         
+        /**
+         * @brief returns the speed of the projectile
+        */
         float getSpeed() const;
+
+        /**
+         * @brief returns the type of the projectile
+        */
         const std::string& getType() const;
+
+        /**
+         * @brief returns the damage of the projectile
+        */
         int getDamage() const;
+
+        /**
+         * @brief returns the directional vector of the projectile
+        */
         sf::Vector2f getShootDir() const;
-        sf::Vector2f getVelocity() const;
+        //sf::Vector2f getVelocity() const;
+
+        /**
+         * Sets the @param isDestroyed_ flag to true when the projectile has hit an enemy, and fullfilled its purpose,
+         * or when it has gone out of range (exeeded its max distance), and needs to be destroyed
+        */
         void destroy();
+
+        /**
+         *@brief Returns wheter the projectile is destroyed, and need to be deleted, or not
+        */
         bool isDestroyed();
 
-        /**
-         * calculates distance from owner tower
-         * deletes the projectile if it hasn't hit an enemy and is just travelling further from tower
-         * so that projectiles don't just float about when they've gone out of range
-         * probably needs to be called every frame after the projectile has been shot
-        */
+       /**
+        * @brief Calculates the distance from the tower that created it
+        * returns true if the projectile is at, or has exceeded, its maximum distance
+       */
         bool distToTower();
 
-        /**
-         * called in update
-         * checks if projectile has collided with the enemy that the tower is shooting at
-         * deals damage to enemy
-         * deletes the projectile
-        */
+       /**
+        * @brief checks if the projectile has hit an enemy
+        * overridden in each derived class
+       */
         virtual bool hasHitEnemy(std::shared_ptr<Enemy>& enemy) = 0;
 
         /**
-         * moves the projectile if it hasn't collided / gone out of range
-         * needs delta time somehow, now passed as a parameter
-         * towers should call update on their projectiles?
-         * purely virtual
+         * @brief updates the projectiles state as is defiened in each derived class
         */
        virtual void update(Game&) = 0;
 

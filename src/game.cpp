@@ -188,7 +188,7 @@ void Game::update() {
                 // Add money to player for successful kill
                 player_.addMoney((*it)->getMoney());
             }
-            if ((*it)->type() == EnemyType::Flying) { //now if the enemy dies because it reached the castle it wont split, otherwise it will
+            if ((*it)->type() == EnemyType::Split) { //now if the enemy dies because it reached the castle it wont split, otherwise it will
                 //I also fixed the split enemies movement
                 std::queue<sf::Vector2f> waypoints = (*it)->getWaypoints();
                 if (!waypoints.empty()) {
@@ -375,7 +375,7 @@ void Game::testEnemy() {
 
     enemies_.push_back(std::make_shared<Enemy>(test));
 
-    Enemy test2(30, 60, EnemyType::Flying, 10, path_.getWaypoints());
+    Enemy test2(30, 60, EnemyType::Split, 10, path_.getWaypoints());
     test2.setPosition(100, 50);
     test2.setTexture(enemy_textures_.get(Textures::Enemy1));
     enemies_.push_back(std::make_shared<Enemy>(test2));

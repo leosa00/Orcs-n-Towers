@@ -42,7 +42,6 @@ class LevelManager {
 
         currLevel_ = 0;
         waitTime_ = 0;
-        timeBtwnLevels_ = 5.0;
         levelTotal_ = levelSpecs_.size();
     }
     ~LevelManager(){}
@@ -61,7 +60,7 @@ class LevelManager {
      * Updates the level manager, called while game is running
      * Counts down the wait time between waves of enemies
      * Initiates more enemies once waitTime becomes zero, if there is waves left for the level
-     * Moves to a new level once previous is complete
+     * Moves to a new level once previous is complete and there are no enemies left
      * @see initiateEnemies()
      * @param game is a reference to the game instance that is responsible for calling update
     */
@@ -100,25 +99,22 @@ class LevelManager {
     
     /**
      * @brief container to hold all the levels
-     * One entry in the outer container is one level, meaning index 0 is level one
-     * The inner map holds all information regarding the specific map
+     * One entry in the outer container (vector) is one level, meaning index 0 is level one
+     * The inner map holds all information regarding the specific level
      * Map keys:
      *  - "enemyAmount" : the number of enemies allowed per wave (int)
      *  - "waves" : the number of waves of enemeis allowed per level (int)
      *  - "waitTime" : the time (in seconds) between waves (float)
-     *  - "enemyTypes" : a vector containing the types of enemies allowed for the level 
-     * @see Enemy class' type enum
+     *  - "enemyTypes" : a vector containing the types of enemies allowed for the level, @see Enemy class' type enum
      * @see @param variantData
     */
     std::vector<std::map<std::string, variantData>> levelSpecs_;
 
     int currLevel_;
     const std::string& src_;
-    bool readingSuccess_; //game should check if reading was successfull before starting
+    bool readingSuccess_;
     int levelTotal_;
-    bool waiting_;
     float waitTime_;
-    float timeBtwnLevels_;
 
     path& path_;
     Game& game_;
