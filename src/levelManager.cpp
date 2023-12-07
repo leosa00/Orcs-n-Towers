@@ -113,7 +113,6 @@ void LevelManager::update(){
 
             // Pressing the advance to next level button will now unpause game
             // and new enemies will be spawned -Otto
-            //waitTime_ = timeBtwnLevels_;
         }
     }
 
