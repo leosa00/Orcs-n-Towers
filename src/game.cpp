@@ -26,6 +26,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     tower_textures_.load(Textures::BulletTower, "../textures/tower1.png");
     tower_textures_.load(Textures::BombTower, "../textures/tower2.png");
     tower_textures_.load(Textures::MissileTower, "../textures/tower3.png");//pause button texture needs to be changed to its own texture class later
+    tower_textures_.load(Textures::FreezingTower, "../textures/tower4.png");
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
    
     enemy_textures_.load(Textures::Enemy1, "../textures/goblin_test.png");
@@ -173,6 +174,7 @@ void Game::update() {
     } else {
 //        std::cout << enemies_.size() << std::endl;
         (*it)->update(getTime());
+        std::cout << (*it)->speed() << std::endl;
         //if enemy has reached the castle
        //player_.reachedCastle(*it); //this might not work since enemies are dead once they reach the final
         //checkpoint (the castle) may not activate this
@@ -197,11 +199,13 @@ void Game::update() {
         if (tower->getLockedEnemy() != nullptr && 
             tower->getFireTimer().getElapsedTime().asSeconds() >= 1.0f / tower->getFireRate()) {
                 // Added an intermediate step into shooting which sets the projectile texture
-                Projectile* newproj = &(tower->shoot());
-                newproj->setTexture(projectile_textures_.get(newproj->textureType()));
-                //newproj->setPosition(tower->getPosition());
-                projectiles_.push_back(newproj);
-                
+                Projectile* newproj = tower->shoot();
+                std::cout << "shoot executed" << std::endl;
+                if (newproj != nullptr) {
+                    newproj->setTexture(projectile_textures_.get(newproj->textureType()));
+                    //newproj->setPosition(tower->getPosition());
+                    projectiles_.push_back(newproj);
+                }
                 //projectiles_.push_back(&(tower->shoot()));
                 
                 tower->resetFireTimer();

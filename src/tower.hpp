@@ -46,7 +46,7 @@ public:
     void resetFireTimer() {fireTimer_.restart();}
     // shoot() creates a projectile that flies towards lockedEnemy_
     // Changed it to pure virtual 
-    virtual Projectile& shoot() = 0; 
+    virtual Projectile* shoot() = 0; 
     void upgradeTower(); // Will be defined in .cpp 
     /* update() method is declared as virtual. Some derived
        classes will use base update() and other will use override*/
