@@ -348,6 +348,11 @@ void Game::render() {
         window_.draw(gameOverText);
     }
 
+    // If a tower is active draw it's range
+    if (activeTower_) {
+        shop_->drawRange(this);
+    }
+    
     // Draw menu items last so they don't get blocked by other stuff
     shop_->draw(window_);
     if (alternativeMenu_) {
