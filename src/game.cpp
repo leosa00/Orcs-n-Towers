@@ -42,7 +42,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers"), levelManager_
 
     projectile_textures_.load(Textures::Bullet, "../textures/bullet_test.png");
     projectile_textures_.load(Textures::Bomb, "../textures/bomb_test.png");
-    projectile_textures_.load(Textures::Missile, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/mikey.png");
+    projectile_textures_.load(Textures::Missile, "../textures/mikey.png");
     various_textures_.load(Textures::Pause, "../textures/pausebutton.png");
     various_textures_.load(Textures::Castle, "../textures/castle.png");
     // Load font
