@@ -9,8 +9,8 @@
 class BulletProjectile : public Projectile
 {
 public:
-    BulletProjectile(sf::Vector2f shootDirection, sf::Vector2f position, int damage) 
-    : Projectile(shootDirection, position, damage, 300, "bullet", 70) {}
+    BulletProjectile(sf::Vector2f shootDirection, sf::Vector2f position, int damage, float range) 
+    : Projectile(shootDirection, position, damage, 500, "bullet", range) {}
 
     /**
      * @brief Checks if the bullet has hit an enemy.

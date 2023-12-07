@@ -23,7 +23,7 @@ class Projectile : public sf::Sprite
         std::string type_;
         int damage_;
         sf::Vector2f position_; // of tower that created
-        int maxDistance_;
+        float maxDistance_;
         sf::Vector2f shootDirection_;
         bool isDestroyed_;
 
@@ -38,7 +38,7 @@ class Projectile : public sf::Sprite
          * @param type is the type of the projectile, pre-defiened for each derived type
          * @param maxDistance is the maximum distance the projectile is allowed to move from it's tower, pre-definened for each derived type
         */
-        Projectile(sf::Vector2f shootDirection, sf::Vector2f position, int damage, float speed, std::string type, int maxDistance) 
+        Projectile(sf::Vector2f shootDirection, sf::Vector2f position, int damage, float speed, std::string type, float maxDistance) 
         : shootDirection_(shootDirection), position_(position), damage_(damage), speed_(speed), type_(type), maxDistance_(maxDistance),
         isDestroyed_(false){
             this->setPosition(position_);

@@ -6,7 +6,7 @@
 #include <iostream>
 
 BombTower::BombTower(sf::Vector2f position)
-    : Tower(position, "Bomb Tower", 300, 500.0f, 0.4f, 15, 1, 450, CanDamage::Ground, nullptr, sf::Clock(), false) {}
+    : Tower(position, "Bomb Tower", 300, 200.0f, 0.4f, 15, 1, 450, CanDamage::Ground, nullptr, sf::Clock(), false) {}
                             //tbd    ^   ^      ^     ^       ^
 //since BombTower can only lock on Ground units, update() method has to be overriden
 
@@ -51,7 +51,7 @@ BombProjectile* BombTower::shoot() {
     sf::Vector2f direction = getLockedEnemy()->getPosition() - getPosition();
     float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
     sf::Vector2f normalizedDirection = direction / length;
-    BombProjectile* bombProjectile = new BombProjectile(normalizedDirection, getPosition(), getDamage());//, getLockedEnemy())
+    BombProjectile* bombProjectile = new BombProjectile(normalizedDirection, getPosition(), getDamage(), getRange()/2);//, getLockedEnemy())
     // Constructor for BombProjectile does not accept shared_ptr<Enemy> as input...
     return bombProjectile;    
 }
