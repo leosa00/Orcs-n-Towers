@@ -27,6 +27,7 @@ class Game {
     friend class BulletTower;
     friend class BombTower;
     friend class MissileTower;
+    friend class FreezingTower;
     friend class BombProjectile;
     friend class BulletProjectile;
     friend class MissileProjectile;

@@ -32,6 +32,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers"), levelManager_
     tower_textures_.load(Textures::BulletTower, "../textures/tower1.png");
     tower_textures_.load(Textures::BombTower, "../textures/tower2.png");
     tower_textures_.load(Textures::MissileTower, "../textures/tower3.png");//pause button texture needs to be changed to its own texture class later
+    tower_textures_.load(Textures::FreezingTower, "../textures/tower4.png");
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
 
     enemy_textures_.load(Textures::Enemy1, "../textures/goblin_test.png");
@@ -232,11 +233,13 @@ void Game::update() {
             if (tower->getLockedEnemy() != nullptr &&
                 tower->getFireTimer().getElapsedTime().asSeconds() >= 1.0f / tower->getFireRate()) {
                 // Added an intermediate step into shooting which sets the projectile texture
-                Projectile* newproj = &(tower->shoot());
-                newproj->setTexture(projectile_textures_.get(newproj->textureType()));
-                //newproj->setPosition(tower->getPosition());
-                projectiles_.push_back(newproj);
-
+                Projectile* newproj = tower->shoot();
+                std::cout << "shoot executed" << std::endl;
+                if (newproj != nullptr) {
+                    newproj->setTexture(projectile_textures_.get(newproj->textureType()));
+                    //newproj->setPosition(tower->getPosition());
+                    projectiles_.push_back(newproj);
+                }
                 //projectiles_.push_back(&(tower->shoot()));
 
                 tower->resetFireTimer();
