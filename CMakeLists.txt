@@ -6,7 +6,7 @@ project(YourProjectName)
 find_package(SFML 2.5 COMPONENTS system window graphics audio REQUIRED)
 
 # Ellen: had to add standard, otherwise my make throws errors that havent been an issue since c++ 98
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 # produce non-optimized code with debug symbols, !!this is possibly not needed
 set(CMAKE_BUILD_TYPE Debug)

@@ -13,9 +13,9 @@
 class Tower;
 class Enemy;
 
-// Changed this as well to inherit sprite at least temporarily, because
-// otherwise getGlobalBounds() function does not exist, which is needed in
-// reachedCastle()
+/**
+ * 
+*/
 class Player : public sf::Sprite
 {
     private:
@@ -32,16 +32,58 @@ class Player : public sf::Sprite
             :name_(name), hp_(500), wallet_(500), score_(0), position_(sf::Vector2f(0, 0)), level_(0){}
 
         ~Player() {}
+
+        /**
+         * @brief returns how much money the player has
+        */
         int getWallet() const;
+
+        /**
+         * @brief returns how many health points the player has
+        */
         int getHP() const;
+
+        /**
+         * @brief returns the name of the player
+        */
         std::string getName() const;
+
+        /**
+         * @brief returns the current level of the player
+        */
         int getLevel() const;
+
+        /**
+         * @brief increases the players level by one
+        */
+        void levelUp();
+
+        /**
+         * @brief adds money to the players wallet
+         * @param amount is how much money is to be added
+        */
         void addMoney(int amount);
+
+        /**
+         * @brief removes money from the players wallet
+         * @param cost is how much money is to be removed
+        */
         void removeMoney(int cost);
+
+        /**
+         * @brief removes health pointe from the player
+         * @param amount is how much hp is to be removed
+        */
         void removeHP(int amount);
+
+        /**
+         * @brief adds points to the players score
+         * @param amount is how many points is to be added
+        */
         void addToScore(int amount);
-        void reachedCastle (std::shared_ptr<Enemy>& enemy); //checks if an enemy has reached the castle or should game do it?
-        std::list<std::shared_ptr<Enemy>> increaseLevel(ResourceContainer<Textures::EnemyID, sf::Texture>& enemytextures, path& path);
+
+        //void reachedCastle (std::shared_ptr<Enemy>& enemy); //checks if an enemy has reached the castle or should game do it?
+        //std::list<std::shared_ptr<Enemy>> increaseLevel(ResourceContainer<Textures::EnemyID, sf::Texture>& enemytextures, path& path);
         //void buyTower(int cost, Textures::TowerID towerID);
         //void sellTower(Tower& tower);
         //void upgradeTower(Tower& tower);
@@ -51,7 +93,7 @@ class Player : public sf::Sprite
          * should be called whenever map changes
          * and probably during first load of a map, since player is initiated before map is loaded?
         */
-        void updateCastlePosition(sf::Vector2f position);
+        //void updateCastlePosition(sf::Vector2f position);
 };
 
 #endif

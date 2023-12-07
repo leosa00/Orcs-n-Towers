@@ -14,11 +14,6 @@ bool MissileProjectile::hasHitEnemy(std::shared_ptr<Enemy>& enemy) {
 
 void MissileProjectile::update(Game& game){
     float dt = game.getTime().asSeconds();
-    
-    /**
-     * for now most of the time results in segfault or bus error if enemy is dead
-     * occassionally works tho and prints
-    */
 
     if(targetEnemy_.get() != nullptr && targetEnemy_.use_count() > 0){ //hasn't been destroyed
         if(hasHitEnemy(targetEnemy_)){

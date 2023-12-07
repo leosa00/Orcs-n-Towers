@@ -6,12 +6,16 @@
 #include <iostream>
 
 // initialize game object, mainly create window...
-Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
+Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers"), levelManager_("../textures/levels.csv", path_, *this, player_) {
     // Set dragging flag
     dragged_ = false;
     paused_ = false;
     std::cout << "game started" << std::endl;
 
+    //issues with reading from file
+    if(!levelManager_.readingSuccessfull()){
+        return;
+    }
 
     //Load the Map texture
     if (!map.texture.loadFromFile("../textures/grass.jpeg"))
@@ -37,7 +41,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
 
     projectile_textures_.load(Textures::Bullet, "../textures/bullet_test.png");
     projectile_textures_.load(Textures::Bomb, "../textures/bomb_test.png");
-    projectile_textures_.load(Textures::Missile, "../textures/mikey.png");
+    projectile_textures_.load(Textures::Missile, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/mikey.png");
     various_textures_.load(Textures::Pause, "../textures/pausebutton.png");
     various_textures_.load(Textures::Castle, "../textures/castle.png");
     // Load font
@@ -75,8 +79,6 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     //testEnemy();
 
     player_ = Player();
-
-    //player_.updateCastlePosition(**coordinates for end of path**);
 };
 
 
@@ -131,6 +133,8 @@ void Game::update() {
         shop_->drag(this);
     }
 
+    // Updates displayed wallet amount and health
+    shop_->update(player_);
 
     // If the game is paused stop updating
     if (paused_) {
@@ -142,26 +146,39 @@ void Game::update() {
         return;
     }
 
-    // TODO: Make this into own function to clean code?
-    // If the round has ended open round end menu
-    if (!isGameOver_ && enemies_.empty()) {
-        // if upgrade menu occupied delete it
-        if (alternativeMenu_) {
-            delete alternativeMenu_;
-        }
-        alternativeMenu_ = new Menu();
-        if (player_.getLevel() == 0) {
-            alternativeMenu_->createMenu(MenuType::Begin, this);
-        }
-        else {
-            alternativeMenu_->createMenu(MenuType::Level, this);
-        }
+    //game has been completed, should probably do something else than just pause
+    //lm update will increase current level by one even after it has run out of waves for the last level
+    if(levelManager_.getCurrentLevel() >= levelManager_.getLevelTotal()){
         paused_ = true;
         return;
     }
 
-    // Updates displayed wallet amount and health
-    shop_->update(player_);
+    levelManager_.update();
+
+    // TODO: Make this into own function to clean code?
+    // If the round has ended open round end menu
+    //if (!isGameOver_ && enemies_.empty()) {
+    //    // if upgrade menu occupied delete it
+    //    if (alternativeMenu_) {
+    //        delete alternativeMenu_;
+    //    }
+    //    alternativeMenu_ = new Menu();
+    //    if (player_.getLevel() == 0) {
+    //        alternativeMenu_->createMenu(MenuType::Begin, this);
+    //    }
+    //    else {
+    //        alternativeMenu_->createMenu(MenuType::Level, this);
+    //    }
+    //    paused_ = true;
+    //    return;
+    //}
+
+    for (auto& enemy : enemies_) {
+        if (!enemy->dead()) {
+            enemy->update(getTime());
+            enemy->updateHealthText(font_); // Update health text
+        }
+    }
 
     // Pavel: following order of updates is perhaps ok
     for (auto it = enemies_.begin(); it != enemies_.end();) {
@@ -176,7 +193,7 @@ void Game::update() {
                 // Add money to player for successful kill
                 player_.addMoney((*it)->getMoney());
             }
-            if ((*it)->type() == EnemyType::Flying) { //now if the enemy dies because it reached the castle it wont split, otherwise it will
+            if ((*it)->type() == EnemyType::Split) { //now if the enemy dies because it reached the castle it wont split, otherwise it will
                 //I also fixed the split enemies movement
                 std::queue<sf::Vector2f> waypoints = (*it)->getWaypoints();
                 if (!waypoints.empty()) {
@@ -308,11 +325,6 @@ void Game::render() {
 
     window_.draw(castle_sprite_);
 
-    shop_->draw(window_);
-    if (alternativeMenu_) {
-        alternativeMenu_->draw(window_);
-    }
-
     if (activeTower_) {
         window_.draw(*activeTower_);
     }
@@ -325,11 +337,18 @@ void Game::render() {
     for (auto enemy : enemies_) {
         if (!enemy->dead()) { //added a if statement to check if the enemy is dead, if it is it wont be rendered
             window_.draw(*enemy);
+            window_.draw(enemy->getHealthText());
         }
 
     }
     if (isGameOver_) {
         window_.draw(gameOverText);
+    }
+
+    // Draw menu items last so they don't get blocked by other stuff
+    shop_->draw(window_);
+    if (alternativeMenu_) {
+        alternativeMenu_->draw(window_);
     }
     window_.display();
 }
@@ -362,7 +381,7 @@ void Game::testEnemy() {
 
     enemies_.push_back(std::make_shared<Enemy>(test));
 
-    Enemy test2(30, 60, EnemyType::Flying, 10, path_.getWaypoints());
+    Enemy test2(30, 60, EnemyType::Split, 10, path_.getWaypoints());
     test2.setPosition(100, 50);
     test2.setTexture(enemy_textures_.get(Textures::Enemy1));
     enemies_.push_back(std::make_shared<Enemy>(test2));
