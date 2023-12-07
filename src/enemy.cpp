@@ -128,6 +128,9 @@ bool Enemy::dead() {
 int Enemy::hp() {
     return hp_;
 }
+int Enemy::initialHp() {
+    return initialHp_;
+}
 
 float Enemy::speed() {
     return speed_;

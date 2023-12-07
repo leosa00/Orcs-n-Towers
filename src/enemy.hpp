@@ -10,6 +10,7 @@
 enum class EnemyType {
     Ground,
     Flying,
+    Split,
 };
 
 class Enemy :public sf::Sprite {
@@ -39,6 +40,8 @@ public:
     bool dead();
 
     int hp();
+
+    int initialHp();
     
     float speed();
     
@@ -76,6 +79,8 @@ public:
 private:
     int hp_;
 
+    int initialHp_;
+    
     bool dead_= false;
 
     float speed_;
