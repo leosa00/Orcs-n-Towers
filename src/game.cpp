@@ -6,7 +6,7 @@
 #include <iostream>
 
 // initialize game object, mainly create window...
-Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers"), levelManager_("/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/levels.csv", path_, *this, player_) {
+Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers"), levelManager_("../textures/levels.csv", path_, *this, player_) {
     // Set dragging flag
     dragged_ = false;
     paused_ = false;
@@ -18,7 +18,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers"), levelManager_
     }
 
     //Load the Map texture
-    if (!map.texture.loadFromFile("/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/grass.jpeg"))
+    if (!map.texture.loadFromFile("../textures/grass.jpeg"))
     {
         return;
     }
@@ -29,25 +29,25 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers"), levelManager_
     // Create tower texture container, load texture    
     tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
 
-    tower_textures_.load(Textures::BulletTower, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower1.png");
-    tower_textures_.load(Textures::BombTower, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower2.png");
-    tower_textures_.load(Textures::MissileTower, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower3.png");//pause button texture needs to be changed to its own texture class later
-    tower_textures_.load(Textures::FreezingTower, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/tower4.png");
+    tower_textures_.load(Textures::BulletTower, "../textures/tower1.png");
+    tower_textures_.load(Textures::BombTower, "../textures/tower2.png");
+    tower_textures_.load(Textures::MissileTower, "../textures/tower3.png");//pause button texture needs to be changed to its own texture class later
+    tower_textures_.load(Textures::FreezingTower, "../textures/tower4.png");
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
 
-    enemy_textures_.load(Textures::Enemy1, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/enemy.png");
-    enemy_textures_.load(Textures::Enemy2, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/enemy_flying.png");
+    enemy_textures_.load(Textures::Enemy1, "../textures/enemy.png");
+    enemy_textures_.load(Textures::Enemy2, "../textures/enemy_flying.png");
 
     projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
 
-    projectile_textures_.load(Textures::Bullet, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bullet_test.png");
-    projectile_textures_.load(Textures::Bomb, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/bomb_test.png");
-    projectile_textures_.load(Textures::Missile, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/mikey.png");
-    various_textures_.load(Textures::Pause, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/pausebutton.png");
-    various_textures_.load(Textures::Castle, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/castle.png");
+    projectile_textures_.load(Textures::Bullet, "../textures/bullet_test.png");
+    projectile_textures_.load(Textures::Bomb, "../textures/bomb_test.png");
+    projectile_textures_.load(Textures::Missile, "../textures/mikey.png");
+    various_textures_.load(Textures::Pause, "../textures/pausebutton.png");
+    various_textures_.load(Textures::Castle, "../textures/castle.png");
     // Load font
 
-    font_.loadFromFile("/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/OpenSans_Condensed-Bold.ttf");
+    font_.loadFromFile("../textures/OpenSans_Condensed-Bold.ttf");
 
 
 
