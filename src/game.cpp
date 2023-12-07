@@ -173,7 +173,12 @@ void Game::update() {
     //    return;
     //}
 
-    
+    for (auto& enemy : enemies_) {
+        if (!enemy->dead()) {
+            enemy->update(getTime());
+            enemy->updateHealthText(font_); // Update health text
+        }
+    }
 
     // Pavel: following order of updates is perhaps ok
     for (auto it = enemies_.begin(); it != enemies_.end();) {
@@ -332,6 +337,7 @@ void Game::render() {
     for (auto enemy : enemies_) {
         if (!enemy->dead()) { //added a if statement to check if the enemy is dead, if it is it wont be rendered
             window_.draw(*enemy);
+            window_.draw(enemy->getHealthText());
         }
 
     }

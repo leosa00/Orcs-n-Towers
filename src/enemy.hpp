@@ -17,7 +17,7 @@ class Enemy :public sf::Sprite {
 public:
 
     Enemy(int hp, int speed, EnemyType type, int money, std::queue<sf::Vector2f> waypoints)
-         : hp_(hp), actualSpeed_(speed), speed_(speed), effectiveSpeed_(speed), type_(type), money_(money), waypoints_(waypoints) {
+         : hp_(hp), actualSpeed_(speed), speed_(speed), effectiveSpeed_(speed), type_(type), money_(money), waypoints_(waypoints), initialHp_(hp) {
         //Ellen: enemies can set their own position, since it will be same for everyone
         setPosition(waypoints_.front());
         
@@ -75,6 +75,9 @@ public:
 
     int getMoney() const;
 
+    void updateHealthText(const sf::Font& font);
+
+    const sf::Text& getHealthText() const;
 
 private:
     int hp_;
@@ -88,6 +91,8 @@ private:
     float actualSpeed_;
 
     float effectiveSpeed_;
+
+    sf::Text healthText_;
 
     EnemyType type_;
          //has reference to player instance so money can be deposited to the player as well as the use of other player functions
