@@ -35,8 +35,8 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers"), levelManager_
     tower_textures_.load(Textures::FreezingTower, "../textures/tower4.png");
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
 
-    enemy_textures_.load(Textures::Enemy1, "../textures/goblin_test.png");
-    enemy_textures_.load(Textures::Enemy2, "../textures/mikey.png");
+    enemy_textures_.load(Textures::Enemy1, "../textures/enemy.png");
+    enemy_textures_.load(Textures::Enemy2, "../textures/enemy_flying.png");
 
     projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
 
