@@ -27,15 +27,14 @@ class LevelManager {
     using variantData = std::variant<int, float, std::vector<int>>;
 
     /**
-     * Initialises a levelManager
-     * reads the level information from file
-     * @see readLevels()
-     * intitial current level is zero (= level one) to follow indexing convention of level specifications container
+     * Initialises a levelManager and reads the level information from file. \n 
+     * Intitial current level is zero (= level one) to follow indexing convention of level specifications container
      * to allow easier accessing
      * @param src is the source of level information file that is to be read
      * @param path is a reference to the path instance that creates the path of the game
      * @param game is a reference to the running game instance
      * @param player is a reference to the player instance of the game
+     * @see readLevels()
     */
     LevelManager(const std::string& src, path& path, Game& game, Player& player) : src_(src), path_(path), game_(game), player_(player) {
         readLevels();
@@ -57,18 +56,17 @@ class LevelManager {
     int getLevelTotal();
 
     /**
-     * Updates the level manager, called while game is running
-     * Counts down the wait time between waves of enemies
-     * Initiates more enemies once waitTime becomes zero, if there is waves left for the level
-     * Moves to a new level once previous is complete and there are no enemies left
+     * Updates the level manager, called while game is running. \n 
+     * Counts down the wait time between waves of enemies. \n 
+     * Initiates more enemies once waitTime becomes zero, if there are waves left for the level.
+     * Moves to a new level once previous is complete and there are no enemies left.
      * @see initiateEnemies()
-     * @param game is a reference to the game instance that is responsible for calling update
     */
     void update();
 
     /**
-     * returns status flag for reading level info from file
-     * true if reading was successfull
+     * returns status flag for reading level info from file. \n 
+     * True if reading was successfull,
      * false if not
     */
     bool readingSuccessfull(); //need to abort game if reading fails, use this to check
@@ -78,20 +76,19 @@ class LevelManager {
     private:
 
     /**
-     * Reads from the source file provided in constructor
-     * Disregards first line of file as it is the formatting example
-     * Then reads one line at a time:
-     *  - number of enemies per wave, number of waves, wait time between waves into variables
-     *  - allowed enemy types into a vector
-     * Adds the collected values into a map which gets pushed into the vector container that holds all levels
-     * Increases the level amount 
+     * Reads from the source file provided in constructor.
+     * Disregards first line of file as it is the formatting example. \n 
+     * Then reads one line at a time: \n 
+     *  - number of enemies per wave, number of waves, wait time between waves into variables \n 
+     *  - allowed enemy types into a vector \n
+     * Adds the collected values into a map which gets pushed into the vector container that holds all levels.
     */
     void readLevels();
 
     /**
-     * Initiates the amount of enemies that is allowed for the level
-     * Randomly chooses which type of enemy to initiate based on the allowed types for the level
-     * Uses a switch case to initiate the right kind of enemy and adds it to the container of enemies
+     * @brief Initiates the amount of enemies that is allowed for the level.
+     * Randomly chooses which type of enemy to initiate based on the allowed types for the level.
+     * Uses a switch case to initiate the right kind of enemy and adds it to the container of enemies. 
      * Resets the wait time and decreases waves
     */
     void initiateEnemies();
@@ -99,16 +96,18 @@ class LevelManager {
     
     /**
      * @brief container to hold all the levels
-     * One entry in the outer container (vector) is one level, meaning index 0 is level one
-     * The inner map holds all information regarding the specific level
-     * Map keys:
-     *  - "enemyAmount" : the number of enemies allowed per wave (int)
-     *  - "waves" : the number of waves of enemeis allowed per level (int)
-     *  - "waitTime" : the time (in seconds) between waves (float)
-     *  - "enemyTypes" : a vector containing the types of enemies allowed for the level, @see Enemy class' type enum
-     * @see @param variantData
+     * One entry in the outer container (vector) is one level, meaning index 0 is level one.
+     * The inner map holds all information regarding the specific level. \n 
+     * Map keys: \n 
+     *  - "enemyAmount" : the number of enemies allowed per wave (int) \n 
+     *  - "waves" : the number of waves of enemeis allowed per level (int) \n 
+     *  - "waitTime" : the time (in seconds) between waves (float) \n 
+     *  - "enemyTypes" : a vector containing the types of enemies allowed for the level
+     * @see Enemy class' type enum
+     * @see variantData
     */
-    std::vector<std::map<std::string, variantData>> levelSpecs_;
+
+    std::vector<std::map<std::string, variantData>> levelSpecs_; //!< The container that stores all level information
 
     int currLevel_;
     const std::string& src_;
