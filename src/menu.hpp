@@ -4,6 +4,7 @@
 #include <list>
 #include "button.hpp"
 #include "game.hpp"
+#include "tower.hpp"
 
 // These are used in createMenu()
 // the enum determines what type of menu is created:
@@ -22,6 +23,7 @@ class Menu {
 public:
     void draw(sf::RenderWindow& window);
     void checkButtons(Game* game);
+    void newTower(Tower* tower, Game* game);
     void createMenu(MenuType menu, Game* game);
     void update(Player& player);
     bool canBePlaced(Game* game);

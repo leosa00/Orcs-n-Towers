@@ -10,6 +10,7 @@ enum class Actions{
     Tower5,
     Pause,
     Upgrade,
+    Sell,
     Close,  // In upgrade menu, closes upgrade menu.
     Level   // Click to start level
 };
