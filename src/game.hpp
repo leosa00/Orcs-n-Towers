@@ -17,6 +17,7 @@
 #include "menu.hpp"
 #include <vector>
 #include "levelManager.hpp"
+#include "explosion.hpp"
 
 class Menu;
 // Class for running the game logic
@@ -92,6 +93,7 @@ private:
         */
     std::list<std::shared_ptr<Enemy>> enemies_;
     std::list<Projectile*> projectiles_;
+    std::list<Explosion*> explosions_;
     path path_;
     std::list<Button> buttons_; // Stores clickable buttons
     bool dragged_; // Indicates if a tower is currently being dragged into place
