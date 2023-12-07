@@ -139,6 +139,7 @@ void LevelManager::initiateEnemies(){
         case 0:
         {
             Enemy enemy(30, 60, EnemyType::Ground, 10, path_.getWaypoints());
+            enemy.setPosition(100, 100);
             enemy.setTexture(game_.enemy_textures_.get(Textures::Enemy1));
             game_.enemies_.push_back(std::make_shared<Enemy>(enemy));
             break;
@@ -146,7 +147,8 @@ void LevelManager::initiateEnemies(){
         case 1:
         {
             Enemy enemy(30, 80, EnemyType::Flying, 10, path_.getWaypoints());
-            enemy.setTexture(game_.enemy_textures_.get(Textures::Enemy2));
+            enemy.setPosition(100, 100);
+            enemy.setTexture(game_.enemy_textures_.get(Textures::Enemy1));
             game_.enemies_.push_back(std::make_shared<Enemy>(enemy));
             break;
         }
