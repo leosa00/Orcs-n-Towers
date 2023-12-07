@@ -8,7 +8,7 @@ public:
     /*update() method for BulletTower uses update() from base class,
       hence I have commented it out*/
     //void update(std::list<std::shared_ptr<Enemy>> &enemies) override;
-    BulletProjectile& shoot() override;
+    BulletProjectile* shoot() override;
     std::shared_ptr<Tower> getClassObject() override;
 private:
     //void draw() override;
