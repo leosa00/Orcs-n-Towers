@@ -5,6 +5,7 @@
 #include "freezingTower.hpp"
 #include <string>
 #include <stdio.h>
+#include <algorithm>
 
 // Draws all the buttons in the menu
 void Menu::draw(sf::RenderWindow& window) {
@@ -31,54 +32,23 @@ void Menu::checkButtons(Game* game) {
             {
             case Actions::Tower1:
             {
-                if (game->activeTower_) {
-                    delete game->alternativeMenu_;
-                    game->alternativeMenu_ = nullptr;
-                    game->activeTower_ = nullptr;
-                }
                 BombTower* new_bomb = new BombTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
                 new_bomb->setTexture(game->tower_textures_.get(Textures::BombTower));
-                /* New tower takes first place in array of towers. 
-                   This is enough to identify the new tower which is being dragged, as only one tower 
-                   can be added at a time
-                */
-                game->activeTower_ = new_bomb;
-
-                // Set flag which indicates an object is being dragged
-                game->dragged_ = true;
-
-                // Color remove area red
-                bg_.setFillColor(sf::Color(100, 26, 26, 100));
+                newTower(new_bomb, game);
                 break;
             }
             case Actions::Tower2:
             {
-                 if (game->activeTower_) {
-                    delete game->alternativeMenu_;
-                    game->alternativeMenu_ = nullptr;
-                    game->activeTower_ = nullptr;
-                }
                 BulletTower* new_bullet = new BulletTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
                 new_bullet->setTexture(game->tower_textures_.get(Textures::BulletTower));
-                game->activeTower_ = new_bullet;
-
-                // Set flag which indicates an object is being dragged
-                game->dragged_ = true;
-                bg_.setFillColor(sf::Color(100, 26, 26, 100));
+                newTower(new_bullet, game);
                 break;
             }
             case Actions::Tower3:
             {
-                 if (game->activeTower_) {
-                    delete game->alternativeMenu_;
-                    game->alternativeMenu_ = nullptr;
-                    game->activeTower_ = nullptr;
-                }
                 MissileTower* new_missile = new MissileTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
                 new_missile->setTexture(game->tower_textures_.get(Textures::MissileTower));
-                game->activeTower_ = new_missile;
-                game->dragged_ = true;
-                bg_.setFillColor(sf::Color(100, 26, 26, 100));
+                newTower(new_missile, game);
                 break;
             }
             case Actions::Tower4:
@@ -97,7 +67,7 @@ void Menu::checkButtons(Game* game) {
             }
 
             // If the button upgrade is pressed, there is already a upgrade menu in existence
-            // And the tower which wi want to upgrade is known
+            // And the tower which we want to upgrade is known
             case Actions::Upgrade:
             {
                 // Check that there is enough money for upgrading
@@ -117,10 +87,24 @@ void Menu::checkButtons(Game* game) {
             }
             case Actions::Close:
             {
-                // Afraid that this leaks memory...
                 game->alternativeMenu_ = nullptr;
                 game->activeTower_ = nullptr;
-                sf::FloatRect buttonbounds = button.getGlobalBounds();
+                break;
+            }
+            case Actions::Sell:
+            {
+                // Add money to player
+                game->player_.addMoney(game->activeTower_->getBaseCost() * 0.75);
+                // Find tower and erase it 
+                for (auto it = game->towers_.begin(); it != game->towers_.end(); it++) {
+                    if (*it == game->activeTower_){
+                        game->towers_.erase(it);
+                        break;
+                    }
+                }
+                // Remove upgrade menu as the tower does not exist
+                game->alternativeMenu_ = nullptr;
+                game->activeTower_ = nullptr;
                 break;
             }
             case Actions::Pause:
@@ -130,7 +114,7 @@ void Menu::checkButtons(Game* game) {
             }
             case Actions::Level:
             {
-                game->enemies_ = game->player_.increaseLevel(game->enemy_textures_, game->path_);
+                //game->enemies_ = game->player_.increaseLevel(game->enemy_textures_, game->path_);
                 game->paused_ = false;
                 game->alternativeMenu_ = nullptr;
                 break;
@@ -141,6 +125,23 @@ void Menu::checkButtons(Game* game) {
         }    
         }
 
+}
+
+void Menu::newTower(Tower* tower, Game* game) {
+    // if an upgrade menu is open, close it so the change in the 
+    // activeTower_ pointer does not break the upgrade menu
+    if (game->activeTower_) {
+        
+        game->alternativeMenu_ = nullptr;
+        game->activeTower_ = nullptr;
+    }
+
+    // Set active tower to the new tower being placed
+    game->activeTower_ = tower;
+    // Set flag which indicates an object is being dragged
+    game->dragged_ = true;
+    // Color remove area red
+    bg_.setFillColor(sf::Color(100, 26, 26, 100));
 }
 
 // Creates menu based on the input enum given
@@ -175,9 +176,10 @@ void Menu::createMenu(MenuType menu, Game* game) {
     case MenuType::Upgrade:
         {
             // Create upgrade and close buttons
-            buttons_.push_back(Button(Actions::Close, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(400, 700), "Close", game->font_));
+            buttons_.push_back(Button(Actions::Close, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(500, 700), "Close", game->font_));
             std::string cost = std::to_string(game->activeTower_->getUpgradeCost());
             buttons_.push_back(Button(Actions::Upgrade, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(150, 700), cost, game->font_));
+            buttons_.push_back(Button(Actions::Sell, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(250, 700), "Sell", game->font_));
 
             // create texts of type current damage and level
             // + operator with string handles conversion
@@ -207,7 +209,6 @@ void Menu::createMenu(MenuType menu, Game* game) {
         }
     case MenuType::Level:
         {
-            // TODO: It would be nice to have a money bonus for completing each level
             buttons_.push_back(Button(Actions::Level, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(400, 440), "Next level", game->font_));
             // FIXME: The text does not include the first letter :(
             sf::Text intro(("Congratulations for completing level " + game->player_.getLevel()), game->font_, 20);
@@ -260,6 +261,12 @@ bool Menu::canBePlaced(Game* game){
     // Check intersection with other towers
     for (auto tower : game->towers_) {
         if (pos.intersects(tower->getGlobalBounds())) {
+            return false;
+        }
+    }
+
+    for (auto unBuild : game->map.unBuildable) {
+        if (pos.intersects(unBuild)) {
             return false;
         }
     }

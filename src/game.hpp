@@ -15,6 +15,8 @@
 #include "map.hpp"
 #include "missileProjectile.hpp"
 #include "menu.hpp"
+#include <vector>
+#include "levelManager.hpp"
 
 class Menu;
 // Class for running the game logic
@@ -30,6 +32,7 @@ class Game {
     friend class BulletProjectile;
     friend class MissileProjectile;
     friend class Menu; 
+    friend class LevelManager;
 
 public:
     Map map;
@@ -96,6 +99,7 @@ private:
     bool isGameOver_=false; //is the game over because the player has died to an enemy
     sf::Font font_; // Stores text font
     sf::Text gameOverText;
+    sf::Sprite castle_sprite_;
 
     Menu* shop_; // Shop on left side
     Menu* alternativeMenu_; // stores menu for upgrading, beginning game, and advancing to next level
@@ -107,6 +111,8 @@ private:
     ResourceContainer<Textures::Various, sf::Texture> various_textures_;
 
     Player player_; 
+
+    LevelManager levelManager_;
 };
 
 #endif

@@ -6,12 +6,16 @@
 #include <iostream>
 
 // initialize game object, mainly create window...
-Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
+Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers"), levelManager_("../textures/levels.csv", path_, *this, player_) {
     // Set dragging flag
     dragged_ = false;
     paused_ = false;
     std::cout << "game started" << std::endl;
 
+    //issues with reading from file
+    if(!levelManager_.readingSuccessfull()){
+        return;
+    }
 
     //Load the Map texture
     if (!map.texture.loadFromFile("../textures/grass.jpeg"))
@@ -20,28 +24,32 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     }
     map.background.setTexture(map.texture);
 
+    
+
     // Create tower texture container, load texture    
     tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
-    
+
     tower_textures_.load(Textures::BulletTower, "../textures/tower1.png");
     tower_textures_.load(Textures::BombTower, "../textures/tower2.png");
     tower_textures_.load(Textures::MissileTower, "../textures/tower3.png");//pause button texture needs to be changed to its own texture class later
     tower_textures_.load(Textures::FreezingTower, "../textures/tower4.png");
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
-   
+
     enemy_textures_.load(Textures::Enemy1, "../textures/goblin_test.png");
     enemy_textures_.load(Textures::Enemy2, "../textures/mikey.png");
-    
+
     projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
 
     projectile_textures_.load(Textures::Bullet, "../textures/bullet_test.png");
     projectile_textures_.load(Textures::Bomb, "../textures/bomb_test.png");
-    projectile_textures_.load(Textures::Missile, "../textures/mikey.png");
+    projectile_textures_.load(Textures::Missile, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/mikey.png");
     various_textures_.load(Textures::Pause, "../textures/pausebutton.png");
+    various_textures_.load(Textures::Castle, "../textures/castle.png");
     // Load font
-  
+
     font_.loadFromFile("../textures/OpenSans_Condensed-Bold.ttf");
-    
+
+
 
     // Initialize menus
     shop_ = new Menu();
@@ -52,24 +60,33 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers") {
     //game over text
     gameOverText.setFont(font_);
     gameOverText.setString("Game Over Loser!!");
-    gameOverText.setCharacterSize(24); 
+    gameOverText.setCharacterSize(24);
     gameOverText.setFillColor(sf::Color::Black);
     gameOverText.setStyle(sf::Text::Bold);
     gameOverText.setPosition(400, 200);
     createPath();
+    path_.makeUnBuildablePath();
+    for (auto path : path_.unBuildable) {
+        map.unBuildable.push_back(path);
+    }
+    
+     //Draws castle sprite
+    sf::Texture& castleTexture = various_textures_.get(Textures::Castle);
+    castle_sprite_.setTexture(castleTexture);
+    sf::Vector2f castlePosition = sf::Vector2f(600, 600);
+    castle_sprite_.setPosition(castlePosition);
+    
 
     //testEnemy();
 
     player_ = Player();
-    
-    //player_.updateCastlePosition(**coordinates for end of path**);
 };
 
 
 
 // Run main game loop
 void Game::run() {
-    while(window_.isOpen())
+    while (window_.isOpen())
     {
         processEvents();
         update();
@@ -78,16 +95,16 @@ void Game::run() {
 }
 
 // Process inputs, handle closing window
-void Game::processEvents(){
+void Game::processEvents() {
     sf::Event event;
-    while(window_.pollEvent(event))
+    while (window_.pollEvent(event))
     {
         switch (event.type)
         {
         case sf::Event::Closed:
             window_.close();
             break;
-        
+
         case sf::Event::MouseButtonPressed:
             // If statement checks that nothing is being dragged currently
             // if MouseButtonPressed event only happens when button is initially pressed
@@ -101,7 +118,7 @@ void Game::processEvents(){
                     checkTowers(); // If no button was pressed check if a tower has been clicked
                 }
                 break;
-            } 
+            }
 
         default:
             break;
@@ -111,93 +128,110 @@ void Game::processEvents(){
 
 // Call functions necessary for iterating over all objects and updating their states
 void Game::update() {
-    time_=clock_.restart();
+    time_ = clock_.restart();
     // If a tower is being dragged, update it's position
     if (dragged_) {
         shop_->drag(this);
     }
 
-    
+    // Updates displayed wallet amount and health
+    shop_->update(player_);
+
     // If the game is paused stop updating
     if (paused_) {
         return;
     }
-    if(player_.getHP() <= 0){
-            //game over
-            isGameOver_ = true;
-            return;
+    if (player_.getHP() <= 0) {
+        //game over
+        isGameOver_ = true;
+        return;
     }
 
-    // TODO: Make this into own function to clean code?
-    // If the round has ended open round end menu
-    if (!isGameOver_ && enemies_.empty()) {
-        // if upgrade menu occupied delete it
-        if (alternativeMenu_) {
-            delete alternativeMenu_;
-        }
-        alternativeMenu_ = new Menu();
-        if (player_.getLevel() == 0) {
-            alternativeMenu_->createMenu(MenuType::Begin, this);
-        } else {
-            alternativeMenu_->createMenu(MenuType::Level, this);
-        }
+    //game has been completed, should probably do something else than just pause
+    //lm update will increase current level by one even after it has run out of waves for the last level
+    if(levelManager_.getCurrentLevel() >= levelManager_.getLevelTotal()){
         paused_ = true;
         return;
     }
-    
-    // Updates displayed wallet amount and health
-    shop_->update(player_);
-    
+
+    levelManager_.update();
+
+    // TODO: Make this into own function to clean code?
+    // If the round has ended open round end menu
+    //if (!isGameOver_ && enemies_.empty()) {
+    //    // if upgrade menu occupied delete it
+    //    if (alternativeMenu_) {
+    //        delete alternativeMenu_;
+    //    }
+    //    alternativeMenu_ = new Menu();
+    //    if (player_.getLevel() == 0) {
+    //        alternativeMenu_->createMenu(MenuType::Begin, this);
+    //    }
+    //    else {
+    //        alternativeMenu_->createMenu(MenuType::Level, this);
+    //    }
+    //    paused_ = true;
+    //    return;
+    //}
+
+    for (auto& enemy : enemies_) {
+        if (!enemy->dead()) {
+            enemy->update(getTime());
+            enemy->updateHealthText(font_); // Update health text
+        }
+    }
+
     // Pavel: following order of updates is perhaps ok
     for (auto it = enemies_.begin(); it != enemies_.end();) {
-    if ((*it)->dead()) {
-        //this if statement and the functions inside are used to test the
-        //enemy split functionality
-        if((*it)->getWaypoints().empty()) {
-            player_.removeHP(250);
-            std::cout << "player health: " << player_.getHP() << std::endl;//player hp deduction test (works!!)
-        } else {
-            // Add money to player for successful kill
-            player_.addMoney((*it)->getMoney());
-        }
-        if((*it)->type() == EnemyType::Flying) { //now if the enemy dies because it reached the castle it wont split, otherwise it will
-        //I also fixed the split enemies movement
-            std::queue<sf::Vector2f> waypoints = (*it)->getWaypoints();
-            if(!waypoints.empty()) {
-                sf::Vector2f position = (*it)->getCenter();
-                testEnemySplit(position, waypoints);
+        if ((*it)->dead()) {
+            //this if statement and the functions inside are used to test the
+            //enemy split functionality
+            if ((*it)->getWaypoints().empty()) {
+                player_.removeHP(250);
+                std::cout << "player health: " << player_.getHP() << std::endl;//player hp deduction test (works!!)
+            }
+            else {
+                // Add money to player for successful kill
+                player_.addMoney((*it)->getMoney());
+            }
+            if ((*it)->type() == EnemyType::Split) { //now if the enemy dies because it reached the castle it wont split, otherwise it will
+                //I also fixed the split enemies movement
+                std::queue<sf::Vector2f> waypoints = (*it)->getWaypoints();
+                if (!waypoints.empty()) {
+                    sf::Vector2f position = (*it)->getCenter();
+                    testEnemySplit(position, waypoints);
                 }
+            }
+            //removes an enemy from the list and subsequently it is destroyed, if the enemy
+            //is dead
+            it = enemies_.erase(it);
         }
-        //removes an enemy from the list and subsequently it is destroyed, if the enemy
-        //is dead
-        it = enemies_.erase(it); 
-    } else {
-//        std::cout << enemies_.size() << std::endl;
-        (*it)->update(getTime());
-        std::cout << (*it)->speed() << std::endl;
-        //if enemy has reached the castle
-       //player_.reachedCastle(*it); //this might not work since enemies are dead once they reach the final
-        //checkpoint (the castle) may not activate this
-        ++it;
-    }
+        else {
+            //        std::cout << enemies_.size() << std::endl;
+            (*it)->update(getTime());
+            //if enemy has reached the castle
+           //player_.reachedCastle(*it); //this might not work since enemies are dead once they reach the final
+            //checkpoint (the castle) may not activate this
+            ++it;
+        }
     }
 
-        /**
-         * depending wether game or palyer keeps track of castle position
-         * atl:
-         * castle_.getGlobalBounds().intersects(enemy.getGlobalBounds())){
-            player_.removeHP(10) <-- should prob be enemy specific
-        */
+    /**
+     * depending wether game or palyer keeps track of castle position
+     * atl:
+     * castle_.getGlobalBounds().intersects(enemy.getGlobalBounds())){
+        player_.removeHP(10) <-- should prob be enemy specific
+    */
 
-    
+
     // Pavel: updating towers below. Would someone double-check that logic is correct?
     // Perhaps I could try to migrate tower logic inside tower class, but is there any 
     // simple way to do so as updating tower logic uses private members enemies_ and 
     // projectiles_?
     for (auto* tower : towers_) {
-        tower->update(enemies_);
-        if (tower->getLockedEnemy() != nullptr && 
-            tower->getFireTimer().getElapsedTime().asSeconds() >= 1.0f / tower->getFireRate()) {
+            tower->update(enemies_);
+            if (tower->getLockedEnemy() != nullptr &&
+                tower->getFireTimer().getElapsedTime().asSeconds() >= 1.0f / tower->getFireRate()) {
                 // Added an intermediate step into shooting which sets the projectile texture
                 Projectile* newproj = tower->shoot();
                 std::cout << "shoot executed" << std::endl;
@@ -207,11 +241,13 @@ void Game::update() {
                     projectiles_.push_back(newproj);
                 }
                 //projectiles_.push_back(&(tower->shoot()));
-                
+
                 tower->resetFireTimer();
+
+            }
         }
-    }
-    
+     
+
     /*for (auto& tower : towers_) {
         auto lockedEnemy = tower.getLockedEnemy();
         // If tower currently has no locked enemy, it should try to find one.
@@ -248,20 +284,20 @@ void Game::update() {
         if (lockedEnemy != nullptr && tower.getFireTimer().getElapsedTime().asSeconds() >= 1.0f / tower.getFireRate()) {
             projectiles_.push_back(tower.shoot()); // shoot method returns Projectile that is appended to projectiles_
             tower.resetFireTimer();
-        }      
+        }
     }*/
 
 
-//cleans up list while iterating
-    for(auto i = projectiles_.begin(); i != projectiles_.end();){
+    //cleans up list while iterating
+    for (auto i = projectiles_.begin(); i != projectiles_.end();) {
         (*i)->update(*this);
 
-        if((*i)->isDestroyed()){
+        if ((*i)->isDestroyed()) {
             delete (*i);
             //erase returns next iterator
             i = projectiles_.erase(i);
         }
-        else{
+        else {
             i++;
         }
     }
@@ -269,22 +305,29 @@ void Game::update() {
 //createPath function used to test the game out, so far the coordinates are
 //hardcoded
 void Game::createPath() {
+    path_.addWaypoint(sf::Vector2f(133, 20));
+    path_.addWaypoint(sf::Vector2f(133, 400));
     path_.addWaypoint(sf::Vector2f(400, 400));
     path_.addWaypoint(sf::Vector2f(500, 400));
     path_.addWaypoint(sf::Vector2f(500, 200));
-    path_.addWaypoint(sf::Vector2f(400, 200));
-    path_.addWaypoint(sf::Vector2f(400, 100));
+    path_.addWaypoint(sf::Vector2f(500, 300));
+    path_.addWaypoint(sf::Vector2f(700, 300));
+    path_.addWaypoint(sf::Vector2f(700, 500));
+    path_.addWaypoint(sf::Vector2f(700, 700));
 }
 // Iterate over objects, render them onto window
 void Game::render() {
     window_.clear();
     window_.draw(map);
-
-    
-    shop_->draw(window_);
-    if (alternativeMenu_) {
-        alternativeMenu_->draw(window_);
+    for (auto path : path_.unBuildable) {
+        sf::RectangleShape rectShape(sf::Vector2f(path.width, path.height));
+        rectShape.setPosition(path.left, path.top);
+        rectShape.setFillColor(sf::Color::Cyan);
+        window_.draw(rectShape);
     }
+
+    window_.draw(castle_sprite_);
+
     if (activeTower_) {
         window_.draw(*activeTower_);
     }
@@ -295,13 +338,20 @@ void Game::render() {
         window_.draw(*projectile);
     }
     for (auto enemy : enemies_) {
-        if(!enemy->dead()) { //added a if statement to check if the enemy is dead, if it is it wont be rendered
+        if (!enemy->dead()) { //added a if statement to check if the enemy is dead, if it is it wont be rendered
             window_.draw(*enemy);
+            window_.draw(enemy->getHealthText());
         }
-    
+
     }
-    if(isGameOver_) {
+    if (isGameOver_) {
         window_.draw(gameOverText);
+    }
+
+    // Draw menu items last so they don't get blocked by other stuff
+    shop_->draw(window_);
+    if (alternativeMenu_) {
+        alternativeMenu_->draw(window_);
     }
     window_.display();
 }
@@ -312,7 +362,7 @@ sf::Time Game::getTime() const {
 }
 
 void Game::checkTowers() {
-    sf::Vector2f mousepos = (sf::Vector2f) sf::Mouse::getPosition(window_);
+    sf::Vector2f mousepos = (sf::Vector2f)sf::Mouse::getPosition(window_);
     for (auto* tower : towers_) {
         if (tower->getGlobalBounds().contains(mousepos)) {
             // This stores the pointer to the tower that the upgrade button
@@ -334,7 +384,7 @@ void Game::testEnemy() {
 
     enemies_.push_back(std::make_shared<Enemy>(test));
 
-    Enemy test2(30, 60, EnemyType::Flying, 10, path_.getWaypoints());
+    Enemy test2(30, 60, EnemyType::Split, 10, path_.getWaypoints());
     test2.setPosition(100, 50);
     test2.setTexture(enemy_textures_.get(Textures::Enemy1));
     enemies_.push_back(std::make_shared<Enemy>(test2));
@@ -356,11 +406,10 @@ void Game::testEnemy() {
 //point i just used Flying as the tag, upon death will split into two smaller enemies
 //currently this works but the path doesnt seem to work properly yet
 void Game::testEnemySplit(sf::Vector2f position, std::queue<sf::Vector2f> waypoints) {
-    Enemy split(1, 60, EnemyType::Ground, 10, waypoints);
-    split.setPosition(position.x, position.y);
-    split.setTexture(enemy_textures_.get(Textures::Enemy2));
+    Enemy split(30, 60, EnemyType::Ground, 10, waypoints);
+    split.setPosition(position);
+    split.setTexture(enemy_textures_.get(Textures::Enemy1));
 
     enemies_.push_back(std::make_shared<Enemy>(split));
-
 }
 
