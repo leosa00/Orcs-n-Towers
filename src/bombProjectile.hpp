@@ -23,13 +23,15 @@ public:
     /**
      * Calculates the distance between the bomb and an enemy
      * If the enemy is within the blast range, cause damage to it because it has been hit
+     * @param enemy is a reference to an Enemy object
     */
     bool hasHitEnemy(std::shared_ptr<Enemy>& enemy) override;
 
     /**
      * If the bomb has reached it's maximum distance, 
-     * it goes through all the enemies in the game to see if it hits any, and once done with that, is destroyed
-     * If the bomb hasn't yet reached it's maximum distance, it is moved
+     * it goes through all the enemies in the game to see if it hits any, and once done with that, is destroyed.
+     * If the bomb hasn't yet reached it's maximum distance, it is moved.
+     * @param game is a reference to the running game instance
     */
     void update(Game& game);
 
