@@ -117,7 +117,19 @@ void Enemy::findNewWaypoint() {
         }
     }
 }
-
+void Enemy::updateHealthText(const sf::Font& font) {
+    healthText_.setFont(font);
+    healthText_.setString(std::to_string(hp_)+ "/" + std::to_string(initialHp_));
+    healthText_.setCharacterSize(14);
+    healthText_.setFillColor(sf::Color::White); 
+    sf::FloatRect bounds = getGlobalBounds();
+    healthText_.setPosition(bounds.left + bounds.width / 2.0f, bounds.top - 20);
+    sf::FloatRect textBounds = healthText_.getLocalBounds();
+    healthText_.setOrigin(textBounds.left + textBounds.width / 2.0f, textBounds.top + textBounds.height / 2.0f);
+}
+const sf::Text& Enemy::getHealthText() const {
+        return healthText_;
+}
 std::queue<sf::Vector2f> Enemy::getWaypoints() {
     return waypoints_;
 }
