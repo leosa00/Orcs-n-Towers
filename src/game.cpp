@@ -82,7 +82,9 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers"), levelManager_
 };
 
 
-
+path& Game::getPath() {
+    return path_;
+}
 // Run main game loop
 void Game::run() {
     while (window_.isOpen())
@@ -196,11 +198,15 @@ void Game::update() {
             if ((*it)->type() == EnemyType::Split) { //now if the enemy dies because it reached the castle it wont split, otherwise it will
                 //I also fixed the split enemies movement
                 std::queue<sf::Vector2f> waypoints = (*it)->getWaypoints();
+                
+
                 if (!waypoints.empty()) {
                     sf::Vector2f position = (*it)->getCenter();
                     testEnemySplit(position, waypoints);
                 }
+            
             }
+        
             //removes an enemy from the list and subsequently it is destroyed, if the enemy
             //is dead
             it = enemies_.erase(it);

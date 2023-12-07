@@ -55,7 +55,7 @@ public:
         }
         towers_.clear();
     }
-
+    path& getPath();
 private:
     void processEvents();
     void update();
