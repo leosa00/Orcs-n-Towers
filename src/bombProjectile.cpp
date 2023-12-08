@@ -1,5 +1,6 @@
 #include "bombProjectile.hpp"
 #include "game.hpp"
+#include "explosion.hpp"
 #include <math.h>
 
 bool BombProjectile::hasHitEnemy(std::shared_ptr<Enemy>& enemy){
@@ -21,6 +22,7 @@ void BombProjectile::update(Game& game){
         if(distToTower()){
             //has reached "landing spot"
             //"detonates" <-- should there be some kind of animation?
+            game.explosions_.push_back(new Explosion(blastRange_, getPosition()));
             //checks all of the enemies within its range and cause damage to them
             for(auto enemy : game.enemies_){
                 hasHitEnemy(enemy);

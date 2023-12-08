@@ -29,7 +29,7 @@ class Player : public sf::Sprite
     public:
         Player(std::string name = "player") 
         // position_ cannot be initialized as NULL, because it is of type sf::Vector2f
-            :name_(name), hp_(500), wallet_(500), score_(0), position_(sf::Vector2f(0, 0)), level_(0){}
+            :name_(name), hp_(500), wallet_(1000), score_(0), position_(sf::Vector2f(0, 0)), level_(0){}
 
         ~Player() {}
 

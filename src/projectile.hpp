@@ -23,7 +23,7 @@ class Projectile : public sf::Sprite
         std::string type_;
         int damage_;
         sf::Vector2f position_; // of tower that created
-        int maxDistance_;
+        float maxDistance_;
         sf::Vector2f shootDirection_;
         bool isDestroyed_;
 
@@ -38,7 +38,7 @@ class Projectile : public sf::Sprite
          * @param type is the type of the projectile, pre-defiened for each derived type
          * @param maxDistance is the maximum distance the projectile is allowed to move from it's tower, pre-definened for each derived type
         */
-        Projectile(sf::Vector2f shootDirection, sf::Vector2f position, int damage, float speed, std::string type, int maxDistance) 
+        Projectile(sf::Vector2f shootDirection, sf::Vector2f position, int damage, float speed, std::string type, float maxDistance) 
         : shootDirection_(shootDirection), position_(position), damage_(damage), speed_(speed), type_(type), maxDistance_(maxDistance),
         isDestroyed_(false){
             this->setPosition(position_);
@@ -48,6 +48,9 @@ class Projectile : public sf::Sprite
         // speed, type, maxDistance come from derived classes 
         // shootDirection needs to be normalised vector
         
+        /**
+         * @brief Destroy the Projectile object
+         */
         virtual ~Projectile() {}
         
         /**
@@ -72,27 +75,27 @@ class Projectile : public sf::Sprite
         //sf::Vector2f getVelocity() const;
 
         /**
-         * Sets the @param isDestroyed_ flag to true when the projectile has hit an enemy, and fullfilled its purpose,
-         * or when it has gone out of range (exeeded its max distance), and needs to be destroyed
+         * Sets the \p isDestroyed_ flag to true when the projectile has hit an enemy, and fullfilled its purpose,
+         * or when it has gone out of range (exceeded its max distance), and needs to be destroyed.
         */
         void destroy();
 
         /**
-         *@brief Returns wheter the projectile is destroyed, and need to be deleted, or not
+         *@brief Returns wheter the projectile is destroyed, and needs to be deleted, or not.
         */
         bool isDestroyed();
 
        /**
-        * @brief Calculates the distance from the tower that created it
-        * returns true if the projectile is at, or has exceeded, its maximum distance
+        * @brief Calculates the distance from the tower that created it.
+        * Returns true if the projectile is at, or has exceeded, its maximum distance
        */
         bool distToTower();
 
        /**
-        * @brief checks if the projectile has hit an enemy
-        * overridden in each derived class
+        * @brief checks if the projectile has hit an enemy.
+        * Overridden in each derived class
        */
-        virtual bool hasHitEnemy(std::shared_ptr<Enemy>& enemy) = 0;
+        virtual bool hasHitEnemy(std::shared_ptr<Enemy>&) = 0;
 
         /**
          * @brief updates the projectiles state as is defiened in each derived class

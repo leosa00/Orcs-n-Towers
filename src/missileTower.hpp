@@ -5,7 +5,7 @@
 class MissileTower : public Tower {
 public:
     MissileTower(sf::Vector2f);
-    MissileProjectile& shoot() override;
+    MissileProjectile* shoot() override;
     std::shared_ptr<Tower> getClassObject() override;
 };
 #endif

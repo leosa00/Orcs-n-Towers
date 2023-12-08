@@ -2,9 +2,13 @@
 #include "bombTower.hpp"
 #include "bulletTower.hpp"
 #include "missileTower.hpp"
+#include "freezingTower.hpp"
 #include <string>
 #include <stdio.h>
 #include <algorithm>
+
+#define TOWER_WIDTH_HALF 15
+#define TOWER_HEIGHT_HALF 25
 
 // Draws all the buttons in the menu
 void Menu::draw(sf::RenderWindow& window) {
@@ -48,6 +52,20 @@ void Menu::checkButtons(Game* game) {
                 MissileTower* new_missile = new MissileTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
                 new_missile->setTexture(game->tower_textures_.get(Textures::MissileTower));
                 newTower(new_missile, game);
+                break;
+            }
+            case Actions::Tower4:
+            {
+                if (game->activeTower_) {
+                    delete game->alternativeMenu_;
+                    game->alternativeMenu_ = nullptr;
+                    game->activeTower_ = nullptr;
+                }
+                FreezingTower* new_freezing = new FreezingTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
+                new_freezing->setTexture(game->tower_textures_.get(Textures::FreezingTower));
+                game->activeTower_ = new_freezing;
+                game->dragged_ = true;
+                bg_.setFillColor(sf::Color(100, 26, 26, 100));
                 break;
             }
 
@@ -143,6 +161,7 @@ void Menu::createMenu(MenuType menu, Game* game) {
             buttons_.push_back(Button(Actions::Tower1, game->tower_textures_.get(Textures::BombTower), sf::Vector2f(920, 40), "300", game->font_));
             buttons_.push_back(Button(Actions::Tower2, game->tower_textures_.get(Textures::BulletTower), sf::Vector2f(920, 100), "200", game->font_));
             buttons_.push_back(Button(Actions::Tower3, game->tower_textures_.get(Textures::MissileTower), sf::Vector2f(920, 160), "200", game->font_));
+            buttons_.push_back(Button(Actions::Tower4, game->tower_textures_.get(Textures::FreezingTower), sf::Vector2f(920, 220), "350", game->font_));
             // This needs a texture or something
             buttons_.push_back(Button(Actions::Pause, game->various_textures_.get(Textures::Pause), sf::Vector2f(900, 700), "pause", game->font_));//uses pause button texture as tower3
             
@@ -226,6 +245,17 @@ void Menu::drag(Game* game) {
         game->dragged_ = false;
         bg_.setFillColor(sf::Color(0, 26, 26, 100));
     }
+}
+
+void Menu::drawRange(Game* game){
+    sf::Vector2f pos = game->activeTower_->getPosition() + sf::Vector2f(TOWER_WIDTH_HALF, TOWER_HEIGHT_HALF);
+    float towerRange = game->activeTower_->getRange();
+    sf::CircleShape range(towerRange);
+    range.setPosition(pos - sf::Vector2f(towerRange, towerRange));
+    range.setFillColor(sf::Color(0, 26, 26, 100));
+    range.setOutlineColor(sf::Color::White);
+    range.setOutlineThickness(1);
+    game->window_.draw(range);
 }
 
 bool Menu::canBePlaced(Game* game){

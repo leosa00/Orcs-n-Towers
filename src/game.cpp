@@ -32,16 +32,17 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers"), levelManager_
     tower_textures_.load(Textures::BulletTower, "../textures/tower1.png");
     tower_textures_.load(Textures::BombTower, "../textures/tower2.png");
     tower_textures_.load(Textures::MissileTower, "../textures/tower3.png");//pause button texture needs to be changed to its own texture class later
+    tower_textures_.load(Textures::FreezingTower, "../textures/tower4.png");
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
 
-    enemy_textures_.load(Textures::Enemy1, "../textures/goblin_test.png");
-    enemy_textures_.load(Textures::Enemy2, "../textures/mikey.png");
+    enemy_textures_.load(Textures::Enemy1, "../textures/enemy.png");
+    enemy_textures_.load(Textures::Enemy2, "../textures/enemy_flying.png");
 
     projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
 
     projectile_textures_.load(Textures::Bullet, "../textures/bullet_test.png");
     projectile_textures_.load(Textures::Bomb, "../textures/bomb_test.png");
-    projectile_textures_.load(Textures::Missile, "/home/ottolitkey/cpp/tower-defense-tran-duong-2/textures/mikey.png");
+    projectile_textures_.load(Textures::Missile, "../textures/mikey.png");
     various_textures_.load(Textures::Pause, "../textures/pausebutton.png");
     various_textures_.load(Textures::Castle, "../textures/castle.png");
     // Load font
@@ -238,11 +239,13 @@ void Game::update() {
             if (tower->getLockedEnemy() != nullptr &&
                 tower->getFireTimer().getElapsedTime().asSeconds() >= 1.0f / tower->getFireRate()) {
                 // Added an intermediate step into shooting which sets the projectile texture
-                Projectile* newproj = &(tower->shoot());
-                newproj->setTexture(projectile_textures_.get(newproj->textureType()));
-                //newproj->setPosition(tower->getPosition());
-                projectiles_.push_back(newproj);
-
+                Projectile* newproj = tower->shoot();
+                std::cout << "shoot executed" << std::endl;
+                if (newproj != nullptr) {
+                    newproj->setTexture(projectile_textures_.get(newproj->textureType()));
+                    //newproj->setPosition(tower->getPosition());
+                    projectiles_.push_back(newproj);
+                }
                 //projectiles_.push_back(&(tower->shoot()));
 
                 tower->resetFireTimer();
@@ -304,6 +307,19 @@ void Game::update() {
             i++;
         }
     }
+
+    for (auto i = explosions_.begin(); i != explosions_.end();) {
+        (*i)->update(getTime());
+
+        if ((*i)->isDone()) {
+            delete (*i);
+            //erase returns next iterator
+            i = explosions_.erase(i);
+        }
+        else {
+            i++;
+        }
+    }
 }
 //createPath function used to test the game out, so far the coordinates are
 //hardcoded
@@ -347,10 +363,20 @@ void Game::render() {
         }
 
     }
+    // NOTE: test
+    for (auto* explosion : explosions_) {
+        window_.draw(*explosion);
+    }
+
     if (isGameOver_) {
         window_.draw(gameOverText);
     }
 
+    // If a tower is active draw it's range
+    if (activeTower_) {
+        shop_->drawRange(this);
+    }
+    
     // Draw menu items last so they don't get blocked by other stuff
     shop_->draw(window_);
     if (alternativeMenu_) {
