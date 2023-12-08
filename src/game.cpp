@@ -45,6 +45,7 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers"), levelManager_
     projectile_textures_.load(Textures::Missile, "../textures/mikey.png");
     various_textures_.load(Textures::Pause, "../textures/pausebutton.png");
     various_textures_.load(Textures::Castle, "../textures/castle.png");
+    various_textures_.load(Textures::Dirt, "../textures/dirt.png");
     // Load font
 
     font_.loadFromFile("../textures/OpenSans_Condensed-Bold.ttf");
@@ -341,7 +342,8 @@ void Game::render() {
     for (auto path : path_.unBuildable) {
         sf::RectangleShape rectShape(sf::Vector2f(path.width, path.height));
         rectShape.setPosition(path.left, path.top);
-        rectShape.setFillColor(sf::Color::Cyan);
+        const sf::Texture& dirtTexture = various_textures_.get(Textures::Dirt);
+        rectShape.setTexture(&dirtTexture); 
         window_.draw(rectShape);
     }
 
