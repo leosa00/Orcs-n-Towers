@@ -11,11 +11,11 @@ void Enemy::moveEnemy(sf::Vector2f movement) {
 }
 //get time variable from game::getTime() function
 void Enemy::update(sf::Time time) {
-	sf::Vector2f movement = velocity_ * time.asSeconds();
+	sf::Vector2f movement = velocity_  * time.asSeconds();
 
     if (slowed_ > 0) {
         //the actual amount the enemy is slowed will be tweaked, for now it is 0.2 f
-        movement -= velocity_ * 0.002f * time.asSeconds();
+        movement -= velocity_ *0.5f * time.asSeconds();
     }
 	
 	moveEnemy(movement);
@@ -24,10 +24,8 @@ void Enemy::update(sf::Time time) {
 		findNewWaypoint();
 		setVelocity();
 	}
-    //applySlowed(100);
+    std::cout << slowed_ << std::endl;
     slowedDamage();
-    //std::cout << dead_ << std::endl;
-    //poisonDamage();
 
 }
 //checks if the current way point has been passed, returns trur
@@ -195,6 +193,7 @@ void Enemy::poisonDamage() {
 void Enemy::applySlowed(int duration) {
     if(slowed_ == 0) {
         slowed_+=duration;
+        effectiveSpeed_ = actualSpeed_ * 0.2f;
     }
 }
 
@@ -202,7 +201,7 @@ void Enemy::slowedDamage() {
     if(slowed_ > 0) {
         slowed_-=1;
     } else {
-        speed_=actualSpeed_;
+        effectiveSpeed_ = actualSpeed_;
     }
 }
 
