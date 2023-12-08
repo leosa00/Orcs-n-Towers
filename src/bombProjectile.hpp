@@ -16,8 +16,8 @@ public:
     /**
      * @param blastRange_ the blast radius of the bomb
     */
-    BombProjectile(sf::Vector2f shootDirection, sf::Vector2f position, int damage) // <- tbd
-    : Projectile(shootDirection, position, damage, 60.0, "bomb", 50), blastRange_(1000) {}
+    BombProjectile(sf::Vector2f shootDirection, sf::Vector2f position, int damage, float range) // <- tbd
+    : Projectile(shootDirection, position, damage, 60.0, "bomb", range), blastRange_(1000) {}
                                         //  ^            ^  ^  tbd
     
     /**

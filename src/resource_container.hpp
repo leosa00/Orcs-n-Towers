@@ -14,13 +14,22 @@ namespace Textures{
     enum Various {Pause, Castle};
 }
 
-// template class for loading and storing textures and other resources
-
+/**
+ * 
+ * @class ResourceContainer
+ * @brief Template container for textures etc resources.
+ * 
+*/
 template <typename T_enum, typename T_resource>
 class ResourceContainer {
 public:
 
-    // Load resource into container
+    /**
+     * @brief Loads and stores a resource.
+     * 
+     * @param type Enumerator which defines the type of this resource.
+     * @param filename path to file containing the resource.
+    */
     void load(T_enum type, std::string filename){
         std::unique_ptr<T_resource> resource(new T_resource());
 
@@ -31,7 +40,13 @@ public:
         resources_.insert(std::make_pair(type, std::move(resource)));
         } 
 
-    // Find wanted resource, return reference
+    /**
+     * @brief Find and return requested resource
+     * 
+     * @param type Enumerator defining which texture is wanted
+     * 
+     * @return Returns reference to recource if found 
+    */
     T_resource& get(T_enum type) const {
         auto wanted = resources_.find(type);
         return *wanted->second;

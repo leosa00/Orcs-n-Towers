@@ -67,6 +67,13 @@ public:
      * @see canBePlaced()
     */
     void drag(Game* game);
+
+    /**
+     * @brief Draws active tower range.
+     * 
+     * @param game pointer to the game object
+    */
+    void drawRange(Game* game);
 private:
 
     /**

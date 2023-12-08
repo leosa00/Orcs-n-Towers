@@ -7,6 +7,9 @@
 #include <stdio.h>
 #include <algorithm>
 
+#define TOWER_WIDTH_HALF 15
+#define TOWER_HEIGHT_HALF 25
+
 // Draws all the buttons in the menu
 void Menu::draw(sf::RenderWindow& window) {
     window.draw(bg_);
@@ -242,6 +245,17 @@ void Menu::drag(Game* game) {
         game->dragged_ = false;
         bg_.setFillColor(sf::Color(0, 26, 26, 100));
     }
+}
+
+void Menu::drawRange(Game* game){
+    sf::Vector2f pos = game->activeTower_->getPosition() + sf::Vector2f(TOWER_WIDTH_HALF, TOWER_HEIGHT_HALF);
+    float towerRange = game->activeTower_->getRange();
+    sf::CircleShape range(towerRange);
+    range.setPosition(pos - sf::Vector2f(towerRange, towerRange));
+    range.setFillColor(sf::Color(0, 26, 26, 100));
+    range.setOutlineColor(sf::Color::White);
+    range.setOutlineThickness(1);
+    game->window_.draw(range);
 }
 
 bool Menu::canBePlaced(Game* game){

@@ -35,8 +35,8 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers"), levelManager_
     tower_textures_.load(Textures::FreezingTower, "../textures/tower4.png");
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
 
-    enemy_textures_.load(Textures::Enemy1, "../textures/goblin_test.png");
-    enemy_textures_.load(Textures::Enemy2, "../textures/mikey.png");
+    enemy_textures_.load(Textures::Enemy1, "../textures/enemy.png");
+    enemy_textures_.load(Textures::Enemy2, "../textures/enemy_flying.png");
 
     projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
 
@@ -83,7 +83,9 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers"), levelManager_
 };
 
 
-
+path& Game::getPath() {
+    return path_;
+}
 // Run main game loop
 void Game::run() {
     while (window_.isOpen())
@@ -197,11 +199,15 @@ void Game::update() {
             if ((*it)->type() == EnemyType::Split) { //now if the enemy dies because it reached the castle it wont split, otherwise it will
                 //I also fixed the split enemies movement
                 std::queue<sf::Vector2f> waypoints = (*it)->getWaypoints();
+                
+
                 if (!waypoints.empty()) {
                     sf::Vector2f position = (*it)->getCenter();
                     testEnemySplit(position, waypoints);
                 }
+            
             }
+        
             //removes an enemy from the list and subsequently it is destroyed, if the enemy
             //is dead
             it = enemies_.erase(it);
@@ -301,6 +307,19 @@ void Game::update() {
             i++;
         }
     }
+
+    for (auto i = explosions_.begin(); i != explosions_.end();) {
+        (*i)->update(getTime());
+
+        if ((*i)->isDone()) {
+            delete (*i);
+            //erase returns next iterator
+            i = explosions_.erase(i);
+        }
+        else {
+            i++;
+        }
+    }
 }
 //createPath function used to test the game out, so far the coordinates are
 //hardcoded
@@ -344,10 +363,20 @@ void Game::render() {
         }
 
     }
+    // NOTE: test
+    for (auto* explosion : explosions_) {
+        window_.draw(*explosion);
+    }
+
     if (isGameOver_) {
         window_.draw(gameOverText);
     }
 
+    // If a tower is active draw it's range
+    if (activeTower_) {
+        shop_->drawRange(this);
+    }
+    
     // Draw menu items last so they don't get blocked by other stuff
     shop_->draw(window_);
     if (alternativeMenu_) {

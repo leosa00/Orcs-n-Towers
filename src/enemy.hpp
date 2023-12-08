@@ -18,8 +18,11 @@ public:
 
     Enemy(int hp, int speed, EnemyType type, int money, std::queue<sf::Vector2f> waypoints)
          : hp_(hp), actualSpeed_(speed), speed_(speed), effectiveSpeed_(speed), type_(type), money_(money), waypoints_(waypoints), initialHp_(hp) {
-        //Ellen: enemies can set their own position, since it will be same for everyone
-        setPosition(waypoints_.front());
+        
+        // Random y value of starting pos, gets set as a negative value
+        // So enemies spawn outside window and then move in
+        int rand_y = std::rand() % 40; 
+        setPosition(133, - rand_y);
         
         if (!waypoints_.empty()) {
             currentWaypoint_ = waypoints_.front();
