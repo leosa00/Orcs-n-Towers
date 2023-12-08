@@ -24,7 +24,7 @@ void Enemy::update(sf::Time time) {
 		findNewWaypoint();
 		setVelocity();
 	}
-    std::cout << slowed_ << std::endl;
+    
     slowedDamage();
 
 }
