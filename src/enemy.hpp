@@ -22,7 +22,8 @@ public:
         // Random y value of starting pos, gets set as a negative value
         // So enemies spawn outside window and then move in
         int rand_y = std::rand() % 40; 
-        setPosition(133, - rand_y);
+        //setPosition(waypoints_.front().x, - rand_y);
+        setPosition(waypoints_.front() - sf::Vector2f(1,1));
         
         if (!waypoints_.empty()) {
             currentWaypoint_ = waypoints_.front();

@@ -6,7 +6,10 @@
 #include <iostream>
 
 // initialize game object, mainly create window...
-Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers"), levelManager_("../textures/levels.csv", path_, *this, player_) {
+Game::Game() : 
+        window_(sf::VideoMode(1000, 800), "Orcs n Towers"), 
+        levelManager_("../textures/levels.csv", path_, *this, player_),
+        path_("../textures/paths.csv") {
     // Set dragging flag
     dragged_ = false;
     paused_ = false;
@@ -16,6 +19,11 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers"), levelManager_
     if(!levelManager_.readingSuccessfull()){
         return;
     }
+
+    if(!path_.readingSuccessfull()){
+        return;
+    }
+
 
     //Load the Map texture
     if (!map.texture.loadFromFile("../textures/grass.jpeg"))
@@ -65,7 +73,8 @@ Game::Game() : window_(sf::VideoMode(1000, 800), "Orcs n Towers"), levelManager_
     gameOverText.setFillColor(sf::Color::Black);
     gameOverText.setStyle(sf::Text::Bold);
     gameOverText.setPosition(400, 200);
-    createPath();
+    //createPath();
+    
     path_.makeUnBuildablePath();
     for (auto path : path_.unBuildable) {
         map.unBuildable.push_back(path);
