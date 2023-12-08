@@ -85,6 +85,9 @@ void LevelManager::update(){
         return;} //time left, return early
 
     //if there are waves left for the level
+
+    std::cout << "waves: " << std::get<int>(levelSpecs_[currLevel_]["waves"]) << std::endl;
+
     if(std::get<int>(levelSpecs_[currLevel_]["waves"]) > 0) {
         
         std::cout << "Initialising enemies..." << std::endl;
@@ -148,7 +151,8 @@ void LevelManager::initiateEnemies(){
         case 2:
         {
             Enemy enemy(30, 80, EnemyType::Split, 10, path_.getWaypoints());
-            enemy.setTexture(game_.enemy_textures_.get(Textures::Enemy2));
+            enemy.setPosition(100, 0);
+            enemy.setTexture(game_.enemy_textures_.get(Textures::Enemy1));
             game_.enemies_.push_back(std::make_shared<Enemy>(enemy));
             break;
         }
