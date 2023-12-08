@@ -45,6 +45,7 @@ Game::Game() :
 
     enemy_textures_.load(Textures::Enemy1, "../textures/enemy.png");
     enemy_textures_.load(Textures::Enemy2, "../textures/enemy_flying.png");
+    enemy_textures_.load(Textures::Enemy3, "../textures/enemy_weapon.png");
 
     projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
 

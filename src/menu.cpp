@@ -56,16 +56,9 @@ void Menu::checkButtons(Game* game) {
             }
             case Actions::Tower4:
             {
-                if (game->activeTower_) {
-                    delete game->alternativeMenu_;
-                    game->alternativeMenu_ = nullptr;
-                    game->activeTower_ = nullptr;
-                }
                 FreezingTower* new_freezing = new FreezingTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
                 new_freezing->setTexture(game->tower_textures_.get(Textures::FreezingTower));
-                game->activeTower_ = new_freezing;
-                game->dragged_ = true;
-                bg_.setFillColor(sf::Color(100, 26, 26, 100));
+                newTower(new_freezing, game);
                 break;
             }
 
@@ -167,10 +160,15 @@ void Menu::createMenu(MenuType menu, Game* game) {
             
             std::string money = std::to_string(game->player_.getWallet());
             std::string health = std::to_string(game->player_.getHP());
+            std::string level = std::to_string(game->player_.getLevel() + 1);
             sf::Text euro(money + " EUR", game->font_, 20);
             sf::Text hp(health + " HP", game->font_, 20);
+            sf::Text lvl("Level: " + level, game->font_, 20);
+            lvl.setPosition(900, 550);
             euro.setPosition(900, 600);
             hp.setPosition(900, 650);
+            
+            texts_.push_back(lvl);
             texts_.push_back(euro);
             texts_.push_back(hp);
             
@@ -214,7 +212,7 @@ void Menu::createMenu(MenuType menu, Game* game) {
         {
             buttons_.push_back(Button(Actions::Level, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(400, 440), "Next level", game->font_));
             // FIXME: The text does not include the first letter :(
-            sf::Text intro(("Congratulations for completing level " + game->player_.getLevel()), game->font_, 20);
+            sf::Text intro("Level passed!", game->font_, 20);
             intro.setPosition(400, 400);
             texts_.push_back(intro);
             break;
@@ -225,10 +223,13 @@ void Menu::createMenu(MenuType menu, Game* game) {
 }
 
 void Menu::update(Player& player){
+    std::string level = "Level: " + std::to_string(player.getLevel() + 1);
     std::string money = std::to_string(player.getWallet()) + " EUR";
     std::string health = std::to_string(player.getHP()) + " HP";
-    texts_.front().setString(money);
-    texts_.back().setString(health);
+    texts_[0].setString(level);
+    texts_[1].setString(money);
+    texts_[2].setString(health);
+
 }
 
 void Menu::drag(Game* game) {

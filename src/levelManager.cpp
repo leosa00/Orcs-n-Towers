@@ -152,7 +152,7 @@ void LevelManager::initiateEnemies(){
         {
             Enemy enemy(30, 80, EnemyType::Split, 10, path_.getWaypoints());
             enemy.setPosition(100, 0);
-            enemy.setTexture(game_.enemy_textures_.get(Textures::Enemy1));
+            enemy.setTexture(game_.enemy_textures_.get(Textures::Enemy3));
             game_.enemies_.push_back(std::make_shared<Enemy>(enemy));
             break;
         }
