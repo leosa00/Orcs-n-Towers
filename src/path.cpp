@@ -1,7 +1,15 @@
 #include "path.hpp"
 #include <cmath>
+#include <iostream>
+#include <string>
+#include <fstream>
+#include <sstream>
 
-path::path() {}
+
+bool path::readingSuccessfull(){
+	return readingSuccess_;
+}
+
 
 void path::addWaypoint(const sf::Vector2f& point) {
     waypoints_.push(point);
@@ -42,4 +50,49 @@ void path::makeUnBuildablePath()
 		unBuildable.push_back(partofStreet);
 	}
 	//wayPoints.clear();
+}
+
+void path::readPath(){
+	 std::ifstream file(src_);
+
+    if(file.rdstate() & (file.failbit | file.badbit)){ //failure
+        readingSuccess_ = false;
+        return;
+    } 
+
+    std::string line;
+
+    std::getline(file,line); //disregards first line which is the formatting example
+
+    while (std::getline(file,line))
+    {
+        
+        char comma, oBrac, cBrac;
+		sf::Vector2f coords;
+		std::vector<sf::Vector2f> vec;
+
+        std::istringstream iss(line);
+
+		iss >> oBrac >> coords.x >> comma >> coords.y >> cBrac; //first entry with no comma before
+        vec.push_back(coords);
+
+		if (iss.fail() || iss.bad()){ //failure
+            readingSuccess_ = false;
+            return;
+        }
+     
+	 	while (iss >> comma >> oBrac >> coords.x >> comma >> coords.y >> cBrac)
+		{
+			vec.push_back(coords);
+		}
+		
+
+        if (iss.fail() && !iss.eof()) { // failure
+            readingSuccess_ = false;
+            return;
+        }
+        
+		paths_.push_back(vec);
+        readingSuccess_ = true;
+    }
 }

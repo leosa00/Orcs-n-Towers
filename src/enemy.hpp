@@ -6,6 +6,7 @@
 #include "player.hpp"
 #include <SFML/System/Vector2.hpp>
 #include <SFML/Graphics.hpp> 
+#include <random>
 
 enum class EnemyType {
     Ground,
@@ -21,8 +22,14 @@ public:
         
         // Random y value of starting pos, gets set as a negative value
         // So enemies spawn outside window and then move in
-        int rand_y = std::rand() % 40; 
-        setPosition(133, - rand_y);
+        //int rand_y = std::rand() % 40; 
+
+        //tries to avoid enemies being on top of eachother
+        std::random_device rd;
+        std::uniform_int_distribution range(1,40);
+        int x = range(rd);
+        int y = range(rd);
+        setPosition(waypoints_.front() - sf::Vector2f(x,y));
         
         if (!waypoints_.empty()) {
             currentWaypoint_ = waypoints_.front();
