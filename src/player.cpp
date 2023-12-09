@@ -9,9 +9,9 @@ int Player::getHP() const {
     return hp_;
 }
 
-std::string Player::getName() const {
+/*std::string Player::getName() const {
     return name_;
-}
+}*/
 
 int Player::getLevel() const {
     return level_;
@@ -29,9 +29,9 @@ void Player::removeHP(int amount) {
     hp_ -= amount;
 }
 
-void Player::addToScore(int amount) {
+/*void Player::addToScore(int amount) {
     score_ += amount;
-}
+}*/
 
 void Player::levelUp(){
     level_++;

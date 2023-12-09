@@ -74,6 +74,12 @@ Game::Game() :
     gameOverText.setFillColor(sf::Color::Black);
     gameOverText.setStyle(sf::Text::Bold);
     gameOverText.setPosition(400, 200);
+
+    //game finished
+    gameFinishedText = sf::Text("Congratulations, you completed the game!", font_, 30);
+    gameFinishedText.setFillColor(sf::Color::Black);
+    gameFinishedText.setStyle(sf::Text::Bold);
+    gameFinishedText.setPosition(220, 200);
     //createPath();
     
     path_.makeUnBuildablePath();
@@ -82,6 +88,7 @@ Game::Game() :
     }
     
      //Draws castle sprite
+     //!!! get castle to be at end of path, getWaypoints.back() puts it in a stragne position on all paths
     sf::Texture& castleTexture = various_textures_.get(Textures::Castle);
     castle_sprite_.setTexture(castleTexture);
     sf::Vector2f castlePosition = sf::Vector2f(600, 600);
@@ -163,7 +170,8 @@ void Game::update() {
     //game has been completed, should probably do something else than just pause
     //lm update will increase current level by one even after it has run out of waves for the last level
     if(levelManager_.getCurrentLevel() >= levelManager_.getLevelTotal()){
-        paused_ = true;
+        //paused_ = true;
+        isGameFinished_ = true;
         return;
     }
 
@@ -334,7 +342,7 @@ void Game::update() {
 }
 //createPath function used to test the game out, so far the coordinates are
 //hardcoded
-void Game::createPath() {
+/*void Game::createPath() {
     path_.addWaypoint(sf::Vector2f(133, 20));
     path_.addWaypoint(sf::Vector2f(133, 400));
     path_.addWaypoint(sf::Vector2f(400, 400));
@@ -344,7 +352,7 @@ void Game::createPath() {
     path_.addWaypoint(sf::Vector2f(700, 300));
     path_.addWaypoint(sf::Vector2f(700, 500));
     path_.addWaypoint(sf::Vector2f(700, 700));
-}
+}*/
 // Iterate over objects, render them onto window
 void Game::render() {
     window_.clear();
@@ -382,6 +390,10 @@ void Game::render() {
 
     if (isGameOver_) {
         window_.draw(gameOverText);
+    }
+
+    if(isGameFinished_){
+        window_.draw(gameFinishedText);
     }
 
     // If a tower is active draw it's range

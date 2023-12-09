@@ -56,6 +56,10 @@ public:
             delete i;
         }
         towers_.clear();
+
+        delete activeTower_;
+        delete alternativeMenu_;
+        delete shop_;
     }
     path& getPath();
 private:
@@ -99,8 +103,10 @@ private:
     bool dragged_; // Indicates if a tower is currently being dragged into place
     bool paused_; // Is the game paused?
     bool isGameOver_=false; //is the game over because the player has died to an enemy
+    bool isGameFinished_ = false; //completed game
     sf::Font font_; // Stores text font
     sf::Text gameOverText;
+    sf::Text gameFinishedText;
     sf::Sprite castle_sprite_;
 
     Menu* shop_; // Shop on left side
