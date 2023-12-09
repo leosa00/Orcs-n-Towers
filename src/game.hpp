@@ -57,9 +57,9 @@ public:
 
     ~Game(){
         
-        for(auto i : enemies_){
+        /* for(auto i : enemies_){
             //delete i;
-        }
+        }*/ 
         enemies_.clear();
 
         for(auto i : projectiles_){
@@ -72,7 +72,7 @@ public:
         }
         towers_.clear();
 
-        delete activeTower_;
+        //delete activeTower_;
         
         // Menus deleted by unique_ptr
     }
