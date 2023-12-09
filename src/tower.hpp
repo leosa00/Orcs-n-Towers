@@ -47,7 +47,7 @@ public:
     // shoot() creates a projectile that flies towards lockedEnemy_
     // Changed it to pure virtual 
     virtual Projectile* shoot() = 0; 
-    void upgradeTower(); // Will be defined in .cpp 
+    virtual void upgradeTower(); // Will be defined in .cpp 
     /* update() method is declared as virtual. Some derived
        classes will use base update() and other will use override*/
     virtual void update(std::list<std::shared_ptr<Enemy>> &enemies, sf::Time time);
@@ -60,6 +60,8 @@ public:
     sf::Vector2f getSize();//Get the height and width of the Tower we want to build
     virtual void build(); //build function which change the temporary variable builded to tru
     bool builded = false; //Temporary variable define whether the tower is built or not.
+    void setLevel(int level) {currentLvl_ = level;}
+    void setMaxLevelFlag() {maxLevelReached_ = true;}
 private:
 //    virtual void draw();
     const std::string type_;

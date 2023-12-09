@@ -52,9 +52,7 @@ void Tower::upgradeTower() {
   if (currentLvl_ == 1) {
     currentLvl_++;
     damage_ = 1.5 * damage_;
-    if (currentLvl_ == TOWER_MAX_LVL) {
-      maxLevelReached_ = true;
-    }
+    setMaxLevelFlag();
   }
 }
 

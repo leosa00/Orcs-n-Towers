@@ -20,7 +20,16 @@ void FreezingTower::update(std::list<std::shared_ptr<Enemy>> &enemies, sf::Time 
 
 Projectile* FreezingTower::shoot() {
     for (std::shared_ptr<Enemy> enemy : lockedEnemies_) {
-        enemy->applySlowed(sf::seconds(1.5), 0.3f); // argument needs to be changed (most likely)
+        enemy->applySlowed(sf::seconds(1.5), slowCoefficient_);
     }
     return nullptr;
+}
+
+void FreezingTower::upgradeTower() {
+    int currentLvl = getCurrentLvl();
+    if (currentLvl == 1) {
+        setLevel(2);
+        slowCoefficient_ = 1.5 * slowCoefficient_;
+        setMaxLevelFlag();
+    }
 }
