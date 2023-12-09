@@ -20,7 +20,7 @@ void PoisonTower::update(std::list<std::shared_ptr<Enemy>> &enemies, sf::Time ti
 
 Projectile* PoisonTower::shoot() {
     for (std::shared_ptr<Enemy> enemy : lockedEnemies_) {
-        //enemy->applyPoison(20); // argument needs to be changed (most likely)
+        enemy->applyPoison(3, getDamage());
     }
     return nullptr;
 }

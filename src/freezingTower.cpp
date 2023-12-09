@@ -20,7 +20,7 @@ void FreezingTower::update(std::list<std::shared_ptr<Enemy>> &enemies, sf::Time 
 
 Projectile* FreezingTower::shoot() {
     for (std::shared_ptr<Enemy> enemy : lockedEnemies_) {
-        enemy->applySlowed(5); // argument needs to be changed (most likely)
+        enemy->applySlowed(sf::seconds(1.5), 0.3f); // argument needs to be changed (most likely)
     }
     return nullptr;
 }
