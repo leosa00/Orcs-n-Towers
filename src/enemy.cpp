@@ -5,6 +5,8 @@
 #include <cmath>
 #include <memory>
 #include <iostream>
+#include <iomanip>
+#include <sstream>
 void Enemy::moveEnemy(sf::Vector2f movement) { 
     this->move(movement);
     //add more implementations for moving other textures
@@ -12,10 +14,13 @@ void Enemy::moveEnemy(sf::Vector2f movement) {
 //get time variable from game::getTime() function
 void Enemy::update(sf::Time time) {
 	sf::Vector2f movement = velocity_  * time.asSeconds();
-
-    if (slowed_ > 0) {
+    if (slowed_ > sf::Time::Zero) {
+        slowed_ -= time;
+        if (slowed_ <= sf::Time::Zero) {
+            slowCoefficient_ = 0.f;
+        }
         //the actual amount the enemy is slowed will be tweaked, for now it is 0.2 f
-        movement -= velocity_ *0.5f * time.asSeconds();
+        movement -= velocity_ * (1 - slowCoefficient_) * time.asSeconds();
     }
 	
 	moveEnemy(movement);
@@ -24,8 +29,17 @@ void Enemy::update(sf::Time time) {
 		findNewWaypoint();
 		setVelocity();
 	}
-    
-    slowedDamage();
+    if (poison_ > 0) {
+        if (poisonTimer_ >= sf::seconds(1)) {
+            takeDamage(poisonDamage);
+            poisonTimer_ = sf::Time::Zero;
+            poison_ -= 1;
+        }
+        else {
+            poisonTimer_ += time;
+        }
+    }
+    //slowedDamage();
 
 }
 //checks if the current way point has been passed, returns trur
@@ -116,15 +130,21 @@ void Enemy::findNewWaypoint() {
     }
 }
 void Enemy::updateHealthText(const sf::Font& font) {
+    std::ostringstream slowedString;
+    slowedString << std::fixed << std::setprecision(1) << slowed_.asSeconds();
+    /*std::ostringstream poisonString;
+    poisonString << std::fixed << std::setprecision(1) << poison_.asSeconds();*/
     healthText_.setFont(font);
-    if (poison_ > 0 && slowed_ > 0) {
-        healthText_.setString(std::to_string(hp_)+ "/" + std::to_string(initialHp_) + " [F:" + std::to_string(slowed_) + "][P:" + std::to_string(poison_) + "]");
+    if (poison_ > 0 && slowed_ > sf::Time::Zero) {
+        healthText_.setString(std::to_string(hp_)+ "/" + std::to_string(initialHp_) + 
+        " [F:" + slowedString.str() + 
+        "][P:" + std::to_string(poison_) + "]");
     }
     else if (poison_ > 0) {
         healthText_.setString(std::to_string(hp_)+ "/" + std::to_string(initialHp_) + " [P:" + std::to_string(poison_) + "]");
     }
-    else if (slowed_ > 0) {
-        healthText_.setString(std::to_string(hp_)+ "/" + std::to_string(initialHp_) + " [F:" + std::to_string(slowed_) + "]");
+    else if (slowed_ > sf::Time::Zero) {
+        healthText_.setString(std::to_string(hp_)+ "/" + std::to_string(initialHp_) + " [F:" + slowedString.str() + "]");
     }
     else {
         healthText_.setString(std::to_string(hp_)+ "/" + std::to_string(initialHp_));
@@ -165,7 +185,7 @@ int Enemy::poisonStatus() {
     return poison_;
 }
 
-int Enemy::slowedStatus() {
+sf::Time Enemy::slowedStatus() {
     return slowed_;
 }
 
@@ -187,34 +207,31 @@ void Enemy::takeDamage(int damage) {
     }
 }
 
-void Enemy::applyPoison(int duration) {
-    if(poison_ == 0) {
-        poison_+=duration;
-    }
+void Enemy::applyPoison(int stacksOfPoison, int damage) {
+    poison_ = stacksOfPoison;
+    poisonDamage = damage;
+    poisonTimer_ = sf::seconds(1);
+} 
 
-}
-
-void Enemy::poisonDamage() {
+/* void Enemy::poisonDamage() {
     if(poison_ > 0) {
         takeDamage(1);
         poison_-=1;
     }
+} */
+
+void Enemy::applySlowed(sf::Time duration, float slowCoefficient) {
+    slowed_ = duration;
+    slowCoefficient_ = slowCoefficient;
 }
 
-void Enemy::applySlowed(int duration) {
-    if(slowed_ == 0) {
-        slowed_+=duration;
-        effectiveSpeed_ = actualSpeed_ * 0.2f;
-    }
-}
-
-void Enemy::slowedDamage() {
+/* void Enemy::slowedDamage() {
     if(slowed_ > 0) {
         slowed_-=1;
     } else {
         effectiveSpeed_ = actualSpeed_;
     }
-}
+} */ 
 
 // Returns the amount of money this enemy provides when killed
 int Enemy::getMoney() const {
