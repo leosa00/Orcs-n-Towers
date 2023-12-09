@@ -63,16 +63,9 @@ void Menu::checkButtons(Game* game) {
             }
             case Actions::Tower5:
             {
-                if (game->activeTower_) {
-                    delete game->alternativeMenu_;
-                    game->alternativeMenu_ = nullptr;
-                    game->activeTower_ = nullptr;
-                }
                 PoisonTower* new_poison = new PoisonTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
                 new_poison->setTexture(game->tower_textures_.get(Textures::PoisonTower));
-                game->activeTower_ = new_poison;
-                game->dragged_ = true;
-                bg_.setFillColor(sf::Color(100, 26, 26, 100));
+                newTower(new_poison, game);
                 break;
             }            
 
