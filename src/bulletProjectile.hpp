@@ -19,7 +19,7 @@ public:
      * @returns true if bullet has hit an enemy.
      * @param enemy is a reference to an Enemy object
     */
-    bool hasHitEnemy(std::shared_ptr<Enemy>& enemy);
+    bool hasHitEnemy(std::shared_ptr<Enemy>& enemy) override;
 
     /**
      * If the bullet has gone out of range (exceeded its maximum distance), it's destroyed.
@@ -28,12 +28,12 @@ public:
      * If nothing of the before mentioned has happened, the bullet is moved.
      * @param game is a reference to the running game instance
     */
-    void update(Game& game);
+    void update(Game& game) override;
 
     /**
      * @brief returns the texture ID of the type this derived class uses
     */
-    Textures::ProjectileID textureType(){ return Textures::Bullet; }
+    Textures::ProjectileID textureType() override { return Textures::Bullet; }
 
     /**
      * @brief Calculates the rotation angle of the bullet based on its shooting direction

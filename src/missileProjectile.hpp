@@ -28,7 +28,7 @@ public:
      * @returns True if missile has hit it's target, otherwise false.
      * @param enemy is a reference to an Enemy object
     */
-    bool hasHitEnemy(std::shared_ptr<Enemy>& enemy);
+    bool hasHitEnemy(std::shared_ptr<Enemy>& enemy) override;
 
     /**
      * Firstly makes sure that the target enemy still exists, if it doesn't the missile is destroyed.
@@ -38,8 +38,8 @@ public:
      * based on its and the target enemy's current positions, and moves towards the target.
      * @param game is a reference to the running game instance
     */
-    void update(Game& game);
-    Textures::ProjectileID textureType(){ return Textures::Missile; }
+    void update(Game& game) override;
+    Textures::ProjectileID textureType() override { return Textures::Missile; }
 };
 
 

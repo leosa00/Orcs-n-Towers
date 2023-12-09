@@ -33,12 +33,12 @@ public:
      * If the bomb hasn't yet reached it's maximum distance, it is moved.
      * @param game is a reference to the running game instance
     */
-    void update(Game& game);
+    void update(Game& game) override;
 
     /**
      * @brief returns the texture ID of the type this derived class uses
     */
-    Textures::ProjectileID textureType(){ return Textures::Bomb; } 
+    Textures::ProjectileID textureType() override { return Textures::Bomb; } 
 };
 
 

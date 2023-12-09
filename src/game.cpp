@@ -52,11 +52,10 @@ Game::Game() :
         map.unBuildable.push_back(path);
     }
     
-     //Draws castle sprite
-     //!!! get castle to be at end of path, getWaypoints.back() puts it in a stragne position on all paths
+    //Draws castle sprite
     sf::Texture& castleTexture = various_textures_.get(Textures::Castle);
     castle_sprite_.setTexture(castleTexture);
-    sf::Vector2f castlePosition = sf::Vector2f(path_.unBuildable.back().getPosition().x - path_.width, path_.wayPoints.back().y - (castle_sprite_.getTexture()->getSize().y/2));
+    sf::Vector2f castlePosition = sf::Vector2f(path_.wayPoints.back().x - (castle_sprite_.getTexture()->getSize().x/2), path_.wayPoints.back().y - (castle_sprite_.getTexture()->getSize().y/2));
     castle_sprite_.setPosition(castlePosition);
     
 
@@ -204,13 +203,6 @@ void Game::update() {
             ++it;
         }
     }
-
-    /**
-     * depending wether game or palyer keeps track of castle position
-     * atl:
-     * castle_.getGlobalBounds().intersects(enemy.getGlobalBounds())){
-        player_.removeHP(10) <-- should prob be enemy specific
-    */
 
 
     // Pavel: updating towers below. Would someone double-check that logic is correct?
