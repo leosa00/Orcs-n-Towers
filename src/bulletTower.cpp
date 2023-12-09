@@ -5,7 +5,7 @@
 #include <memory>
 
 BulletTower::BulletTower(sf::Vector2f position)
-    : Tower(position, "Bullet Tower", 200, 300.f, 0.5f, 15, 1, 300, CanDamage::Both, nullptr, sf::Clock(), false) {}
+    : Tower(position, "Bullet Tower", 200, 300.f, sf::seconds(1), 15, 1, 300, CanDamage::Both, nullptr, false) {}
                                 // tbd ^    ^      ^     ^      ^      ^
                                 //          range should be somewhat concise with BulletProjectile's maxDistance.
 BulletProjectile* BulletTower::shoot() {

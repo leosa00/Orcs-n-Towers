@@ -5,7 +5,7 @@
 #include <memory>
 
 MissileTower::MissileTower(sf::Vector2f position)
-    : Tower(position, "Missile Tower", 200, 1000.0f, 0.2f, 30, 1, 300, CanDamage::Both, nullptr, sf::Clock(), false) {}
+    : Tower(position, "Missile Tower", 200, 1000.0f, sf::seconds(3), 30, 1, 300, CanDamage::Both, nullptr, false) {}
 
 MissileProjectile* MissileTower::shoot() {
     sf::Vector2f direction = getLockedEnemy()->getPosition() - getPosition();

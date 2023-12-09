@@ -254,9 +254,9 @@ void Game::update() {
     // simple way to do so as updating tower logic uses private members enemies_ and 
     // projectiles_?
     for (auto* tower : towers_) {
-            tower->update(enemies_);
-            if (tower->getLockedEnemy() != nullptr &&
-                tower->getFireTimer().getElapsedTime().asSeconds() >= 1.0f / tower->getFireRate()) {
+        tower->update(enemies_, getTime());
+        if (tower->getLockedEnemy() != nullptr &&
+            tower->getFireTimer() >= tower->getFireRate()) {
                 // Added an intermediate step into shooting which sets the projectile texture
                 Projectile* newproj = tower->shoot();
                 std::cout << "shoot executed" << std::endl;
@@ -270,7 +270,7 @@ void Game::update() {
                 tower->resetFireTimer();
 
             }
-        }
+    }
      
 
     /*for (auto& tower : towers_) {
