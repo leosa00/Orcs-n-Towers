@@ -3,6 +3,7 @@
 #include "bulletTower.hpp"
 #include "missileTower.hpp"
 #include "freezingTower.hpp"
+#include "poisonTower.hpp"
 #include <string>
 #include <stdio.h>
 #include <algorithm>
@@ -68,6 +69,20 @@ void Menu::checkButtons(Game* game) {
                 bg_.setFillColor(sf::Color(100, 26, 26, 100));
                 break;
             }
+            case Actions::Tower5:
+            {
+                if (game->activeTower_) {
+                    delete game->alternativeMenu_;
+                    game->alternativeMenu_ = nullptr;
+                    game->activeTower_ = nullptr;
+                }
+                PoisonTower* new_poison = new PoisonTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
+                new_poison->setTexture(game->tower_textures_.get(Textures::PoisonTower));
+                game->activeTower_ = new_poison;
+                game->dragged_ = true;
+                bg_.setFillColor(sf::Color(100, 26, 26, 100));
+                break;
+            }            
 
             // If the button upgrade is pressed, there is already a upgrade menu in existence
             // And the tower which we want to upgrade is known
@@ -162,6 +177,7 @@ void Menu::createMenu(MenuType menu, Game* game) {
             buttons_.push_back(Button(Actions::Tower2, game->tower_textures_.get(Textures::BulletTower), sf::Vector2f(920, 100), "200", game->font_));
             buttons_.push_back(Button(Actions::Tower3, game->tower_textures_.get(Textures::MissileTower), sf::Vector2f(920, 160), "200", game->font_));
             buttons_.push_back(Button(Actions::Tower4, game->tower_textures_.get(Textures::FreezingTower), sf::Vector2f(920, 220), "350", game->font_));
+            buttons_.push_back(Button(Actions::Tower5, game->tower_textures_.get(Textures::PoisonTower), sf::Vector2f(920, 280), "350", game->font_));
             // This needs a texture or something
             buttons_.push_back(Button(Actions::Pause, game->various_textures_.get(Textures::Pause), sf::Vector2f(900, 700), "pause", game->font_));//uses pause button texture as tower3
             

@@ -32,6 +32,7 @@ class Game {
     friend class BombProjectile;
     friend class BulletProjectile;
     friend class MissileProjectile;
+    friend class PoisonTower;
     friend class Menu; 
     friend class LevelManager;
 

@@ -24,11 +24,3 @@ Projectile* FreezingTower::shoot() {
     }
     return nullptr;
 }
-
-std::shared_ptr<Tower> FreezingTower::getClassObject()
-{
-    sf::Vector2f defaultPosition(0.0f, 0.0f);
-    std::shared_ptr<Tower> obj = std::make_shared<FreezingTower>(defaultPosition);
-
-    return obj;
-}

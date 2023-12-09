@@ -117,7 +117,18 @@ void Enemy::findNewWaypoint() {
 }
 void Enemy::updateHealthText(const sf::Font& font) {
     healthText_.setFont(font);
-    healthText_.setString(std::to_string(hp_)+ "/" + std::to_string(initialHp_));
+    if (poison_ > 0 && slowed_ > 0) {
+        healthText_.setString(std::to_string(hp_)+ "/" + std::to_string(initialHp_) + " [F:" + std::to_string(slowed_) + "][P:" + std::to_string(poison_) + "]");
+    }
+    else if (poison_ > 0) {
+        healthText_.setString(std::to_string(hp_)+ "/" + std::to_string(initialHp_) + " [P:" + std::to_string(poison_) + "]");
+    }
+    else if (slowed_ > 0) {
+        healthText_.setString(std::to_string(hp_)+ "/" + std::to_string(initialHp_) + " [F:" + std::to_string(slowed_) + "]");
+    }
+    else {
+        healthText_.setString(std::to_string(hp_)+ "/" + std::to_string(initialHp_));
+    }
     healthText_.setCharacterSize(14);
     healthText_.setFillColor(sf::Color::White); 
     sf::FloatRect bounds = getGlobalBounds();
