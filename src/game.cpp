@@ -23,44 +23,8 @@ Game::Game() :
     if(!path_.readingSuccessfull()){
         return;
     }
-
-
-    //Load the Map texture
-    if (!map.texture.loadFromFile("../textures/grass.jpeg"))
-    {
-        return;
-    }
-    map.background.setTexture(map.texture);
-
     
-
-    // Create tower texture container, load texture    
-    tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
-
-    tower_textures_.load(Textures::BulletTower, "../textures/tower1.png");
-    tower_textures_.load(Textures::BombTower, "../textures/tower2.png");
-    tower_textures_.load(Textures::MissileTower, "../textures/tower3.png");//pause button texture needs to be changed to its own texture class later
-    tower_textures_.load(Textures::FreezingTower, "../textures/tower4.png");
-    tower_textures_.load(Textures::PoisonTower, "../textures/tower5.png");
-    enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
-
-    enemy_textures_.load(Textures::Enemy1, "../textures/enemy.png");
-    enemy_textures_.load(Textures::Enemy2, "../textures/enemy_flying.png");
-    enemy_textures_.load(Textures::Enemy3, "../textures/enemy_weapon.png");
-
-    projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
-
-    projectile_textures_.load(Textures::Bullet, "../textures/bullet_test.png");
-    projectile_textures_.load(Textures::Bomb, "../textures/bomb_test.png");
-    projectile_textures_.load(Textures::Missile, "../textures/mikey.png");
-    various_textures_.load(Textures::Pause, "../textures/pausebutton.png");
-    various_textures_.load(Textures::Castle, "../textures/castle.png");
-    various_textures_.load(Textures::Dirt, "../textures/dirt.png");
-    // Load font
-
-    font_.loadFromFile("../textures/OpenSans_Condensed-Bold.ttf");
-
-
+    loadTextures();
 
     // Initialize menus
     shop_ = std::make_unique<Menu>();
@@ -475,4 +439,47 @@ void Game::updateMenus() {
         alternativeMenu_ = nullptr;
         menuInactive = false;
     }
+}
+
+void Game::loadTextures(){
+
+    //Load the Map texture
+    if (!map.texture.loadFromFile("../textures/grass.jpeg"))
+    {
+        return;
+    }
+    
+    map.background.setTexture(map.texture);
+    // Towers  
+    tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
+
+    tower_textures_.load(Textures::BulletTower, "../textures/tower1.png");
+    tower_textures_.load(Textures::BombTower, "../textures/tower2.png");
+    tower_textures_.load(Textures::MissileTower, "../textures/tower3.png");//pause button texture needs to be changed to its own texture class later
+    tower_textures_.load(Textures::FreezingTower, "../textures/tower4.png");
+    tower_textures_.load(Textures::PoisonTower, "../textures/tower5.png");
+    
+    // Enemies
+    enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
+
+    enemy_textures_.load(Textures::Enemy1, "../textures/enemy.png");
+    enemy_textures_.load(Textures::Enemy2, "../textures/enemy_flying.png");
+    enemy_textures_.load(Textures::Enemy3, "../textures/enemy_weapon.png");
+
+    // Projectiles
+    projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
+
+    projectile_textures_.load(Textures::Bullet, "../textures/bullet_test.png");
+    projectile_textures_.load(Textures::Bomb, "../textures/bomb_test.png");
+    projectile_textures_.load(Textures::Missile, "../textures/mikey.png");
+    
+    // Others
+    various_textures_.load(Textures::Pause, "../textures/pausebutton.png");
+    various_textures_.load(Textures::Castle, "../textures/castle.png");
+    various_textures_.load(Textures::Dirt, "../textures/dirt.png");
+    various_textures_.load(Textures::Upgrade, "../textures/Upgrade.png");
+    various_textures_.load(Textures::Sell, "../textures/Money.png");
+    various_textures_.load(Textures::Continue, "../textures/okay.png");
+    // Load font
+    font_.loadFromFile("../textures/OpenSans_Condensed-Bold.ttf");
 }

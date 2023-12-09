@@ -22,6 +22,10 @@
 class Menu;
 // Class for running the game logic
 
+/**
+ * @class Game
+ * @brief This class runs the game logic
+*/
 class Game {
     
     friend class Tower;
@@ -39,6 +43,16 @@ class Game {
 public:
     Map map;
     Game();
+
+    /**
+     * @brief this function is called from the main function to run the game.
+     * 
+     * If the window remains open, calls processEvents(), update(), and render() in this order.
+     * 
+     * @see processEvents()
+     * @see update()
+     * @see render()
+    */
     void run();
 
     ~Game(){
@@ -62,14 +76,26 @@ public:
         
         // Menus deleted by unique_ptr
     }
+
+    /**
+     * @brief Returns the path, which enemies follow
+     * 
+     * @return path& the path
+    */
     path& getPath();
 private:
+    /**
+     * @brief processes user input
+     * 
+     * Gets widow events from SFML and checks if the window has been closed, or if the mouse button has been pressed.
+     * If the mouse button has been pressed checks if a button has been pressed by using Menu::checkButtons() and checks if a 
+     * tower has been clicked to open the upgrade menu.
+     * 
+    */
     void processEvents();
     void update();
     void render();
-    void addTower(const Tower& tower);
-    void addEnemy(const Enemy& enemy);
-    void addProjectile(const Projectile& projectile);
+    void loadTextures();
     void createPath(); //this will create the path that the enemies will traverse (this should also be rendered visually in the game)
     void checkTowers();
     void testEnemy();

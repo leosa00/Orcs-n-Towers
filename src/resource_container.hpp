@@ -11,7 +11,7 @@ namespace Textures{
     enum TowerID {BulletTower, BombTower, MissileTower, FreezingTower, PoisonTower};
     enum EnemyID {Enemy1, Enemy2, Enemy3, Enemy4, Enemy5};
     enum ProjectileID{Bullet, Bomb, Missile};
-    enum Various {Pause, Castle, Dirt};
+    enum Various {Pause, Castle, Dirt, Upgrade, Sell, Continue};
 }
 
 /**

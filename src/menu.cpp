@@ -185,10 +185,10 @@ void Menu::createMenu(MenuType menu, Game* game) {
     case MenuType::Upgrade:
         {
             // Create upgrade and close buttons
-            buttons_.push_back(Button(Actions::Close, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(500, 700), "Close", game->font_));
+            buttons_.push_back(Button(Actions::Close, game->various_textures_.get(Textures::Continue), sf::Vector2f(500, 700), "Close", game->font_));
             std::string cost = std::to_string(game->activeTower_->getUpgradeCost());
-            buttons_.push_back(Button(Actions::Upgrade, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(150, 700), cost, game->font_));
-            buttons_.push_back(Button(Actions::Sell, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(250, 700), "Sell", game->font_));
+            buttons_.push_back(Button(Actions::Upgrade, game->various_textures_.get(Textures::Upgrade), sf::Vector2f(150, 700), cost, game->font_));
+            buttons_.push_back(Button(Actions::Sell, game->various_textures_.get(Textures::Sell), sf::Vector2f(250, 700), "Sell", game->font_));
 
             // create texts of type current damage and level
             // + operator with string handles conversion
@@ -209,7 +209,7 @@ void Menu::createMenu(MenuType menu, Game* game) {
         }
     case MenuType::Begin:
         {
-            buttons_.push_back(Button(Actions::Level, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(400, 450), "Begin", game->font_));
+            buttons_.push_back(Button(Actions::Level, game->various_textures_.get(Textures::Continue), sf::Vector2f(400, 450), "Begin", game->font_));
 
             sf::Text intro("Welcome to Orcs n Towers\nClick to start the first level!", game->font_, 20);
             intro.setPosition(400, 400);
@@ -218,7 +218,7 @@ void Menu::createMenu(MenuType menu, Game* game) {
         }
     case MenuType::Level:
         {
-            buttons_.push_back(Button(Actions::Level, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(400, 440), "Next level", game->font_));
+            buttons_.push_back(Button(Actions::Level, game->various_textures_.get(Textures::Continue), sf::Vector2f(400, 440), "Next level", game->font_));
             // FIXME: The text does not include the first letter :(
             sf::Text intro("Level passed!", game->font_, 20);
             intro.setPosition(400, 400);
