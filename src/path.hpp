@@ -11,7 +11,7 @@ class path {
 public:
     /**
      * Constructs a path by reading coordinate values from a file, 
-     * randomly chooses one of the paths and adds the coordinates to the waypoint containers.
+     * randomly chooses one of the paths and adds the coordinates to the \p waypoints containers.
      * @param src is the source of the path information file to be read
      * @see readPath()
     */

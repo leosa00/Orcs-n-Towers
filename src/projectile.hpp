@@ -16,6 +16,10 @@ class Enemy;
 
 // Removed inheritance of sf::Transformable. 
 // I checked that sf::Sprite inherits both Drawable and Transformable -Otto
+
+/**
+ * An abstract class for deriving projectile like, "flying", objects.
+*/
 class Projectile : public sf::Sprite
 {
     private:
@@ -30,7 +34,7 @@ class Projectile : public sf::Sprite
     public:
 
         /**
-         * @brief Construcs a projectile and sets it's position
+         * @brief Construcs a projectile and sets it's initial position.
          * @param shootDirection is the normalised directional vector used to move the projectile, determined by the creating tower
          * @param position is position of the tower that created the projectile, is used as a starting position
          * @param damage is the amount of damage that the projectile will cause the enemy it hits, determined by the creating tover
@@ -54,22 +58,22 @@ class Projectile : public sf::Sprite
         virtual ~Projectile() {}
         
         /**
-         * @brief returns the speed of the projectile
+         * @returns the speed of the projectile
         */
         float getSpeed() const;
 
         /**
-         * @brief returns the type of the projectile
+         * @returns the type of the projectile
         */
         const std::string& getType() const;
 
         /**
-         * @brief returns the damage of the projectile
+         * @returns the damage of the projectile
         */
         int getDamage() const;
 
         /**
-         * @brief returns the directional vector of the projectile
+         * @returns the directional vector of the projectile
         */
         sf::Vector2f getShootDir() const;
         //sf::Vector2f getVelocity() const;
@@ -86,14 +90,13 @@ class Projectile : public sf::Sprite
         bool isDestroyed();
 
        /**
-        * @brief Calculates the distance from the tower that created it.
-        * Returns true if the projectile is at, or has exceeded, its maximum distance
+        * @brief Calculates the projectiles distance from the tower that created it.
+        * @returns true if the projectile is at, or has exceeded, its maximum distance. False otherwise
        */
         bool distToTower();
 
        /**
-        * @brief checks if the projectile has hit an enemy.
-        * Overridden in each derived class
+        * @brief checks if the projectile has hit an enemy. Overridden in each derived class.
        */
         virtual bool hasHitEnemy(std::shared_ptr<Enemy>&) = 0;
 
@@ -103,7 +106,7 @@ class Projectile : public sf::Sprite
        virtual void update(Game&) = 0;
 
         /**
-         * Returns the ID of the texture the projectile type uses
+         * @returns the ID of the texture the projectile type uses
          * The return value is directly hardcoded in derived classes.
         */
        virtual Textures::ProjectileID textureType() = 0;

@@ -18,11 +18,11 @@ public:
     */
     BombProjectile(sf::Vector2f shootDirection, sf::Vector2f position, int damage, float range) // <- tbd
     : Projectile(shootDirection, position, damage, 60.0, "bomb", range), blastRange_(1000) {}
-                                        //  ^            ^  ^  tbd
     
     /**
-     * Calculates the distance between the bomb and an enemy
-     * If the enemy is within the blast range, cause damage to it because it has been hit
+     * Calculates the distance between the bomb and an enemy.
+     * If the enemy is within the blast range, cause damage to it because it has been hit.
+     * @returns true if bomb has hit an enemy.
      * @param enemy is a reference to an Enemy object
     */
     bool hasHitEnemy(std::shared_ptr<Enemy>& enemy) override;
