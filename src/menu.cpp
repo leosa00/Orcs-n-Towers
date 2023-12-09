@@ -30,7 +30,6 @@ void Menu::checkButtons(Game* game) {
     for (auto button : buttons_) {
         if (button.isClicked((sf::Vector2f) sf::Mouse::getPosition(game->window_))) {
 
-            // TODO: this is highly repetitive in tower creation, could probably be somehow streamlined...
             switch (button.getAction())
             {
             case Actions::Tower1:
@@ -83,13 +82,14 @@ void Menu::checkButtons(Game* game) {
             }
             case Actions::Close:
             {
-                game->alternativeMenu_ = nullptr;
+                //game->alternativeMenu_ = nullptr;
+                game->menuInactive = true;
                 game->activeTower_ = nullptr;
                 break;
             }
             case Actions::Sell:
             {
-                // Add money to player
+                // Add money to player, 75% of tower base cost
                 game->player_.addMoney(game->activeTower_->getBaseCost() * 0.75);
                 // Find tower and erase it 
                 for (auto it = game->towers_.begin(); it != game->towers_.end(); it++) {
@@ -99,7 +99,7 @@ void Menu::checkButtons(Game* game) {
                     }
                 }
                 // Remove upgrade menu as the tower does not exist
-                game->alternativeMenu_ = nullptr;
+                game->menuInactive = true;
                 game->activeTower_ = nullptr;
                 break;
             }
@@ -110,9 +110,8 @@ void Menu::checkButtons(Game* game) {
             }
             case Actions::Level:
             {
-                //game->enemies_ = game->player_.increaseLevel(game->enemy_textures_, game->path_);
                 game->paused_ = false;
-                game->alternativeMenu_ = nullptr;
+                game->menuInactive = true;
                 break;
             }
             default:
@@ -127,7 +126,7 @@ void Menu::newTower(Tower* tower, Game* game) {
     // if an upgrade menu is open, close it so the change in the 
     // activeTower_ pointer does not break the upgrade menu
     if (game->activeTower_) {
-        
+        // unique_ptr handles deletion of old menu
         game->alternativeMenu_ = nullptr;
         game->activeTower_ = nullptr;
     }

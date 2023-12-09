@@ -58,8 +58,8 @@ public:
         towers_.clear();
 
         delete activeTower_;
-        delete alternativeMenu_;
-        delete shop_;
+        
+        // Menus deleted by unique_ptr
     }
     path& getPath();
 private:
@@ -73,6 +73,7 @@ private:
     void checkTowers();
     void testEnemy();
     void testEnemySplit(sf::Vector2f position, std::queue<sf::Vector2f> waypoints);
+    void updateMenus();
     //adding a function to return the elapsed time
     sf::Time getTime() const;
     //I am adding a clock and time functionality that will need to be used for enemy movement and updating and other game logic
@@ -109,9 +110,10 @@ private:
     sf::Text gameFinishedText;
     sf::Sprite castle_sprite_;
 
-    Menu* shop_; // Shop on left side
-    Menu* alternativeMenu_; // stores menu for upgrading, beginning game, and advancing to next level
+    std::unique_ptr<Menu> shop_; // Shop on left side
+    std::unique_ptr<Menu> alternativeMenu_; // stores menu for upgrading, beginning game, and advancing to next level
     Tower* activeTower_; // Pointer to tower that is being upgraded
+    bool menuInactive = false; // Indicates if the alternative menu is closed and needs to be deleted
 
     ResourceContainer<Textures::TowerID, sf::Texture> tower_textures_;
     ResourceContainer<Textures::EnemyID, sf::Texture> enemy_textures_;

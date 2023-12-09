@@ -62,7 +62,7 @@ Game::Game() :
 
 
     // Initialize menus
-    shop_ = new Menu();
+    shop_ = std::make_unique<Menu>();
     shop_->createMenu(MenuType::Shop, this);
     alternativeMenu_ = nullptr;
     activeTower_ = nullptr;
@@ -154,8 +154,7 @@ void Game::update() {
         shop_->drag(this);
     }
 
-    // Updates displayed wallet amount and health
-    shop_->update(player_);
+    updateMenus();
 
     // If the game is paused stop updating
     if (paused_) {
@@ -421,7 +420,7 @@ void Game::checkTowers() {
             // This stores the pointer to the tower that the upgrade button
             // Will potentially upgrade
             activeTower_ = tower;
-            alternativeMenu_ = new Menu();
+            alternativeMenu_ = std::make_unique<Menu>();
             alternativeMenu_->createMenu(MenuType::Upgrade, this);
         }
     }
@@ -466,3 +465,13 @@ void Game::testEnemySplit(sf::Vector2f position, std::queue<sf::Vector2f> waypoi
     enemies_.push_back(std::make_shared<Enemy>(split));
 }
 
+void Game::updateMenus() {
+    // Updates displayed wallet amount and health
+    shop_->update(player_);
+
+    // If the alternative menu has been closed delete it
+    if (menuInactive) {
+        alternativeMenu_ = nullptr;
+        menuInactive = false;
+    }
+}

@@ -89,10 +89,8 @@ void LevelManager::update(){
             player_.addMoney(50*currLevel_);
             player_.levelUp();
             
-            if (game_.alternativeMenu_) {
-                delete game_.alternativeMenu_;
-            }
-            game_.alternativeMenu_ = new Menu();
+            // Create menu between levels
+            game_.alternativeMenu_ = std::make_unique<Menu>();
             game_.alternativeMenu_->createMenu(MenuType::Level, &game_);
             game_.paused_ = true;
 
