@@ -13,18 +13,6 @@ bool LevelManager::readingSuccessfull(){
     return readingSuccess_;
 }
 
-/*void LevelManager::printLevelSpecs(){
-    std::cout << "Num of enemies: " << std::get<int>(levelSpecs_[currLevel_]["enemyAmount"]) << std::endl;
-    std::cout << "num of waves: " << std::get<int>(levelSpecs_[currLevel_]["waves"]) << std::endl;
-    std::cout << "wait time: " << std::get<float>(levelSpecs_[currLevel_]["waitTime"]) << std::endl;
-    std::cout << "allowed enemies: " << std::endl;
-    auto pair = levelSpecs_[currLevel_].find("enemyTypes");
-    const std::vector<int>& vec = std::get<std::vector<int>>(pair->second);
-    for(auto& i : vec){
-        std::cout << i << std::endl;
-    }
-}*/
-
 void LevelManager::readLevels(){
     std::ifstream file(src_);
 
@@ -86,8 +74,6 @@ void LevelManager::update(){
 
     //if there are waves left for the level
 
-    std::cout << "waves: " << std::get<int>(levelSpecs_[currLevel_]["waves"]) << std::endl;
-
     if(std::get<int>(levelSpecs_[currLevel_]["waves"]) > 0) {
         
         std::cout << "Initialising enemies..." << std::endl;
@@ -99,8 +85,8 @@ void LevelManager::update(){
 
         
             std::cout << "Leveling up" << std::endl;
-            player_.addMoney(10*currLevel_);
             currLevel_ ++; //move to next level
+            player_.addMoney(50*currLevel_);
             player_.levelUp();
             
             if (game_.alternativeMenu_) {
