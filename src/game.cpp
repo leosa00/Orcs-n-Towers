@@ -56,8 +56,8 @@ Game::Game() :
      //!!! get castle to be at end of path, getWaypoints.back() puts it in a stragne position on all paths
     sf::Texture& castleTexture = various_textures_.get(Textures::Castle);
     castle_sprite_.setTexture(castleTexture);
-    //sf::Vector2f castlePosition = sf::Vector2f(600, 600);
-    castle_sprite_.setPosition(path_.wayPoints.back());
+    sf::Vector2f castlePosition = sf::Vector2f(path_.unBuildable.back().getPosition().x - path_.width, path_.wayPoints.back().y - (castle_sprite_.getTexture()->getSize().y/2));
+    castle_sprite_.setPosition(castlePosition);
     
 
     //testEnemy();
