@@ -71,13 +71,6 @@ bool Map::canTowerBuild(const std::shared_ptr<Tower>& activeTower) const {
     return true;
 }
 
-void Map::buildTower(const std::shared_ptr<Tower>& activeTower) {
-    auto newTower = activeTower->getClassObject();
-    newTower->setPosition(activeTower->getPosition());
-    newTower->activateHUD();
-    newTower->build();
-    towers.push_back(newTower);
-}
 
 void Map::sellTower(Tower * sellingTower)
 {

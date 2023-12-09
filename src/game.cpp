@@ -41,6 +41,7 @@ Game::Game() :
     tower_textures_.load(Textures::BombTower, "../textures/tower2.png");
     tower_textures_.load(Textures::MissileTower, "../textures/tower3.png");//pause button texture needs to be changed to its own texture class later
     tower_textures_.load(Textures::FreezingTower, "../textures/tower4.png");
+    tower_textures_.load(Textures::PoisonTower, "../textures/tower5.png");
     enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
 
     enemy_textures_.load(Textures::Enemy1, "../textures/enemy.png");

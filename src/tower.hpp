@@ -20,12 +20,12 @@ enum class CanDamage {
     Flying,
     Both
 };
-/* Base tower class will be abstract (i.e., no objects of base tower class are to be constructable)*/
+
 class Tower : public sf::Sprite { 
 public:                             
-    Tower(sf::Vector2f position, const std::string& type = "Basic",  int baseCost = 100, float range = 100.0, float fireRate = 1.0,
-          int damage = 10, int currentLvl = 1, int upgradeCost = 150, CanDamage damageType = CanDamage::Both, std::shared_ptr<Enemy> lockedEnemy = nullptr,
-          sf::Clock fireTimer = sf::Clock(), bool maxLevelReached = false);
+    Tower(sf::Vector2f position, const std::string& type,  int baseCost, float range, float fireRate,
+          int damage, int currentLvl, int upgradeCost, CanDamage damageType, std::shared_ptr<Enemy> lockedEnemy,
+          sf::Clock fireTimer, bool maxLevelReached);
     /*Tower(sf::Vector2f position);*/
     // I think there is really no need for copy constructor or copy assignment operator
     const std::string& getType() const {return type_;}
@@ -52,7 +52,6 @@ public:
        classes will use base update() and other will use override*/
     virtual void update(std::list<std::shared_ptr<Enemy>> &enemies);
     //This is what I add to support for the map class
-    virtual std::shared_ptr<Tower> getClassObject() = 0; //Type of Tower
     bool isActive();//Whether the Tower is active or not
     bool HUDactive = false;//Temporary variable hold the state of the Tower
     void unactiveHUD();//Function to deactivate Tower (when sell)

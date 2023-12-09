@@ -15,11 +15,3 @@ BulletProjectile* BulletTower::shoot() {
     BulletProjectile* bulletProjectile = new BulletProjectile(normalizedDirection, getPosition(), getDamage(), getRange() + 20);
     return bulletProjectile;
 }
-
-std::shared_ptr<Tower> BulletTower::getClassObject()
-{
-    sf::Vector2f defaultPosition(0.0f, 0.0f);
-    std::shared_ptr<Tower> obj = std::make_shared<BulletTower>(defaultPosition);
-
-    return obj;
-}
