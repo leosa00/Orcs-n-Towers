@@ -6,11 +6,12 @@
 #include <iostream>
 
 BombTower::BombTower(sf::Vector2f position)
-    : Tower(position, "Bomb Tower", 300, 200.0f, 0.4f, 15, 1, 450, CanDamage::Ground, nullptr, sf::Clock(), false) {}
+    : Tower(position, "Bomb Tower", 300, 200.0f, sf::seconds(1.5), 15, 1, 450, CanDamage::Ground, nullptr, false) {}
                             //tbd    ^   ^      ^     ^       ^
 //since BombTower can only lock on Ground units, update() method has to be overriden
 
-void BombTower::update(std::list<std::shared_ptr<Enemy>> &enemies) {
+void BombTower::update(std::list<std::shared_ptr<Enemy>> &enemies, sf::Time time) {
+    updateFireTimer(time);
     auto lockedEnemy = getLockedEnemy();
     if (lockedEnemy == nullptr || lockedEnemy->dead() || !enemyWithinRange(lockedEnemy)) {
         setLockedEnemy(nullptr);

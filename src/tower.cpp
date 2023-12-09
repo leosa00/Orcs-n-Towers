@@ -26,10 +26,10 @@
                 fireTimer_(fireTimer),
                 maxLevelReached_(maxLevelReached) {} */
 
-Tower::Tower(sf::Vector2f position, const std::string& type,  int baseCost, float range, float fireRate,
+Tower::Tower(sf::Vector2f position, const std::string& type,  int baseCost, float range, sf::Time fireRate,
           int damage, int currentLvl, int upgradeCost, CanDamage damageType, std::shared_ptr<Enemy> lockedEnemy,
-          sf::Clock fireTimer, bool maxLevelReached)
-      : type_(type),
+          bool maxLevelReached)
+        : type_(type),
         baseCost_(baseCost), // subject to change
         range_(range), // subject to change
         fireRate_(fireRate), // subject to change
@@ -38,7 +38,7 @@ Tower::Tower(sf::Vector2f position, const std::string& type,  int baseCost, floa
         upgradeCost_(upgradeCost), // subject to change, maybe 1.5 * baseCost_?
         damageType_(damageType),
         lockedEnemy_(lockedEnemy), // initially no locked enemy
-        fireTimer_(fireTimer),
+        fireTimer_(fireRate),
         maxLevelReached_(maxLevelReached) {
           setPosition(position);
         }
@@ -88,7 +88,8 @@ bool Tower::enemyWithinRange(std::shared_ptr<Enemy> enemy) {
    * finish implementation of shoot(). 
 } */
 
-void Tower::update(std::list<std::shared_ptr<Enemy>> &enemies) { 
+void Tower::update(std::list<std::shared_ptr<Enemy>> &enemies, sf::Time time) { 
+    updateFireTimer(time);
     auto lockedEnemy = getLockedEnemy();
     if (lockedEnemy == nullptr || lockedEnemy->dead() || !enemyWithinRange(lockedEnemy)) {
         setLockedEnemy(nullptr);
@@ -103,28 +104,10 @@ void Tower::update(std::list<std::shared_ptr<Enemy>> &enemies) {
             }
         }
     }
-  /*auto lockedEnemy = getLockedEnemy();
-  if (lockedEnemy == nullptr) {
-    for (auto& enemy : enemies) {
-      if (enemyWithinRange(enemy) && !enemy->dead()) {
-        setLockedEnemy(enemy);
-        std::cout << "Some enemy was locked" << std::endl;
-        break;
-      }
-    }
-  }
-  else {
-    if (lockedEnemy->dead() || !enemyWithinRange(lockedEnemy)) {
-      setLockedEnemy(nullptr);
-      for (auto& enemy : enemies) {
-        if (enemyWithinRange(enemy) && !enemy->dead()) {
-          setLockedEnemy(enemy);
-          std::cout << "Some enemy was locked" << std::endl;
-          break;
-        }
-      }
-    }
-  } */
+}
+
+void Tower::updateFireTimer(sf::Time &dt) {
+  fireTimer_ += dt;
 }
 
 
