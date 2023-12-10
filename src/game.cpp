@@ -92,7 +92,7 @@ void Game::processEvents() {
         case sf::Event::MouseButtonPressed:
             // If statement checks that nothing is being dragged currently
             // if MouseButtonPressed event only happens when button is initially pressed
-            // this if statement is unnesessary
+            // this if statement is unnecessary
             if (!dragged_) {
                 shop_->checkButtons(this);
                 if (alternativeMenu_) {
@@ -183,71 +183,21 @@ void Game::update() {
         }
     }
 
-
-    // Pavel: updating towers below. Would someone double-check that logic is correct?
-    // Perhaps I could try to migrate tower logic inside tower class, but is there any 
-    // simple way to do so as updating tower logic uses private members enemies_ and 
-    // projectiles_?
     for (auto* tower : towers_) {
         tower->update(enemies_, getTime());
         if (tower->getLockedEnemy() != nullptr &&
             tower->getFireTimer() >= tower->getFireRate()) {
-                // Added an intermediate step into shooting which sets the projectile texture
                 Projectile* newproj = tower->shoot();
-                std::cout << "shoot executed" << std::endl;
                 if (newproj != nullptr) {
                     newproj->setTexture(projectile_textures_.get(newproj->textureType()));
-                    //newproj->setPosition(tower->getPosition());
                     projectiles_.push_back(newproj);
                 }
-                //projectiles_.push_back(&(tower->shoot()));
 
                 tower->resetFireTimer();
 
             }
     }
-     
-
-    /*for (auto& tower : towers_) {
-        auto lockedEnemy = tower.getLockedEnemy();
-        // If tower currently has no locked enemy, it should try to find one.
-        // Following assumes that enemy object is removed from container enemies_
-        // as soon as 0 hp is reached and thus hp is not checked when iterating through
-        // enemies_
-        if (lockedEnemy == nullptr) {
-            auto damageType = tower.getDamageType();
-            for (auto& enemy : enemies_) {
-                auto enemyType = enemy->type();
-                if (tower.enemyWithinRange(enemy) && ((damageType == CanDamage::Both) ||
-                    (damageType == CanDamage::Flying && enemyType == EnemyType::Flying) ||
-                    (damageType == CanDamage::Ground && enemyType == EnemyType::Ground))) {
-                    tower.setLockedEnemy(enemy);
-                    break;
-                }
-            }
-        }
-        else {
-            if (lockedEnemy->hp() <= 0 || !tower.enemyWithinRange(lockedEnemy)) {
-                tower.setLockedEnemy(nullptr);
-                auto damageType = tower.getDamageType();
-                for (auto& enemy : enemies_) {
-                    auto enemyType = enemy->type();
-                    if (tower.enemyWithinRange(enemy) && ((damageType == CanDamage::Both) ||
-                        (damageType == CanDamage::Flying && enemyType == EnemyType::Flying) ||
-                        (damageType == CanDamage::Ground && enemyType == EnemyType::Ground))) {
-                        tower.setLockedEnemy(enemy);
-                        break;
-                    }
-                }
-            }
-        }
-        if (lockedEnemy != nullptr && tower.getFireTimer().getElapsedTime().asSeconds() >= 1.0f / tower.getFireRate()) {
-            projectiles_.push_back(tower.shoot()); // shoot method returns Projectile that is appended to projectiles_
-            tower.resetFireTimer();
-        }
-    }*/
-
-
+    
     //cleans up list while iterating
     for (auto i = projectiles_.begin(); i != projectiles_.end();) {
         (*i)->update(*this);
