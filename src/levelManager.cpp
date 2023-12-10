@@ -88,6 +88,11 @@ void LevelManager::update(){
 
             // Create menu between levels
             if(currLevel_ < levelTotal_){
+                // If an upgrade menu was open reset the active tower
+                if (game_.alternativeMenu_) {
+                    game_.activeTower_ = nullptr;
+                }
+                
                 game_.alternativeMenu_ = std::make_unique<Menu>();
                 game_.alternativeMenu_->createMenu(MenuType::Level, &game_);
                 game_.paused_ = true;

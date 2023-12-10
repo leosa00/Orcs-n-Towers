@@ -219,7 +219,6 @@ void Menu::createMenu(MenuType menu, Game* game) {
     case MenuType::Level:
         {
             buttons_.push_back(Button(Actions::Level, game->various_textures_.get(Textures::Continue), sf::Vector2f(400, 440), "Next level", game->font_));
-            // FIXME: The text does not include the first letter :(
             sf::Text intro("Level passed!", game->font_, 20);
             intro.setPosition(400, 400);
             texts_.push_back(intro);

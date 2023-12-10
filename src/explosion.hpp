@@ -9,7 +9,7 @@
  * @class Explosion
  * @brief Small class for drawing bomb explosions
  * 
- * @see @class BombProjectile
+ * @see BombProjectile
 */
 class Explosion : public sf::CircleShape {
 public:

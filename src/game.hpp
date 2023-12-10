@@ -91,53 +91,81 @@ private:
      * If the mouse button has been pressed checks if a button has been pressed by using Menu::checkButtons() and checks if a 
      * tower has been clicked to open the upgrade menu.
      * 
+     * @see checkTowers()
+     * 
     */
     void processEvents();
+
+    /**
+     * @brief Updates the state of objects in the game.
+     * 
+     * First resets the timer, then handles 
+    */
     void update();
+
+    /**
+     * @brief Renders all objects onto the window.
+     * 
+     * Clears window then draws objects.
+     * First draws the background and path, then iterates over towers, projectiles, enemies and explosions.
+     * Then draws some miscalennous things, like the tower being dragged if it exists and it's range.
+     * Menus are drawn last so they do not end up under anything.
+    */
     void render();
+
+    /**
+     * @brief Helper function called in constructor, loads all textures.
+    */
     void loadTextures();
+
+    /**
+     * @brief Used for testing the game, creates a hardcoded path.
+    */
     void createPath(); //this will create the path that the enemies will traverse (this should also be rendered visually in the game)
+    
+    /**
+     * @brief Check if a tower has been clicked.
+     * 
+     * If the mouse button has been pressed but no Button object was clicked, this checks if a purchased tower has been clicked.
+     * If a tower has been clicked, creates an upgrade menu, for upgrading or selling the tower.
+    */
     void checkTowers();
+
+
     void testEnemy();
     void testEnemySplit(sf::Vector2f position, std::queue<sf::Vector2f> waypoints);
+
+    /**
+     * @brief Helper function for updating the menus in game, called in update().
+     * 
+     * If a tower is being dragged calls Menu::drag() to update it's position. Then updates the texts on screen. 
+     * If an alternative menu has been closed deletes the alternative menu.
+    */
     void updateMenus();
+
     //adding a function to return the elapsed time
     sf::Time getTime() const;
     //I am adding a clock and time functionality that will need to be used for enemy movement and updating and other game logic
     sf::Clock clock_;
     sf::Time time_;
     sf::RenderWindow window_;
-    /* Pavel: should we change enemies_ to be 
-    * std::list<std::shared_ptr<Enemy>> enemies_ instead and 
-    * initialize it with enemies using 
-    * enemies_.push_back(std::make_shared<TYPE_OF_ENEMY>(args))?
-    * This way enemy would get destroyed automatically when
-    * it is no longer locked by any tower AND it has reached 0 hp 
-    * (it gets removed from the list at this point) AND no projectile
-    * flies towards it (we need to add shared_ptr<Enemy> member to projectile class). 
-    * There might be some error in my logic though....
-    */
     std::list<Tower*> towers_;
-    //std::list<Enemy> enemies_;
 
-    /* Changed these to unque ptr, as looping over the abstract types directly 
-        is not possible, at least according to my understanding
-        */
     std::list<std::shared_ptr<Enemy>> enemies_;
     std::list<Projectile*> projectiles_;
     std::list<Explosion*> explosions_;
     path path_;
-    std::list<Button> buttons_; // Stores clickable buttons
-    bool dragged_; // Indicates if a tower is currently being dragged into place
-    bool paused_; // Is the game paused?
-    bool isGameOver_=false; //is the game over because the player has died to an enemy
-    bool isGameFinished_ = false; //completed game
-    sf::Font font_; // Stores text font
+    std::list<Button> buttons_; // NOTE: is this unnecessary? Stores clickable buttons
+    bool dragged_; /// Indicates if a tower is currently being dragged into place
+    bool paused_; /// Is the game paused
+    bool isGameOver_=false; /// Is the game over because the player has died to an enemy
+    bool isGameFinished_ = false; /// Completed game
+    sf::Font font_; /// Stores text font
     sf::Text gameOverText;
     sf::Text gameFinishedText;
     sf::Sprite castle_sprite_;
 
-    std::unique_ptr<Menu> shop_; // Shop on left side
+    std::unique_ptr<Menu> shop_; /// Shop on left side
     std::unique_ptr<Menu> alternativeMenu_; // stores menu for upgrading, beginning game, and advancing to next level
     Tower* activeTower_; // Pointer to tower that is being upgraded
     bool menuInactive = false; // Indicates if the alternative menu is closed and needs to be deleted

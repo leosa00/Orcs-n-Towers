@@ -113,10 +113,7 @@ void Game::processEvents() {
 // Call functions necessary for iterating over all objects and updating their states
 void Game::update() {
     time_ = clock_.restart();
-    // If a tower is being dragged, update it's position
-    if (dragged_) {
-        shop_->drag(this);
-    }
+    
 
     updateMenus();
 
@@ -140,7 +137,6 @@ void Game::update() {
 
     levelManager_.update();
 
-    // TODO: Make this into own function to clean code?
     // If the round has ended open round end menu
     //if (!isGameOver_ && enemies_.empty()) {
     //    // if upgrade menu occupied delete it
@@ -423,6 +419,11 @@ void Game::testEnemySplit(sf::Vector2f position, std::queue<sf::Vector2f> waypoi
 }
 
 void Game::updateMenus() {
+    // If a tower is being dragged, update it's position
+    if (dragged_) {
+        shop_->drag(this);
+    }
+
     // Updates displayed wallet amount and health
     shop_->update(player_);
 
