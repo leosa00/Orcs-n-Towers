@@ -3,7 +3,7 @@
 #include "tower.hpp"
 #include "bulletProjectile.hpp"
 /**
- * @class Bullet Tower
+ * @class BulletTower
  * @brief Represents the Bullet Tower class.
  * 
  * The Bullet Tower is a specialized tower that shoots bullet projectiles. It is derived from

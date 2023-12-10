@@ -9,7 +9,7 @@
  * The Bomb Tower is a specialized tower that shoots bomb projectiles. It is derived from
  * the base Tower class and inherits common tower functionalities. Bomb tower can only lock
  * enemies of ground type. Bomb projectiles can, however, damage enemies of any type within 
- * explosion range of a bomb projectile (explosion rate is dictated solely by bomb projectile objects).
+ * explosion range of a bomb projectile (explosion range is dictated solely by bomb projectile objects).
  * 
  */
 class BombTower : public Tower {
@@ -23,14 +23,14 @@ public:
     /**
      * @brief Override of the base class method. 
      * 
-     * @param enemies is passed from calling Game::update method
-     * @param time is passed from calling Game::update method and is used to update fireTimer_
+     * @param enemies List of enemies passed from calling \c Game::update method.
+     * @param time Argument passed from calling \c Game::update method and is used to update \c fireTimer_.
      */
     void update(std::list<std::shared_ptr<Enemy>> &enemies, sf::Time time) override;
     /**
      * @brief Override of the base class method to produce a BombProjectile.
      * 
-     * @return BulletProjectile* A pointer to the created BombProjectile object.
+     * @return BombProjectile* A pointer to the created BombProjectile object.
      */
     BombProjectile* shoot() override;
 };
