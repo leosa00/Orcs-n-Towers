@@ -1,11 +1,11 @@
 #include "levelManager.hpp"
 #include "game.hpp"
 
-int LevelManager::getCurrentLevel(){
+int LevelManager::getCurrentLevel() const{
     return currLevel_;
 }
 
-int LevelManager::getLevelTotal(){
+int LevelManager::getLevelTotal() const{
     return levelTotal_;
 }
 
@@ -76,26 +76,24 @@ void LevelManager::update(){
 
     if(std::get<int>(levelSpecs_[currLevel_]["waves"]) > 0) {
         
-        std::cout << "Initialising enemies..." << std::endl;
         initiateEnemies(); 
     }
     else { 
         // Check if all enemies are dead before advancing level
         if (game_.enemies_.empty()) {
 
-        
-            std::cout << "Leveling up" << std::endl;
             currLevel_ ++; //move to next level
             player_.addMoney(50*currLevel_);
             player_.levelUp();
-            
-            // Create menu between levels
-            game_.alternativeMenu_ = std::make_unique<Menu>();
-            game_.alternativeMenu_->createMenu(MenuType::Level, &game_);
-            game_.paused_ = true;
 
-            // Pressing the advance to next level button will now unpause game
-            // and new enemies will be spawned -Otto
+            // Create menu between levels
+            if(currLevel_ < levelTotal_){
+                game_.alternativeMenu_ = std::make_unique<Menu>();
+                game_.alternativeMenu_->createMenu(MenuType::Level, &game_);
+                game_.paused_ = true;
+            }
+            
+            
         }
     }
 

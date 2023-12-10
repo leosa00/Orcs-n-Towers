@@ -50,12 +50,12 @@ class LevelManager {
     /**
      * @returns the current level
     */
-    int getCurrentLevel();
+    int getCurrentLevel() const;
     
     /**
      * @returns the total number of levels definend
     */
-    int getLevelTotal();
+    int getLevelTotal() const;
 
     /**
      * Updates the level manager, called while game is running.

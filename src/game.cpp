@@ -8,8 +8,8 @@
 // initialize game object, mainly create window...
 Game::Game() : 
         window_(sf::VideoMode(1000, 800), "Orcs n Towers"), 
-        levelManager_("../textures/levels.csv", path_, *this, player_),
-        path_("../textures/paths.csv") {
+        levelManager_("../assets/levels.csv", path_, *this, player_),
+        path_("../assets/paths.csv") {
     // Set dragging flag
     dragged_ = false;
     paused_ = false;

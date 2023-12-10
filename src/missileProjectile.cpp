@@ -6,7 +6,6 @@ bool MissileProjectile::hasHitEnemy(std::shared_ptr<Enemy>& enemy) {
 
     if(this->getGlobalBounds().intersects(enemy->getGlobalBounds())){
         enemy->takeDamage(this->getDamage());
-        std::cout << "missile hit enemy" << std::endl;
         return true;
     }
     return false;
@@ -32,6 +31,5 @@ void MissileProjectile::update(Game& game){
         }
     } else{
         destroy();
-        std::cout << "target dead, missile destroyed" <<std::endl;
     }
 }

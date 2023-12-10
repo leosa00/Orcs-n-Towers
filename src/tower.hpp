@@ -1,7 +1,5 @@
 #ifndef TOWER_H
 #define TOWER_H
-// EDIT: I think we should reduce max level of tower to lvl 2.
-#define TOWER_MAX_LVL 2
 #include <string>
 #include <array>
 #include <SFML/System/Vector2.hpp>
@@ -11,16 +9,18 @@
 #include "enemy.hpp"
 #include <memory>
 
-// enum class CanDamage is needed for implementing enemy-locking logic 
-// (i.e., which EnemyType can be locked and damaged by a specific type of tower). 
+
 class Projectile;
-
-/* enum class CanDamage { 
-    Ground,
-    Flying,
-    Both
-}; */
-
+/**
+ * @class Tower
+ * @brief Represents a tower in a tower defense game.
+ * 
+ * The Tower class is a base class for various types of towers, each with its unique characteristics.
+ * Towers can lock onto enemies within a specified range, shoot projectiles, and be upgraded to
+ * increase their effectiveness. This class acts as a common interface for managing towers and
+ * a foundation for derived tower classes.
+ * 
+ */
 class Tower : public sf::Sprite { 
 public:                                
     Tower(sf::Vector2f position, const std::string& type,  int baseCost, float range, sf::Time fireRate,
@@ -38,13 +38,13 @@ public:
     sf::Time getFireTimer() {return fireTimer_;}
     bool enemyWithinRange(std::shared_ptr<Enemy> enemy);
     /**
-     * shoot() method is pure virtual as different types of towers produce different types 
+     * \brief shoot() method is pure virtual as different types of towers produce different types 
      * of projectiles (or no projectiles at all as is the case with Poison and Freezing Towers).
      * @return Projectile* 
      */
     virtual Projectile* shoot() = 0; 
     /**
-     * upgradeTower() method is virtual as upgrade logic is same for all types of towers
+     * \brief upgradeTower() method is virtual as upgrade logic is same for all types of towers
      * except Freezing Tower
      * 
      */
@@ -61,7 +61,6 @@ public:
     void setMaxLevelFlag() {maxLevelReached_ = true;}
     void setLockedEnemy(std::shared_ptr<Enemy> enemy) {lockedEnemy_ = enemy;}
     void resetFireTimer() {fireTimer_ = sf::Time::Zero;}
-private:
     /**
      * @brief Private members of abstract tower class
      * 
@@ -75,9 +74,8 @@ private:
      * \param fireTimer_ is incremented with delta time from Game object
      * and compared to @param fireRate_ to check if tower is ready to shoot
      * @param maxLevelReached_ is the flag to check if whether tower is already at max level.
-     * @
-     * @
      */
+private:
     const std::string type_;
     const int baseCost_;
     const float range_;

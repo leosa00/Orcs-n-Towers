@@ -24,22 +24,28 @@ class Player : public sf::Sprite
         int level_;
 
     public:
+        /**
+         * @brief Initialises a player with default values
+         * @param hp_ is the health points of the player
+         * @param wallet_ is how much money the player has
+         * @param level_ is the level of the player
+        */
         Player() : hp_(500), wallet_(1000), level_(0){}
 
         ~Player() {}
 
         /**
-         * @brief returns how much money the player has
+         * @returns how much money the player has
         */
         int getWallet() const;
 
         /**
-         * @brief returns how many health points the player has
+         * @returns how many health points the player has
         */
         int getHP() const;
 
         /**
-         * @brief returns the current level of the player
+         * @returns the current level of the player
         */
         int getLevel() const;
 
@@ -61,7 +67,7 @@ class Player : public sf::Sprite
         void removeMoney(int cost);
 
         /**
-         * @brief removes health pointe from the player
+         * @brief removes health points from the player
          * @param amount is how much hp is to be removed
         */
         void removeHP(int amount);
