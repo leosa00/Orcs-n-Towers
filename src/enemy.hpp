@@ -105,7 +105,6 @@ private:
     sf::Text healthText_;
 
     EnemyType type_;
-         //has reference to player instance so money can be deposited to the player as well as the use of other player functions
 
     int poison_=0; //If poison is larger than 0 that means that the enemy is poisoned
     // the length of time that the enemy is poisoned for depends on how large the poison
