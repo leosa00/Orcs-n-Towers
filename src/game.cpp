@@ -137,23 +137,6 @@ void Game::update() {
 
     levelManager_.update();
 
-    // If the round has ended open round end menu
-    //if (!isGameOver_ && enemies_.empty()) {
-    //    // if upgrade menu occupied delete it
-    //    if (alternativeMenu_) {
-    //        delete alternativeMenu_;
-    //    }
-    //    alternativeMenu_ = new Menu();
-    //    if (player_.getLevel() == 0) {
-    //        alternativeMenu_->createMenu(MenuType::Begin, this);
-    //    }
-    //    else {
-    //        alternativeMenu_->createMenu(MenuType::Level, this);
-    //    }
-    //    paused_ = true;
-    //    return;
-    //}
-
     for (auto& enemy : enemies_) {
         if (!enemy->dead()) {
             enemy->update(getTime());

@@ -14,7 +14,10 @@ class Tower;
 class Enemy;
 
 /**
+ * @class Player
+ * @brief Class representing the player. 
  * 
+ * The class handles player health and money and stores the current level number.
 */
 class Player : public sf::Sprite
 {

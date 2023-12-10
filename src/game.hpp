@@ -72,8 +72,9 @@ public:
         }
         towers_.clear();
 
-        //delete activeTower_;
-        
+        if (activeTower_) {
+            //delete activeTower_;
+        }
         // Menus deleted by unique_ptr
     }
 
@@ -99,7 +100,7 @@ private:
     /**
      * @brief Updates the state of objects in the game.
      * 
-     * First resets the timer, then handles 
+     * First resets the timer, then handles updating objects by using their update functions.
     */
     void update();
 
@@ -149,13 +150,13 @@ private:
     sf::Clock clock_;
     sf::Time time_;
     sf::RenderWindow window_;
+    
     std::list<Tower*> towers_;
-
     std::list<std::shared_ptr<Enemy>> enemies_;
     std::list<Projectile*> projectiles_;
     std::list<Explosion*> explosions_;
     path path_;
-    std::list<Button> buttons_; // NOTE: is this unnecessary? Stores clickable buttons
+
     bool dragged_; /// Indicates if a tower is currently being dragged into place
     bool paused_; /// Is the game paused
     bool isGameOver_=false; /// Is the game over because the player has died to an enemy
@@ -166,9 +167,9 @@ private:
     sf::Sprite castle_sprite_;
 
     std::unique_ptr<Menu> shop_; /// Shop on left side
-    std::unique_ptr<Menu> alternativeMenu_; // stores menu for upgrading, beginning game, and advancing to next level
-    Tower* activeTower_; // Pointer to tower that is being upgraded
-    bool menuInactive = false; // Indicates if the alternative menu is closed and needs to be deleted
+    std::unique_ptr<Menu> alternativeMenu_; /// stores menu for upgrading, beginning game, and advancing to next level
+    Tower* activeTower_; /// Pointer to tower that is being upgraded or dragged into place
+    bool menuInactive = false; /// Indicates if the alternative menu is closed and needs to be deleted
 
     ResourceContainer<Textures::TowerID, sf::Texture> tower_textures_;
     ResourceContainer<Textures::EnemyID, sf::Texture> enemy_textures_;
