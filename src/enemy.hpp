@@ -57,7 +57,7 @@ public:
     
     int poisonStatus();
 
-    int slowedStatus();
+    sf::Time slowedStatus();
 
     EnemyType type();
     
@@ -65,11 +65,11 @@ public:
 
     void kill();
 
-    void applyPoison(int duration);
+    void applyPoison(int stacksOfPoison, int damagePerStack);
 
-    void poisonDamage();
+    // void poisonDamage();
 
-    void applySlowed(int duration);
+    void applySlowed(sf::Time duration, float slowCoefficient);
 
     void slowedDamage();
 
@@ -106,10 +106,10 @@ private:
 
     EnemyType type_;
 
-    int poison_=0; //If poison is larger than 0 that means that the enemy is poisoned
+    int poison_ = 0; //If poison is larger than 0 that means that the enemy is poisoned
     // the length of time that the enemy is poisoned for depends on how large the poison
     //value is as the number decreases incrimently until 0
-    int slowed_=0; 
+    sf::Time slowed_ = sf::Time::Zero; 
     //How much money the player recieves for killing the monster
     int money_;
     //waypoint based movement, the path class provides a queue of waypoints that take the enemies through the path to the end
@@ -121,7 +121,12 @@ private:
 	sf::Vector2f currentWaypoint_;
 
     int direction_; //0 = down, 1= left, 2= right, 3 = up
+
+    int poisonDamage = 0;
+
+    sf::Time poisonTimer_;
     
+    float slowCoefficient_ = 0.f;
 };
 
 #endif

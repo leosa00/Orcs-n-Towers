@@ -89,10 +89,8 @@ void LevelManager::update(){
             player_.addMoney(50*currLevel_);
             player_.levelUp();
             
-            if (game_.alternativeMenu_) {
-                delete game_.alternativeMenu_;
-            }
-            game_.alternativeMenu_ = new Menu();
+            // Create menu between levels
+            game_.alternativeMenu_ = std::make_unique<Menu>();
             game_.alternativeMenu_->createMenu(MenuType::Level, &game_);
             game_.paused_ = true;
 
@@ -138,7 +136,7 @@ void LevelManager::initiateEnemies(){
         {
             Enemy enemy(30, 80, EnemyType::Split, 10, path_.getWaypoints());
             enemy.setPosition(100, 0);
-            enemy.setTexture(game_.enemy_textures_.get(Textures::Enemy1));
+            enemy.setTexture(game_.enemy_textures_.get(Textures::Enemy3));
             game_.enemies_.push_back(std::make_shared<Enemy>(enemy));
             break;
         }

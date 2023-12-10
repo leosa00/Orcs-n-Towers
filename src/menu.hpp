@@ -93,7 +93,7 @@ private:
     bool canBePlaced(Game* game);
 
     std::list<Button> buttons_;
-    std::list<sf::Text> texts_;
+    std::vector<sf::Text> texts_;
     sf::RectangleShape bg_;
 };
 

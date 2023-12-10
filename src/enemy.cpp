@@ -5,18 +5,23 @@
 #include <cmath>
 #include <memory>
 #include <iostream>
-//function used to move enemy, takes input parameter movement which is a sf::Vector2f
+#include <iomanip>
+#include <sstream>
+
 void Enemy::moveEnemy(sf::Vector2f movement) { 
     this->move(movement);
 }
 
-//Update function for enemies, updates enemy positons based on movement, and manages/applies status effects 
+//Update function for enemies, updates enemy positons based on movement, and manages/applies status effects
 void Enemy::update(sf::Time time) {
 	sf::Vector2f movement = velocity_  * time.asSeconds();
-
-    if (slowed_ > 0) {
+    if (slowed_ > sf::Time::Zero) {
+        slowed_ -= time;
+        if (slowed_ <= sf::Time::Zero) {
+            slowCoefficient_ = 0.f;
+        }
         //the actual amount the enemy is slowed will be tweaked, for now it is 0.2 f
-        movement -= velocity_ *0.5f * time.asSeconds();
+        movement -= velocity_ * (1 - slowCoefficient_) * time.asSeconds();
     }
 	
 	moveEnemy(movement);
@@ -25,12 +30,21 @@ void Enemy::update(sf::Time time) {
 		findNewWaypoint();
 		setVelocity();
 	}
-    
-    slowedDamage();
+    if (poison_ > 0) {
+        if (poisonTimer_ >= sf::seconds(1)) {
+            takeDamage(poisonDamage);
+            poisonTimer_ = sf::Time::Zero;
+            poison_ -= 1;
+        }
+        else {
+            poisonTimer_ += time;
+        }
+    }
+
 
 }
 //checks to see if the enemies current waypoint will be passed, this is determined by the movement variable of the enemy,
-// returns a bool. 
+// returns a bool.
 bool Enemy::isWaypointPassed(sf::Vector2f movement) {
     // Check if the enemy has crossed the waypoint's x-coordinate (for horizontal movement)
     if (velocity_.x != 0) {
@@ -102,11 +116,11 @@ void Enemy::setVelocity() {
 	}
 
 }
+
 //returns the enemies location as a sf::Vector2f
 sf::Vector2f Enemy::getLocation() {
     return this->getPosition();
 }
-
 //finds a newwaypoint for the enemy, this function goes through the waypoints qeue and sets the current waypoint as the next waypoint in the qeue
 //if waypoints are empty it means the enemy has reached the castle and the enemy is set to state dead
 void Enemy::findNewWaypoint() {
@@ -121,8 +135,25 @@ void Enemy::findNewWaypoint() {
 }
 //updates the health text above enemies with the enemies current health
 void Enemy::updateHealthText(const sf::Font& font) {
+    std::ostringstream slowedString;
+    slowedString << std::fixed << std::setprecision(1) << slowed_.asSeconds();
+    /*std::ostringstream poisonString;
+    poisonString << std::fixed << std::setprecision(1) << poison_.asSeconds();*/
     healthText_.setFont(font);
-    healthText_.setString(std::to_string(hp_)+ "/" + std::to_string(initialHp_));
+    if (poison_ > 0 && slowed_ > sf::Time::Zero) {
+        healthText_.setString(std::to_string(hp_)+ "/" + std::to_string(initialHp_) + 
+        " [F:" + slowedString.str() + 
+        "][P:" + std::to_string(poison_) + "]");
+    }
+    else if (poison_ > 0) {
+        healthText_.setString(std::to_string(hp_)+ "/" + std::to_string(initialHp_) + " [P:" + std::to_string(poison_) + "]");
+    }
+    else if (slowed_ > sf::Time::Zero) {
+        healthText_.setString(std::to_string(hp_)+ "/" + std::to_string(initialHp_) + " [F:" + slowedString.str() + "]");
+    }
+    else {
+        healthText_.setString(std::to_string(hp_)+ "/" + std::to_string(initialHp_));
+    }
     healthText_.setCharacterSize(14);
     healthText_.setFillColor(sf::Color::White); 
     sf::FloatRect bounds = getGlobalBounds();
@@ -130,7 +161,6 @@ void Enemy::updateHealthText(const sf::Font& font) {
     sf::FloatRect textBounds = healthText_.getLocalBounds();
     healthText_.setOrigin(textBounds.left + textBounds.width / 2.0f, textBounds.top + textBounds.height / 2.0f);
 }
-
 //returns the healthText
 const sf::Text& Enemy::getHealthText() const {
         return healthText_;
@@ -139,7 +169,6 @@ const sf::Text& Enemy::getHealthText() const {
 std::queue<sf::Vector2f> Enemy::getWaypoints() {
     return waypoints_;
 }
-
 //returns boolean on the sate of the enemy, false if alive true if dead
 bool Enemy::dead() {
     return dead_;
@@ -152,34 +181,28 @@ int Enemy::hp() {
 int Enemy::initialHp() {
     return initialHp_;
 }
-
 //returns enemies speed
 float Enemy::speed() {
     return speed_;
 }
-
 //returns enemy type
 EnemyType Enemy::type() {
     return type_;
 }
-
 //returns the duration of poison status effect
 int Enemy::poisonStatus() {
     return poison_;
 }
 
-//returns the duration of the slowed status effect
-int Enemy::slowedStatus() {
+sf::Time Enemy::slowedStatus() {
     return slowed_;
 }
-
 //kills the enemy, sets dead variable to true
 void Enemy::kill() {
     if(!dead_) {
         dead_ = true;
     }
 }
-
 //damages the enemy, takes in a damage value as a parameter, if the damage is higher than the health the enemy is a
 //automatically killed
 void Enemy::takeDamage(int damage) {
@@ -193,39 +216,32 @@ void Enemy::takeDamage(int damage) {
         hp_ -= damage;
     }
 }
+//Applies poison status effect to enemies
+void Enemy::applyPoison(int stacksOfPoison, int damage) {
+    poison_ = stacksOfPoison;
+    poisonDamage = damage;
+    poisonTimer_ = sf::seconds(1);
+} 
 
-//applies poison effect to the enemy, takes duration as a varaiable
-void Enemy::applyPoison(int duration) {
-    if(poison_ == 0) {
-        poison_+=duration;
-    }
-
-}
-
-//deals poison damage to the enemy, and lowers the poison duration counter
-void Enemy::poisonDamage() {
+/* void Enemy::poisonDamage() {
     if(poison_ > 0) {
         takeDamage(1);
         poison_-=1;
     }
+} */
+//applies slowed status effect to enemies 
+void Enemy::applySlowed(sf::Time duration, float slowCoefficient) {
+    slowed_ = duration;
+    slowCoefficient_ = slowCoefficient;
 }
 
-//applies slowed status effect to the enemy, takes the duration as an input variable 
-void Enemy::applySlowed(int duration) {
-    if(slowed_ == 0) {
-        slowed_+=duration;
-        effectiveSpeed_ = actualSpeed_ * 0.2f;
-    }
-}
-
-//lowers the slowed varaible counter
-void Enemy::slowedDamage() {
+/* void Enemy::slowedDamage() {
     if(slowed_ > 0) {
         slowed_-=1;
     } else {
         effectiveSpeed_ = actualSpeed_;
     }
-}
+} */ 
 
 // Returns the amount of money this enemy provides when killed
 int Enemy::getMoney() const {

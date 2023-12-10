@@ -3,6 +3,7 @@
 #include "bulletTower.hpp"
 #include "missileTower.hpp"
 #include "freezingTower.hpp"
+#include "poisonTower.hpp"
 #include <string>
 #include <stdio.h>
 #include <algorithm>
@@ -30,7 +31,6 @@ void Menu::checkButtons(Game* game) {
     for (auto button : buttons_) {
         if (button.isClicked((sf::Vector2f) sf::Mouse::getPosition(game->window_))) {
 
-            // TODO: this is highly repetitive in tower creation, could probably be somehow streamlined...
             switch (button.getAction())
             {
             case Actions::Tower1:
@@ -56,18 +56,18 @@ void Menu::checkButtons(Game* game) {
             }
             case Actions::Tower4:
             {
-                if (game->activeTower_) {
-                    delete game->alternativeMenu_;
-                    game->alternativeMenu_ = nullptr;
-                    game->activeTower_ = nullptr;
-                }
                 FreezingTower* new_freezing = new FreezingTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
                 new_freezing->setTexture(game->tower_textures_.get(Textures::FreezingTower));
-                game->activeTower_ = new_freezing;
-                game->dragged_ = true;
-                bg_.setFillColor(sf::Color(100, 26, 26, 100));
+                newTower(new_freezing, game);
                 break;
             }
+            case Actions::Tower5:
+            {
+                PoisonTower* new_poison = new PoisonTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
+                new_poison->setTexture(game->tower_textures_.get(Textures::PoisonTower));
+                newTower(new_poison, game);
+                break;
+            }            
 
             // If the button upgrade is pressed, there is already a upgrade menu in existence
             // And the tower which we want to upgrade is known
@@ -90,13 +90,14 @@ void Menu::checkButtons(Game* game) {
             }
             case Actions::Close:
             {
-                game->alternativeMenu_ = nullptr;
+                //game->alternativeMenu_ = nullptr;
+                game->menuInactive = true;
                 game->activeTower_ = nullptr;
                 break;
             }
             case Actions::Sell:
             {
-                // Add money to player
+                // Add money to player, 75% of tower base cost
                 game->player_.addMoney(game->activeTower_->getBaseCost() * 0.75);
                 // Find tower and erase it 
                 for (auto it = game->towers_.begin(); it != game->towers_.end(); it++) {
@@ -106,7 +107,7 @@ void Menu::checkButtons(Game* game) {
                     }
                 }
                 // Remove upgrade menu as the tower does not exist
-                game->alternativeMenu_ = nullptr;
+                game->menuInactive = true;
                 game->activeTower_ = nullptr;
                 break;
             }
@@ -117,9 +118,8 @@ void Menu::checkButtons(Game* game) {
             }
             case Actions::Level:
             {
-                //game->enemies_ = game->player_.increaseLevel(game->enemy_textures_, game->path_);
                 game->paused_ = false;
-                game->alternativeMenu_ = nullptr;
+                game->menuInactive = true;
                 break;
             }
             default:
@@ -134,7 +134,7 @@ void Menu::newTower(Tower* tower, Game* game) {
     // if an upgrade menu is open, close it so the change in the 
     // activeTower_ pointer does not break the upgrade menu
     if (game->activeTower_) {
-        
+        // unique_ptr handles deletion of old menu
         game->alternativeMenu_ = nullptr;
         game->activeTower_ = nullptr;
     }
@@ -162,15 +162,21 @@ void Menu::createMenu(MenuType menu, Game* game) {
             buttons_.push_back(Button(Actions::Tower2, game->tower_textures_.get(Textures::BulletTower), sf::Vector2f(920, 100), "200", game->font_));
             buttons_.push_back(Button(Actions::Tower3, game->tower_textures_.get(Textures::MissileTower), sf::Vector2f(920, 160), "200", game->font_));
             buttons_.push_back(Button(Actions::Tower4, game->tower_textures_.get(Textures::FreezingTower), sf::Vector2f(920, 220), "350", game->font_));
+            buttons_.push_back(Button(Actions::Tower5, game->tower_textures_.get(Textures::PoisonTower), sf::Vector2f(920, 280), "350", game->font_));
             // This needs a texture or something
             buttons_.push_back(Button(Actions::Pause, game->various_textures_.get(Textures::Pause), sf::Vector2f(900, 700), "pause", game->font_));//uses pause button texture as tower3
             
             std::string money = std::to_string(game->player_.getWallet());
             std::string health = std::to_string(game->player_.getHP());
+            std::string level = std::to_string(game->player_.getLevel() + 1);
             sf::Text euro(money + " EUR", game->font_, 20);
             sf::Text hp(health + " HP", game->font_, 20);
+            sf::Text lvl("Level: " + level, game->font_, 20);
+            lvl.setPosition(900, 550);
             euro.setPosition(900, 600);
             hp.setPosition(900, 650);
+            
+            texts_.push_back(lvl);
             texts_.push_back(euro);
             texts_.push_back(hp);
             
@@ -179,10 +185,10 @@ void Menu::createMenu(MenuType menu, Game* game) {
     case MenuType::Upgrade:
         {
             // Create upgrade and close buttons
-            buttons_.push_back(Button(Actions::Close, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(500, 700), "Close", game->font_));
+            buttons_.push_back(Button(Actions::Close, game->various_textures_.get(Textures::Continue), sf::Vector2f(500, 700), "Close", game->font_));
             std::string cost = std::to_string(game->activeTower_->getUpgradeCost());
-            buttons_.push_back(Button(Actions::Upgrade, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(150, 700), cost, game->font_));
-            buttons_.push_back(Button(Actions::Sell, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(250, 700), "Sell", game->font_));
+            buttons_.push_back(Button(Actions::Upgrade, game->various_textures_.get(Textures::Upgrade), sf::Vector2f(150, 700), cost, game->font_));
+            buttons_.push_back(Button(Actions::Sell, game->various_textures_.get(Textures::Sell), sf::Vector2f(250, 700), "Sell", game->font_));
 
             // create texts of type current damage and level
             // + operator with string handles conversion
@@ -203,7 +209,7 @@ void Menu::createMenu(MenuType menu, Game* game) {
         }
     case MenuType::Begin:
         {
-            buttons_.push_back(Button(Actions::Level, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(400, 450), "Begin", game->font_));
+            buttons_.push_back(Button(Actions::Level, game->various_textures_.get(Textures::Continue), sf::Vector2f(400, 450), "Begin", game->font_));
 
             sf::Text intro("Welcome to Orcs n Towers\nClick to start the first level!", game->font_, 20);
             intro.setPosition(400, 400);
@@ -212,9 +218,9 @@ void Menu::createMenu(MenuType menu, Game* game) {
         }
     case MenuType::Level:
         {
-            buttons_.push_back(Button(Actions::Level, game->enemy_textures_.get(Textures::Enemy2), sf::Vector2f(400, 440), "Next level", game->font_));
+            buttons_.push_back(Button(Actions::Level, game->various_textures_.get(Textures::Continue), sf::Vector2f(400, 440), "Next level", game->font_));
             // FIXME: The text does not include the first letter :(
-            sf::Text intro(("Congratulations for completing level " + game->player_.getLevel()), game->font_, 20);
+            sf::Text intro("Level passed!", game->font_, 20);
             intro.setPosition(400, 400);
             texts_.push_back(intro);
             break;
@@ -225,10 +231,13 @@ void Menu::createMenu(MenuType menu, Game* game) {
 }
 
 void Menu::update(Player& player){
+    std::string level = "Level: " + std::to_string(player.getLevel() + 1);
     std::string money = std::to_string(player.getWallet()) + " EUR";
     std::string health = std::to_string(player.getHP()) + " HP";
-    texts_.front().setString(money);
-    texts_.back().setString(health);
+    texts_[0].setString(level);
+    texts_[1].setString(money);
+    texts_[2].setString(health);
+
 }
 
 void Menu::drag(Game* game) {

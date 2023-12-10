@@ -23,45 +23,11 @@ Game::Game() :
     if(!path_.readingSuccessfull()){
         return;
     }
-
-
-    //Load the Map texture
-    if (!map.texture.loadFromFile("../textures/grass.jpeg"))
-    {
-        return;
-    }
-    map.background.setTexture(map.texture);
-
     
-
-    // Create tower texture container, load texture    
-    tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
-
-    tower_textures_.load(Textures::BulletTower, "../textures/tower1.png");
-    tower_textures_.load(Textures::BombTower, "../textures/tower2.png");
-    tower_textures_.load(Textures::MissileTower, "../textures/tower3.png");//pause button texture needs to be changed to its own texture class later
-    tower_textures_.load(Textures::FreezingTower, "../textures/tower4.png");
-    enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
-
-    enemy_textures_.load(Textures::Enemy1, "../textures/enemy.png");
-    enemy_textures_.load(Textures::Enemy2, "../textures/enemy_flying.png");
-
-    projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
-
-    projectile_textures_.load(Textures::Bullet, "../textures/bullet_test.png");
-    projectile_textures_.load(Textures::Bomb, "../textures/bomb_test.png");
-    projectile_textures_.load(Textures::Missile, "../textures/mikey.png");
-    various_textures_.load(Textures::Pause, "../textures/pausebutton.png");
-    various_textures_.load(Textures::Castle, "../textures/castle.png");
-    various_textures_.load(Textures::Dirt, "../textures/dirt.png");
-    // Load font
-
-    font_.loadFromFile("../textures/OpenSans_Condensed-Bold.ttf");
-
-
+    loadTextures();
 
     // Initialize menus
-    shop_ = new Menu();
+    shop_ = std::make_unique<Menu>();
     shop_->createMenu(MenuType::Shop, this);
     alternativeMenu_ = nullptr;
     activeTower_ = nullptr;
@@ -86,11 +52,10 @@ Game::Game() :
         map.unBuildable.push_back(path);
     }
     
-     //Draws castle sprite
-     //!!! get castle to be at end of path, getWaypoints.back() puts it in a stragne position on all paths
+    //Draws castle sprite
     sf::Texture& castleTexture = various_textures_.get(Textures::Castle);
     castle_sprite_.setTexture(castleTexture);
-    sf::Vector2f castlePosition = sf::Vector2f(600, 600);
+    sf::Vector2f castlePosition = sf::Vector2f(path_.wayPoints.back().x - (castle_sprite_.getTexture()->getSize().x/2), path_.wayPoints.back().y - (castle_sprite_.getTexture()->getSize().y/2));
     castle_sprite_.setPosition(castlePosition);
     
 
@@ -153,8 +118,7 @@ void Game::update() {
         shop_->drag(this);
     }
 
-    // Updates displayed wallet amount and health
-    shop_->update(player_);
+    updateMenus();
 
     // If the game is paused stop updating
     if (paused_) {
@@ -240,22 +204,15 @@ void Game::update() {
         }
     }
 
-    /**
-     * depending wether game or palyer keeps track of castle position
-     * atl:
-     * castle_.getGlobalBounds().intersects(enemy.getGlobalBounds())){
-        player_.removeHP(10) <-- should prob be enemy specific
-    */
-
 
     // Pavel: updating towers below. Would someone double-check that logic is correct?
     // Perhaps I could try to migrate tower logic inside tower class, but is there any 
     // simple way to do so as updating tower logic uses private members enemies_ and 
     // projectiles_?
     for (auto* tower : towers_) {
-            tower->update(enemies_);
-            if (tower->getLockedEnemy() != nullptr &&
-                tower->getFireTimer().getElapsedTime().asSeconds() >= 1.0f / tower->getFireRate()) {
+        tower->update(enemies_, getTime());
+        if (tower->getLockedEnemy() != nullptr &&
+            tower->getFireTimer() >= tower->getFireRate()) {
                 // Added an intermediate step into shooting which sets the projectile texture
                 Projectile* newproj = tower->shoot();
                 std::cout << "shoot executed" << std::endl;
@@ -269,7 +226,7 @@ void Game::update() {
                 tower->resetFireTimer();
 
             }
-        }
+    }
      
 
     /*for (auto& tower : towers_) {
@@ -420,7 +377,7 @@ void Game::checkTowers() {
             // This stores the pointer to the tower that the upgrade button
             // Will potentially upgrade
             activeTower_ = tower;
-            alternativeMenu_ = new Menu();
+            alternativeMenu_ = std::make_unique<Menu>();
             alternativeMenu_->createMenu(MenuType::Upgrade, this);
         }
     }
@@ -465,3 +422,56 @@ void Game::testEnemySplit(sf::Vector2f position, std::queue<sf::Vector2f> waypoi
     enemies_.push_back(std::make_shared<Enemy>(split));
 }
 
+void Game::updateMenus() {
+    // Updates displayed wallet amount and health
+    shop_->update(player_);
+
+    // If the alternative menu has been closed delete it
+    if (menuInactive) {
+        alternativeMenu_ = nullptr;
+        menuInactive = false;
+    }
+}
+
+void Game::loadTextures(){
+
+    //Load the Map texture
+    if (!map.texture.loadFromFile("../textures/grass.jpeg"))
+    {
+        return;
+    }
+    
+    map.background.setTexture(map.texture);
+    // Towers  
+    tower_textures_ = ResourceContainer<Textures::TowerID, sf::Texture>();
+
+    tower_textures_.load(Textures::BulletTower, "../textures/tower1.png");
+    tower_textures_.load(Textures::BombTower, "../textures/tower2.png");
+    tower_textures_.load(Textures::MissileTower, "../textures/tower3.png");//pause button texture needs to be changed to its own texture class later
+    tower_textures_.load(Textures::FreezingTower, "../textures/tower4.png");
+    tower_textures_.load(Textures::PoisonTower, "../textures/tower5.png");
+    
+    // Enemies
+    enemy_textures_ = ResourceContainer<Textures::EnemyID, sf::Texture>();
+
+    enemy_textures_.load(Textures::Enemy1, "../textures/enemy.png");
+    enemy_textures_.load(Textures::Enemy2, "../textures/enemy_flying.png");
+    enemy_textures_.load(Textures::Enemy3, "../textures/enemy_weapon.png");
+
+    // Projectiles
+    projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
+
+    projectile_textures_.load(Textures::Bullet, "../textures/bullet_test.png");
+    projectile_textures_.load(Textures::Bomb, "../textures/bomb_test.png");
+    projectile_textures_.load(Textures::Missile, "../textures/mikey.png");
+    
+    // Others
+    various_textures_.load(Textures::Pause, "../textures/pausebutton.png");
+    various_textures_.load(Textures::Castle, "../textures/castle.png");
+    various_textures_.load(Textures::Dirt, "../textures/dirt.png");
+    various_textures_.load(Textures::Upgrade, "../textures/Upgrade.png");
+    various_textures_.load(Textures::Sell, "../textures/Money.png");
+    various_textures_.load(Textures::Continue, "../textures/okay.png");
+    // Load font
+    font_.loadFromFile("../textures/OpenSans_Condensed-Bold.ttf");
+}

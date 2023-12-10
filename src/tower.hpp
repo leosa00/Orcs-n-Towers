@@ -20,18 +20,18 @@ enum class CanDamage {
     Flying,
     Both
 };
-/* Base tower class will be abstract (i.e., no objects of base tower class are to be constructable)*/
+
 class Tower : public sf::Sprite { 
 public:                             
-    Tower(sf::Vector2f position, const std::string& type = "Basic",  int baseCost = 100, float range = 100.0, float fireRate = 1.0,
-          int damage = 10, int currentLvl = 1, int upgradeCost = 150, CanDamage damageType = CanDamage::Both, std::shared_ptr<Enemy> lockedEnemy = nullptr,
-          sf::Clock fireTimer = sf::Clock(), bool maxLevelReached = false);
+    Tower(sf::Vector2f position, const std::string& type,  int baseCost, float range, sf::Time fireRate,
+          int damage, int currentLvl, int upgradeCost, CanDamage damageType, std::shared_ptr<Enemy> lockedEnemy,
+          bool maxLevelReached);
     /*Tower(sf::Vector2f position);*/
     // I think there is really no need for copy constructor or copy assignment operator
     const std::string& getType() const {return type_;}
     //const sf::Vector2f getPosition() const {return position_;}
     const int getBaseCost() const {return baseCost_;}
-    const float getFireRate() const {return fireRate_;}
+    sf::Time getFireRate() const {return fireRate_;}
     const CanDamage getDamageType() const {return damageType_;}
     const float getRange() const {return range_;}
     int getDamage() const {return damage_;}
@@ -41,18 +41,18 @@ public:
     bool isMaxLevelReached() const {return maxLevelReached_;};
     int getCurrentLvl() const {return currentLvl_;}
     const int getUpgradeCost() const {return upgradeCost_;}; 
-    sf::Clock getFireTimer() {return fireTimer_;}
+    sf::Time getFireTimer() {return fireTimer_;}
     bool enemyWithinRange(std::shared_ptr<Enemy> enemy);
-    void resetFireTimer() {fireTimer_.restart();}
+    void resetFireTimer() {fireTimer_ = sf::Time::Zero;}
     // shoot() creates a projectile that flies towards lockedEnemy_
     // Changed it to pure virtual 
     virtual Projectile* shoot() = 0; 
-    void upgradeTower(); // Will be defined in .cpp 
+    virtual void upgradeTower(); // Will be defined in .cpp 
     /* update() method is declared as virtual. Some derived
        classes will use base update() and other will use override*/
-    virtual void update(std::list<std::shared_ptr<Enemy>> &enemies);
+    virtual void update(std::list<std::shared_ptr<Enemy>> &enemies, sf::Time time);
+    void updateFireTimer(sf::Time &dt);
     //This is what I add to support for the map class
-    virtual std::shared_ptr<Tower> getClassObject() = 0; //Type of Tower
     bool isActive();//Whether the Tower is active or not
     bool HUDactive = false;//Temporary variable hold the state of the Tower
     void unactiveHUD();//Function to deactivate Tower (when sell)
@@ -60,6 +60,8 @@ public:
     sf::Vector2f getSize();//Get the height and width of the Tower we want to build
     virtual void build(); //build function which change the temporary variable builded to tru
     bool builded = false; //Temporary variable define whether the tower is built or not.
+    void setLevel(int level) {currentLvl_ = level;}
+    void setMaxLevelFlag() {maxLevelReached_ = true;}
 private:
 //    virtual void draw();
     const std::string type_;
@@ -67,12 +69,12 @@ private:
     const int baseCost_;
     const float range_;
     int damage_; 
-    const float fireRate_; // Rate at which tower creates new projectiles; perhaps fireRate shouldn't be upgradable, instead stronger projectiles are created
     int currentLvl_;
     const CanDamage damageType_;
     const int upgradeCost_; 
     std::shared_ptr<Enemy> lockedEnemy_;
-    sf::Clock fireTimer_;
+    sf::Time fireTimer_;
+    sf::Time fireRate_;
     bool maxLevelReached_;
 };
 #endif //TOWER_H

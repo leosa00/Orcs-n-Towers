@@ -2,9 +2,10 @@
 #include <iostream>
 
 FreezingTower::FreezingTower(sf::Vector2f position)
-    : Tower(position, "Freezing Tower", 350, 300.f, 0.4f, 5, 1, 475, CanDamage::Both, nullptr, sf::Clock(), false) {}
+    : Tower(position, "Freezing Tower", 350, 300.f, sf::seconds(2), 0, 1, 475, CanDamage::Both, nullptr, false) {}
 
-void FreezingTower::update(std::list<std::shared_ptr<Enemy>> &enemies) {
+void FreezingTower::update(std::list<std::shared_ptr<Enemy>> &enemies, sf::Time time) {
+    updateFireTimer(time);
     lockedEnemies_.clear();
     setLockedEnemy(nullptr);
     for (std::shared_ptr<Enemy> enemy : enemies) {
@@ -19,16 +20,16 @@ void FreezingTower::update(std::list<std::shared_ptr<Enemy>> &enemies) {
 
 Projectile* FreezingTower::shoot() {
     for (std::shared_ptr<Enemy> enemy : lockedEnemies_) {
-        enemy->takeDamage(getDamage());
-        enemy->applySlowed(5000); // argument needs to be changed (most likely)
+        enemy->applySlowed(sf::seconds(1.5), slowCoefficient_);
     }
     return nullptr;
 }
 
-std::shared_ptr<Tower> FreezingTower::getClassObject()
-{
-    sf::Vector2f defaultPosition(0.0f, 0.0f);
-    std::shared_ptr<Tower> obj = std::make_shared<FreezingTower>(defaultPosition);
-
-    return obj;
+void FreezingTower::upgradeTower() {
+    int currentLvl = getCurrentLvl();
+    if (currentLvl == 1) {
+        setLevel(2);
+        slowCoefficient_ = 1.5 * slowCoefficient_;
+        setMaxLevelFlag();
+    }
 }
