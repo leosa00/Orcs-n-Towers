@@ -1,17 +1,21 @@
 # Orcs n Towers
+
 ## Overview
 
 Orcs n Towers is a tower defence game set in a fantasy setting, where orcs and other such monsters try to reach and destroy the player's castle, the player must defend against the monsters by placing different towers with specific roles. The player will have a set number of hitpoints that are depleted when enemies reach the castle. When all hitpoints are lost the player loses.
 
-The monsters traverse a path, along which the player can place their towers. There is three different paths of which one is chosen at random for the duration of the game. Once a monster is inside a towers range, depending on the towers it will either create a projectile that matches the towers type, or apply a slowing or poision effect on the monster.
+The monsters traverse a path, along which the player can place their towers. There is three different paths of which one is chosen at random for the duration of the game. Once a monster is inside a towers range, depending on the towers it will either create a projectile that matches the towers type, or apply a slowing or poision effect on the monster. Certain towers can only affect certain monsters.
 
-The player can buy as many Towers as they can afford throughout the game, as well as upgrade them to increase the damage the tower will cause the monster.
+The player can buy as many Towers as they can afford throughout the game, as well as upgrade them to increase the damage the tower will cause the monster and sell them. The player earns money by killing enemies as well as by progressing through the levels.
 
-The game has 5 different levels of increasing difficulty, by introducing more monsters in amount and type at quicker intervals. The game is won once the player has defeated all levels. 
+The game has 5 different levels of increasing difficulty, by introducing more monsters in amount and type at quicker intervals. The game is won once the player has defeated all levels. The player loses HP everytime a monster reaches the castle, and once the HP is zero, the game is lost.
 
 ## Instructions
 
-To place towers on map, drag and drop them to an appropriate place. Towers cannot be built on the path.
+Once you have started the game, to place towers on map, drag and drop them from the side bar to an appropriate place. Note that towers cannot be built on the path. The towers range can be seen while dragging it as well as by clicking on it once on map. To upgrade or sell a tower, click on the tower and choose the wanted action from the menu that appeared on the bottom of the screen, there you can also see the towers specifications. 
+
+A level is completed once all enemies from that level have been killed. To move on to the next level, press the "next level" button that appears on the screen. The game can be paused by pressing the "pause" button on the side bar, there the player can also see their current level and how much money and HP they have.
+
 Custom levels and paths can be created in levels.csv and paths.csv respectively, read formatting instructions carefully.
 
 ## How to compile the program
@@ -24,9 +28,23 @@ To compile the game, as taken from git, on the command line:
     4. run: make
     5. run: ./TD
 
-SFML (minimum version 2.5) is required.
+SFML multi-media library (minimum version 2.5) is required.
 
 ## Testing
+
+Testing was mostly done directly in the source files, in either a project branch or on master branch. The first kinds of tests were simply rendering the game objects to be able to see them on the screen, once that was atleast partially working, it was easier to gauge what exactly the game objects were doing and testing how the objects interacted with each other was started. Print statements were used as well to make it easer to follow which part of the code was being executed.
+
+Enemies movement was initially tested by hardcoding waypoint information, to see that the logic worked, and enemies travesed the path that they were supposed to. 
+
+Towers
+
+Path
+
+Menus
+
+Projectiles
+
+Reading both levels and paths from file was tested by printing the contents of the file as well as the status of the reading success. Firstly with correctly formatted input to see that the reading logic worked, and then with incorrectly formatted input, to test the error handling. As expected, incorrectly formatted input caused reading success to return false, and thus indicating reading failed.
 
 ## Work log
 

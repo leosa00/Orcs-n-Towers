@@ -467,7 +467,7 @@ void Game::loadTextures(){
     
     // Others
     various_textures_.load(Textures::Pause, "../textures/pausebutton.png");
-    various_textures_.load(Textures::Castle, "../textures/castle.png");
+    various_textures_.load(Textures::Castle, "../textures/thinCastle.png");
     various_textures_.load(Textures::Dirt, "../textures/dirt.png");
     various_textures_.load(Textures::Upgrade, "../textures/Upgrade.png");
     various_textures_.load(Textures::Sell, "../textures/Money.png");
