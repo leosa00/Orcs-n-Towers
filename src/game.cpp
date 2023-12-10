@@ -445,9 +445,9 @@ void Game::loadTextures(){
     // Projectiles
     projectile_textures_ = ResourceContainer<Textures::ProjectileID, sf::Texture>();
 
-    projectile_textures_.load(Textures::Bullet, "../textures/bullet_test.png");
-    projectile_textures_.load(Textures::Bomb, "../textures/bomb_test.png");
-    projectile_textures_.load(Textures::Missile, "../textures/mikey.png");
+    projectile_textures_.load(Textures::Bullet, "../textures/bullet.png");
+    projectile_textures_.load(Textures::Bomb, "../textures/bomb.png");
+    projectile_textures_.load(Textures::Missile, "../textures/missile.png");
     
     // Others
     various_textures_.load(Textures::Pause, "../textures/pausebutton.png");
