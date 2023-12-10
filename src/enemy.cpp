@@ -21,7 +21,7 @@ void Enemy::update(sf::Time time) {
             slowCoefficient_ = 0.f;
         }
         //the actual amount the enemy is slowed will be tweaked, for now it is 0.2 f
-        movement -= velocity_ * (1 - slowCoefficient_) * time.asSeconds();
+        movement -= velocity_ * (slowCoefficient_) * time.asSeconds();
     }
 	
 	moveEnemy(movement);

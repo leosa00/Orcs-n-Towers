@@ -10,30 +10,26 @@
 /**
  * @brief Constructor for abstract tower used in constructor for derived tower classes.
  * 
- * @param position is determined by constructor of derived tower class
- * @param type is determined by constructor of derived tower class
- * @param baseCost is determined by constructor of derived tower class
- * @param range is determined by constructor of derived tower class
- * @param fireRate is determined by constructor of derived tower class
- * @param damage is determined by constructor of derived tower class
- * @param currentLvl is determined by constructor of derived tower class
- * @param upgradeCost is determined by constructor of derived tower class
- * @param lockedEnemy is determined by constructor of derived tower class
- * @param maxLevelReached is determined by constructor of derived tower class
+ * @param position Determined by constructor of derived tower class
+ * @param type Determined by constructor of derived tower class
+ * @param baseCost Determined by constructor of derived tower class
+ * @param range Determined by constructor of derived tower class
+ * @param fireRate Determined by constructor of derived tower class
+ * @param damage Determined by constructor of derived tower class
+ * @param upgradeCost Determined by constructor of derived tower class
  */
 Tower::Tower(sf::Vector2f position, const std::string& type,  int baseCost, float range, sf::Time fireRate,
-          int damage, int currentLvl, int upgradeCost, std::shared_ptr<Enemy> lockedEnemy,
-          bool maxLevelReached)
+          int damage, int upgradeCost)
         : type_(type),
         baseCost_(baseCost), 
         range_(range), 
         fireRate_(fireRate), 
         damage_(damage),
-        currentLvl_(currentLvl),
         upgradeCost_(upgradeCost), 
-        lockedEnemy_(lockedEnemy), 
         fireTimer_(fireRate),
-        maxLevelReached_(maxLevelReached) {
+        currentLvl_(1),
+        lockedEnemy_(nullptr), 
+        maxLevelReached_(false) {
           setPosition(position);
         }
 /**
@@ -56,9 +52,9 @@ void Tower::upgradeTower() {
 /**
  * @brief Check if the enemy is within the range of the tower
  * 
- * @param enemy is passed from calling @see Tower::update method
- * @return true if locking range of the tower is more or equal to distance between the enemy and the tower
- * @return false otherwise
+ * @param enemy A shared pointer to an \c Enemy object passed from calling \c Tower::update method.
+ * @return true if locking range of the tower is more or equal to distance between the enemy and the tower.
+ * @return false otherwise.
  */
 bool Tower::enemyWithinRange(std::shared_ptr<Enemy> enemy) {
   return range_ >= std::sqrt(std::pow((getPosition().x - enemy->getPosition().x), 2) + std::pow((getPosition().y - enemy->getPosition().y), 2));
@@ -66,11 +62,11 @@ bool Tower::enemyWithinRange(std::shared_ptr<Enemy> enemy) {
 /**
  * @brief Main tower logic
  * 
- * First, we check whether currently locked enemy is not nullptr, not dead and still within tower's range. If this condition is satisfied nothing else is done. 
- * Otherwise, locked enemy is set to nullptr and enemies is iterated through to find the fastest enemy which is within tower's range and alive. If there is no enemies 
- * alive within tower's range, @see lockedEnemy_ member stays nullptr. Otherwise, lockedEnemy_ is set to the pointer to the fastest, alive enemy within tower's range.
- * @param enemies is passed from calling @see Game::update method
- * @param time is passed from calling @see Game::update method and is used to update @see fireTimer_
+ * First, we check whether currently locked enemy is not \c nullptr, not dead and still within tower's range. If this condition is satisfied nothing else is done. 
+ * Otherwise, locked enemy is set to \c nullptr and \c enemies container is iterated through to find the fastest enemy which is within tower's range and alive. If there is no enemies 
+ * alive within tower's range, lockedEnemy_ member stays \c nullptr. Otherwise, \c lockedEnemy_ is set to the pointer to the fastest, alive enemy within tower's range.
+ * @param enemies List argument passed from calling \c Game::update method.
+ * @param time Argument passed from calling \c Game::update method and is used to update \c fireTimer_.
  */
 void Tower::update(std::list<std::shared_ptr<Enemy>> &enemies, sf::Time time) { 
     updateFireTimer(time);
@@ -91,7 +87,7 @@ void Tower::update(std::list<std::shared_ptr<Enemy>> &enemies, sf::Time time) {
 /**
  * @brief Increments fireTimer_ by dt
  * 
- * @param dt is time since last frame and is passed from @see Game::update()
+ * @param dt Time since last frame and is passed from \c Game::update() \e.
  */
 void Tower::updateFireTimer(sf::Time &dt) {
   fireTimer_ += dt;

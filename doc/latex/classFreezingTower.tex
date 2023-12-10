@@ -12,15 +12,12 @@ Inheritance diagram for Freezing\+Tower\+:\begin{figure}[H]
 \mbox{\Hypertarget{classFreezingTower_ad4ff504442de4bed569c2259db796379}\label{classFreezingTower_ad4ff504442de4bed569c2259db796379}} 
 {\bfseries Freezing\+Tower} (sf\+::\+Vector2f)
 \item 
-\mbox{\Hypertarget{classFreezingTower_a9815a7ece26298aad9e7cca06675eb99}\label{classFreezingTower_a9815a7ece26298aad9e7cca06675eb99}} 
-void {\bfseries update} (std\+::list$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$$>$ \&enemies, sf\+::\+Time time) override
+void \mbox{\hyperlink{classFreezingTower_a9815a7ece26298aad9e7cca06675eb99}{update}} (std\+::list$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$$>$ \&enemies, sf\+::\+Time time) override
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classFreezingTower_a9815a7ece26298aad9e7cca06675eb99}{update()}} method is virtual as some types of towers use base \mbox{\hyperlink{classFreezingTower_a9815a7ece26298aad9e7cca06675eb99}{update()}} \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classProjectile}{Projectile}} $\ast$ \mbox{\hyperlink{classFreezingTower_ab81831977828ee5ea9b2160f6079f82e}{shoot}} () override
 \item 
-\mbox{\Hypertarget{classFreezingTower_ab81831977828ee5ea9b2160f6079f82e}\label{classFreezingTower_ab81831977828ee5ea9b2160f6079f82e}} 
-\mbox{\hyperlink{classProjectile}{Projectile}} $\ast$ {\bfseries shoot} () override
-\item 
-\mbox{\Hypertarget{classFreezingTower_aee32dd21f59a495dc3793dc5b42412b4}\label{classFreezingTower_aee32dd21f59a495dc3793dc5b42412b4}} 
-void {\bfseries upgrade\+Tower} () override
-\end{DoxyCompactItemize}
+void \mbox{\hyperlink{classFreezingTower_aee32dd21f59a495dc3793dc5b42412b4}{upgrade\+Tower}} () override
+\begin{DoxyCompactList}\small\item\em Upgrade the tower to the next level. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -30,7 +27,90 @@ std\+::list$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>
 \mbox{\Hypertarget{classFreezingTower_a035005d0158659f7beae6677e2609429}\label{classFreezingTower_a035005d0158659f7beae6677e2609429}} 
 float {\bfseries slow\+Coefficient\+\_\+} = 0.\+1
 \end{DoxyCompactItemize}
-\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classFreezingTower_ab81831977828ee5ea9b2160f6079f82e}\label{classFreezingTower_ab81831977828ee5ea9b2160f6079f82e}} 
+\index{FreezingTower@{FreezingTower}!shoot@{shoot}}
+\index{shoot@{shoot}!FreezingTower@{FreezingTower}}
+\doxysubsubsection{\texorpdfstring{shoot()}{shoot()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classProjectile}{Projectile}} $\ast$ Freezing\+Tower\+::shoot (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+\mbox{\hyperlink{classFreezingTower_ab81831977828ee5ea9b2160f6079f82e}{shoot()}} method is pure virtual as different types of towers produce different types of projectiles (or no projectiles at all as is the case with Poison and Freezing Towers). \begin{DoxyReturn}{Returns}
+Projectile$\ast$ 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classTower_af06bf6f547f85d4846931da2d27243fc}{Tower}}.
+
+\mbox{\Hypertarget{classFreezingTower_a9815a7ece26298aad9e7cca06675eb99}\label{classFreezingTower_a9815a7ece26298aad9e7cca06675eb99}} 
+\index{FreezingTower@{FreezingTower}!update@{update}}
+\index{update@{update}!FreezingTower@{FreezingTower}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Freezing\+Tower\+::update (\begin{DoxyParamCaption}\item[{std\+::list$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$$>$ \&}]{enemies,  }\item[{sf\+::\+Time}]{time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+\mbox{\hyperlink{classFreezingTower_a9815a7ece26298aad9e7cca06675eb99}{update()}} method is virtual as some types of towers use base \mbox{\hyperlink{classFreezingTower_a9815a7ece26298aad9e7cca06675eb99}{update()}} 
+
+Main tower logic.
+
+
+\begin{DoxyParams}{Parameters}
+{\em enemies} & is the list of \mbox{\hyperlink{classEnemy}{Enemy}} shared pointers needed for setting locked\+Enemy\+\_\+ \\
+\hline
+{\em time} & is delta time from \mbox{\hyperlink{classGame}{Game}} object needed for updating \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+fire\+Timer\+\_\+
+\end{DoxySeeAlso}
+First, we check whether currently locked enemy is not nullptr, not dead and still within tower\textquotesingle{}s range. If this condition is satisfied nothing else is done. Otherwise, locked enemy is set to nullptr and enemies is iterated through to find the fastest enemy which is within tower\textquotesingle{}s range and alive. If there is no enemies alive within tower\textquotesingle{}s range, \begin{DoxySeeAlso}{See also}
+locked\+Enemy\+\_\+ member stays nullptr. Otherwise, locked\+Enemy\+\_\+ is set to the pointer to the fastest, alive enemy within tower\textquotesingle{}s range. 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em enemies} & is passed from calling \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+Game\+::update method 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em time} & is passed from calling \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+Game\+::update method and is used to \mbox{\hyperlink{classFreezingTower_a9815a7ece26298aad9e7cca06675eb99}{update}} 
+
+fire\+Timer\+\_\+ 
+\end{DoxySeeAlso}
+
+
+Reimplemented from \mbox{\hyperlink{classTower_a4517d03338104ddd09667b7978ba0347}{Tower}}.
+
+\mbox{\Hypertarget{classFreezingTower_aee32dd21f59a495dc3793dc5b42412b4}\label{classFreezingTower_aee32dd21f59a495dc3793dc5b42412b4}} 
+\index{FreezingTower@{FreezingTower}!upgradeTower@{upgradeTower}}
+\index{upgradeTower@{upgradeTower}!FreezingTower@{FreezingTower}}
+\doxysubsubsection{\texorpdfstring{upgradeTower()}{upgradeTower()}}
+{\footnotesize\ttfamily void Freezing\+Tower\+::upgrade\+Tower (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Upgrade the tower to the next level. 
+
+\mbox{\hyperlink{classFreezingTower_aee32dd21f59a495dc3793dc5b42412b4}{upgrade\+Tower()}} method is virtual as upgrade logic is same for all types of towers except Freezing \mbox{\hyperlink{classTower}{Tower}}
+
+This method upgrades tower by one level, increases its damage\+\_\+ member by 1.\+5 times and sets the maximum level flag to true.
+
+\begin{DoxyNote}{Note}
+If the maximum level has already been reached, this method has no effect 
+\end{DoxyNote}
+
+
+Reimplemented from \mbox{\hyperlink{classTower_a3ae303a04b27b7cb89ed478d492f1a64}{Tower}}.
+
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
