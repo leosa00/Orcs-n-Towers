@@ -32,42 +32,42 @@ SFML multi-media library (minimum version 2.5) is required.
 
 ## Testing
 
-Testing was mostly done directly in the source files, in either a project branch or on master branch. The first kinds of tests were simply rendering the game objects to be able to see them on the screen, once that was atleast partially working, it was easier to gauge what exactly the game objects were doing and testing how the objects interacted with each other was started. Print statements were used as well to make it easer to follow which part of the code was being executed.
+Testing was mostly done directly in the source files, in either a project branch or on master branch. The first kinds of tests were simply rendering the game objects to be able to see them on the screen, once that was atleast partially working, it was easier to gauge what exactly the game objects were doing and testing how the objects interacted with each other was started. Print statements were used as well to make it easer to follow which part of the code was being executed, and if it was the expected part.
 
-Enemies movement was initially tested by hardcoding waypoint information, to see that the logic worked, and enemies travesed the path that they were supposed to. 
+Enemies movement was initially tested by hardcoding waypoints, to see that the logic worked, and enemies travesed the path that they were supposed to. Once towers and enemies were able to be rendered on the screen, their interactions with each other could be tested, namely that towers recognised that enemies we're within their range and could pick one to target.
 
-Towers
+When towers could clock on to enemies, the creation of projectiles by towers could be tested. Initially there were some minor issues with initialising projectiles due to different ideas on what should be passed to constructor, but that was easily solved with some adjustments. Once projectiles could be created their movement and ability to hit enemies was tested, intitially they didn't seem to move with some adjustments to their values that dictated how far they could move from their tower, it could be determined that projectiles were able to move towards enemies and hit them, and therefore cause damage to them. 
 
-Path
+When projectiles could hit enemies, the killing of enemies could be better tested, to see that enemies would actually take damage from projectiles, and once their HP would reach zero, they would die and be deleted, which they did. The testing of enemies causing damage to the player by reaching the castle, and dying when they do so, was done by allowing the enemies to reach the castle.
 
-Menus
+Not being able to buy towers if player didn't have enough money or, place towers on top of each other or on the path was simply tested by trying to do so. User interactions with the game, like the ability to pause/unpause, displaying tower information, uprgading or selling towers and moving on to the next level were tested by executing the action and observing the outcome. 
 
-Projectiles
-
-Reading both levels and paths from file was tested by printing the contents of the file as well as the status of the reading success. Firstly with correctly formatted input to see that the reading logic worked, and then with incorrectly formatted input, to test the error handling. As expected, incorrectly formatted input caused reading success to return false, and thus indicating reading failed.
+Reading both levels and paths from file was tested by reading the content into containers and printing the contents as well as the status of the reading success. Firstly with correctly formatted input to see that the reading logic worked, and then with incorrectly formatted input, to test the error handling. As expected, incorrectly formatted input caused reading success to return false, and thus indicating reading failed. Once it was determined the reading of levels worked, the level execution was tested by playing through the whole game.
 
 ## Work log
 
 ##### Division of work / main responisbilities:
 
-Pavel:
-    - Tower class and it's derived classes
+Pavel Filippov:
+    - Tower class and it's derived classes (bullet-, bomb-, missile-, poision-, and freezing tower)
     - Game class
 
-Otto:
-    - Graphics
+Otto Litkey:
+    - Graphics (buttons, textures)
+    - User interaction
     - Menu class
+    - Resource container template class
 
-Ellen:
-    - Projectile class and it's derived classes (bulletProjectile, bombProjectile, missileProjectile)
+Ellen Molin:
+    - Projectile class and it's derived classes (bullet-, bomb-, and missile projectile)
     - LevelManager class
     - Reading paths from file
     - Player class
 
-Leo:
+Leo Saied-Ahmad:
     - Enemy class
 
-Tuan:
+Tuan Vu:
     - Path
 
 ##### Weekly breakdown
