@@ -1,0 +1,106 @@
+\hypertarget{classMissileProjectile}{}\doxysection{Missile\+Projectile Class Reference}
+\label{classMissileProjectile}\index{MissileProjectile@{MissileProjectile}}
+
+
+A projectile that targets (follows) a specific enemy.  
+
+
+
+
+{\ttfamily \#include $<$missile\+Projectile.\+hpp$>$}
+
+Inheritance diagram for Missile\+Projectile\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classMissileProjectile}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classMissileProjectile_a143c9a28a0ff13afc1d36f6e0d9b4083}{Missile\+Projectile}} (sf\+::\+Vector2f position, int damage, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$ target\+Enemy)
+\item 
+bool \mbox{\hyperlink{classMissileProjectile_acd6ba9b36244421af3e68f1a45b82db9}{has\+Hit\+Enemy}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$ \&enemy) override
+\item 
+void \mbox{\hyperlink{classMissileProjectile_a173d014eda652f113f8ee5a983f75cbe}{update}} (\mbox{\hyperlink{classGame}{Game}} \&game) override
+\item 
+Textures\+::\+Projectile\+ID \mbox{\hyperlink{classMissileProjectile_a13904af95fb10e7091e57dc8bd1c65c5}{texture\+Type}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classMissileProjectile_ab7019b4448df45deaa27edc411512419}\label{classMissileProjectile_ab7019b4448df45deaa27edc411512419}} 
+std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$ {\bfseries target\+Enemy\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+A projectile that targets (follows) a specific enemy. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classMissileProjectile_a143c9a28a0ff13afc1d36f6e0d9b4083}\label{classMissileProjectile_a143c9a28a0ff13afc1d36f6e0d9b4083}} 
+\index{MissileProjectile@{MissileProjectile}!MissileProjectile@{MissileProjectile}}
+\index{MissileProjectile@{MissileProjectile}!MissileProjectile@{MissileProjectile}}
+\doxysubsubsection{\texorpdfstring{MissileProjectile()}{MissileProjectile()}}
+{\footnotesize\ttfamily Missile\+Projectile\+::\+Missile\+Projectile (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{position,  }\item[{int}]{damage,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$}]{target\+Enemy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Missile target does not need a pre-\/calculated directional vector, as its direction needs to be re-\/calculated everytime before it moves, hence the {\ttfamily shoot\+Direction} is (0,0). 
+\begin{DoxyParams}{Parameters}
+{\em target\+Enemy} & is the enemy that the missile is targeting (following) \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classMissileProjectile_acd6ba9b36244421af3e68f1a45b82db9}\label{classMissileProjectile_acd6ba9b36244421af3e68f1a45b82db9}} 
+\index{MissileProjectile@{MissileProjectile}!hasHitEnemy@{hasHitEnemy}}
+\index{hasHitEnemy@{hasHitEnemy}!MissileProjectile@{MissileProjectile}}
+\doxysubsubsection{\texorpdfstring{hasHitEnemy()}{hasHitEnemy()}}
+{\footnotesize\ttfamily bool Missile\+Projectile\+::has\+Hit\+Enemy (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$ \&}]{enemy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Checks whether the missile has hit its target or not. If the missile\textquotesingle{}s and enemy\textquotesingle{}s sprites intersect, there has been a hit and the missile causes damage to the enemy. \begin{DoxyReturn}{Returns}
+True if missile has hit it\textquotesingle{}s target, otherwise false. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{Parameters}
+{\em enemy} & is a reference to an \mbox{\hyperlink{classEnemy}{Enemy}} object \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classProjectile_a527e9648fe1d0afd6bd60ea5fad12994}{Projectile}}.
+
+\mbox{\Hypertarget{classMissileProjectile_a13904af95fb10e7091e57dc8bd1c65c5}\label{classMissileProjectile_a13904af95fb10e7091e57dc8bd1c65c5}} 
+\index{MissileProjectile@{MissileProjectile}!textureType@{textureType}}
+\index{textureType@{textureType}!MissileProjectile@{MissileProjectile}}
+\doxysubsubsection{\texorpdfstring{textureType()}{textureType()}}
+{\footnotesize\ttfamily Textures\+::\+Projectile\+ID Missile\+Projectile\+::texture\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+\begin{DoxyReturn}{Returns}
+the ID of the texture the projectile type uses The return value is directly hardcoded in derived classes. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classProjectile_af1afff1d80bc5621659ab2bb8bdbdc56}{Projectile}}.
+
+\mbox{\Hypertarget{classMissileProjectile_a173d014eda652f113f8ee5a983f75cbe}\label{classMissileProjectile_a173d014eda652f113f8ee5a983f75cbe}} 
+\index{MissileProjectile@{MissileProjectile}!update@{update}}
+\index{update@{update}!MissileProjectile@{MissileProjectile}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Missile\+Projectile\+::update (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGame}{Game}} \&}]{game }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Firstly makes sure that the target enemy still exists, if it doesn\textquotesingle{}t the missile is destroyed. If the enemy still exists it checks whether or not the missile has hit it, if there\textquotesingle{}s been a hit, the missile is destroyed. If the missile has not hit the enemy, it re-\/calculates its directional vector, based on its and the target enemy\textquotesingle{}s current positions, and moves towards the target. 
+\begin{DoxyParams}{Parameters}
+{\em game} & is a reference to the running game instance \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classProjectile_a0289bfdb105da0ff0b8f5c21f5bee3cf}{Projectile}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/cpp-\/course-\/autumn-\/2023/tower-\/defense-\/tran-\/duong-\/2/src/missile\+Projectile.\+hpp\item 
+/mnt/c/cpp-\/course-\/autumn-\/2023/tower-\/defense-\/tran-\/duong-\/2/src/missile\+Projectile.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,278 @@
+\hypertarget{classEnemy}{}\doxysection{Enemy Class Reference}
+\label{classEnemy}\index{Enemy@{Enemy}}
+Inheritance diagram for Enemy\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classEnemy}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classEnemy_ad641022949b5a958bc37b8e18b9283e3}{Enemy}} (int \mbox{\hyperlink{classEnemy_a2be1bb79d5d67be8cef54d5056d0cd3e}{hp}}, int \mbox{\hyperlink{classEnemy_a10295d8527310c4a6a933f6dc65c3d48}{speed}}, Enemy\+Type \mbox{\hyperlink{classEnemy_a7f96822dbff35fe04613a175142bce38}{type}}, int money, std\+::queue$<$ sf\+::\+Vector2f $>$ waypoints)
+\item 
+\mbox{\Hypertarget{classEnemy_a363232490fb4b5e34943432a27d8d694}\label{classEnemy_a363232490fb4b5e34943432a27d8d694}} 
+void \mbox{\hyperlink{classEnemy_a363232490fb4b5e34943432a27d8d694}{update}} (sf\+::\+Time time)
+\begin{DoxyCompactList}\small\item\em Update function for enemies, updates enemy positions based on movement, and manages/applies status effects. \end{DoxyCompactList}\item 
+sf\+::\+Vector2f \mbox{\hyperlink{classEnemy_afa4ea80a4ad9e37327318ff2e867dfd1}{get\+Center}} ()
+\item 
+sf\+::\+Vector2f \mbox{\hyperlink{classEnemy_a9e0c58a599516cdc18529e6cfcfa49cf}{get\+Location}} ()
+\item 
+bool \mbox{\hyperlink{classEnemy_a42fad88198a7b04762ac9976e28f89aa}{dead}} ()
+\item 
+int \mbox{\hyperlink{classEnemy_a2be1bb79d5d67be8cef54d5056d0cd3e}{hp}} ()
+\item 
+int \mbox{\hyperlink{classEnemy_a796f506f7db222805948f5c3fa0567e6}{initial\+Hp}} ()
+\item 
+float \mbox{\hyperlink{classEnemy_a10295d8527310c4a6a933f6dc65c3d48}{speed}} ()
+\item 
+int \mbox{\hyperlink{classEnemy_abbcffaee799b955b82fbab8ae32d1acf}{poison\+Status}} ()
+\item 
+sf\+::\+Time \mbox{\hyperlink{classEnemy_a72373ab680f7f4c65ff5ff759ff45fcc}{slowed\+Status}} ()
+\item 
+Enemy\+Type \mbox{\hyperlink{classEnemy_a7f96822dbff35fe04613a175142bce38}{type}} ()
+\item 
+\mbox{\Hypertarget{classEnemy_ae01c62a474fbcd547000ff1068976d49}\label{classEnemy_ae01c62a474fbcd547000ff1068976d49}} 
+void \mbox{\hyperlink{classEnemy_ae01c62a474fbcd547000ff1068976d49}{take\+Damage}} (int damage)
+\begin{DoxyCompactList}\small\item\em //damages the enemy, takes in a damage value as a parameter, if the damage is higher than the health the enemy is a automatically killed \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classEnemy_ac6720477bd9416def50f0d35f2d11b70}\label{classEnemy_ac6720477bd9416def50f0d35f2d11b70}} 
+void \mbox{\hyperlink{classEnemy_ac6720477bd9416def50f0d35f2d11b70}{kill}} ()
+\begin{DoxyCompactList}\small\item\em kills the enemy, sets dead variable to true \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classEnemy_a2a5ef76bfccffcfc09f3c1773ff6bbe0}\label{classEnemy_a2a5ef76bfccffcfc09f3c1773ff6bbe0}} 
+void \mbox{\hyperlink{classEnemy_a2a5ef76bfccffcfc09f3c1773ff6bbe0}{apply\+Poison}} (int stacks\+Of\+Poison, int damage\+Per\+Stack)
+\begin{DoxyCompactList}\small\item\em applies poison status effect to enemies \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classEnemy_a0734a2f5fbdfc6a2469ae67f9f7cab0d}\label{classEnemy_a0734a2f5fbdfc6a2469ae67f9f7cab0d}} 
+void \mbox{\hyperlink{classEnemy_a0734a2f5fbdfc6a2469ae67f9f7cab0d}{apply\+Slowed}} (sf\+::\+Time duration, float slow\+Coefficient)
+\begin{DoxyCompactList}\small\item\em applies slowed status effect to enemies \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classEnemy_aaa876804a58896b1254e11793beb8d23}\label{classEnemy_aaa876804a58896b1254e11793beb8d23}} 
+void {\bfseries slowed\+Damage} ()
+\item 
+\mbox{\Hypertarget{classEnemy_a4469ec7a0bcb96422b1dfc903fc457b9}\label{classEnemy_a4469ec7a0bcb96422b1dfc903fc457b9}} 
+void \mbox{\hyperlink{classEnemy_a4469ec7a0bcb96422b1dfc903fc457b9}{set\+Velocity}} ()
+\begin{DoxyCompactList}\small\item\em sets the enemy velocity based on where the current waypoint is \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classEnemy_a1587afd47cd417d4d8791739b5b06d4b}{is\+Waypoint\+Passed}} (sf\+::\+Vector2f movement)
+\begin{DoxyCompactList}\small\item\em checks to see if the enemies current waypoint will be passed, this is determined by the movement variable of the enemy \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classEnemy_ab45e9341fb59e1ec4faa25359c3a36bf}\label{classEnemy_ab45e9341fb59e1ec4faa25359c3a36bf}} 
+void \mbox{\hyperlink{classEnemy_ab45e9341fb59e1ec4faa25359c3a36bf}{find\+New\+Waypoint}} ()
+\begin{DoxyCompactList}\small\item\em finds a newwaypoint for the enemy, this function goes through the waypoints qeue and sets the current waypoint as the next waypoint in the qeue if waypoints are empty it means the enemy has reached the castle and the enemy is set to state dead \end{DoxyCompactList}\item 
+std\+::queue$<$ sf\+::\+Vector2f $>$ \mbox{\hyperlink{classEnemy_aeb87c5601813b99a521aa68a7bb33ec4}{get\+Waypoints}} ()
+\item 
+\mbox{\Hypertarget{classEnemy_ace7cc75cd4f95cad2a9cee7db49716e6}\label{classEnemy_ace7cc75cd4f95cad2a9cee7db49716e6}} 
+void {\bfseries move\+Enemy} (sf\+::\+Vector2f movement)
+\item 
+int \mbox{\hyperlink{classEnemy_a0562b66062ab637cd272b258cc26da9e}{get\+Money}} () const
+\item 
+\mbox{\Hypertarget{classEnemy_a100d8c95a9102d0adc7186bd29d333ef}\label{classEnemy_a100d8c95a9102d0adc7186bd29d333ef}} 
+void \mbox{\hyperlink{classEnemy_a100d8c95a9102d0adc7186bd29d333ef}{update\+Health\+Text}} (const sf\+::\+Font \&font)
+\begin{DoxyCompactList}\small\item\em updates the health text above enemies with the enemies current health \end{DoxyCompactList}\item 
+const sf\+::\+Text \& \mbox{\hyperlink{classEnemy_a8d4954ab527fa6b3ee69c99c080a5a10}{get\+Health\+Text}} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classEnemy_a6cd8d27315d90b781ff903b79c211cda}\label{classEnemy_a6cd8d27315d90b781ff903b79c211cda}} 
+int {\bfseries hp\+\_\+}
+\item 
+\mbox{\Hypertarget{classEnemy_af2f490a5d925a6f9179e919d9d5b210f}\label{classEnemy_af2f490a5d925a6f9179e919d9d5b210f}} 
+int {\bfseries initial\+Hp\+\_\+}
+\item 
+\mbox{\Hypertarget{classEnemy_a17de591183baec3ccb9c9323f7d0b462}\label{classEnemy_a17de591183baec3ccb9c9323f7d0b462}} 
+bool {\bfseries dead\+\_\+} = false
+\item 
+\mbox{\Hypertarget{classEnemy_aa6095c4482546cb82c3a58cd19aa254b}\label{classEnemy_aa6095c4482546cb82c3a58cd19aa254b}} 
+float {\bfseries speed\+\_\+}
+\item 
+\mbox{\Hypertarget{classEnemy_a6d6049081394e1e9780847bd98d2a7d2}\label{classEnemy_a6d6049081394e1e9780847bd98d2a7d2}} 
+float {\bfseries actual\+Speed\+\_\+}
+\item 
+\mbox{\Hypertarget{classEnemy_aefa5970a05d53affd0064fd942a75a73}\label{classEnemy_aefa5970a05d53affd0064fd942a75a73}} 
+float {\bfseries effective\+Speed\+\_\+}
+\item 
+\mbox{\Hypertarget{classEnemy_a6bfd9d723f6e6f63a378ceefb313d5d1}\label{classEnemy_a6bfd9d723f6e6f63a378ceefb313d5d1}} 
+sf\+::\+Text {\bfseries health\+Text\+\_\+}
+\item 
+\mbox{\Hypertarget{classEnemy_adee56db76c619a6445e7b2dd845434e0}\label{classEnemy_adee56db76c619a6445e7b2dd845434e0}} 
+Enemy\+Type {\bfseries type\+\_\+}
+\item 
+\mbox{\Hypertarget{classEnemy_a598dbf0e60187c7c6b497f9cbc99a492}\label{classEnemy_a598dbf0e60187c7c6b497f9cbc99a492}} 
+int {\bfseries poison\+\_\+} = 0
+\item 
+\mbox{\Hypertarget{classEnemy_a12ae6eb6ad6080117e2fc2c1523b5080}\label{classEnemy_a12ae6eb6ad6080117e2fc2c1523b5080}} 
+sf\+::\+Time {\bfseries slowed\+\_\+} = sf\+::\+Time\+::\+Zero
+\item 
+\mbox{\Hypertarget{classEnemy_ab25d9814440295a1208bd627735873f1}\label{classEnemy_ab25d9814440295a1208bd627735873f1}} 
+int {\bfseries money\+\_\+}
+\item 
+\mbox{\Hypertarget{classEnemy_ad20ea1cd713622b1fdc4f5c4d333d1b2}\label{classEnemy_ad20ea1cd713622b1fdc4f5c4d333d1b2}} 
+sf\+::\+Vector2f {\bfseries velocity\+\_\+}
+\item 
+\mbox{\Hypertarget{classEnemy_ade53aae18d36a0b2871f406e1a0c7a40}\label{classEnemy_ade53aae18d36a0b2871f406e1a0c7a40}} 
+std\+::queue$<$ sf\+::\+Vector2f $>$ {\bfseries waypoints\+\_\+}
+\item 
+\mbox{\Hypertarget{classEnemy_a5e593ffa2dd5a5648f9c85519caf456f}\label{classEnemy_a5e593ffa2dd5a5648f9c85519caf456f}} 
+sf\+::\+Vector2f {\bfseries current\+Waypoint\+\_\+}
+\item 
+\mbox{\Hypertarget{classEnemy_ab4be08ac23a06f8a08a99e134f5986b0}\label{classEnemy_ab4be08ac23a06f8a08a99e134f5986b0}} 
+int {\bfseries direction\+\_\+}
+\item 
+\mbox{\Hypertarget{classEnemy_a35d0810eb4f896107fb4872aeb4f10cf}\label{classEnemy_a35d0810eb4f896107fb4872aeb4f10cf}} 
+int {\bfseries poison\+Damage} = 0
+\item 
+\mbox{\Hypertarget{classEnemy_ab0f6af5055cf81d53ff21f279dec1aa9}\label{classEnemy_ab0f6af5055cf81d53ff21f279dec1aa9}} 
+sf\+::\+Time {\bfseries poison\+Timer\+\_\+}
+\item 
+\mbox{\Hypertarget{classEnemy_a8ab461116b6f3a01a1d6ca5694054b22}\label{classEnemy_a8ab461116b6f3a01a1d6ca5694054b22}} 
+float {\bfseries slow\+Coefficient\+\_\+} = 0.f
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classEnemy_ad641022949b5a958bc37b8e18b9283e3}\label{classEnemy_ad641022949b5a958bc37b8e18b9283e3}} 
+\index{Enemy@{Enemy}!Enemy@{Enemy}}
+\index{Enemy@{Enemy}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{Enemy()}{Enemy()}}
+{\footnotesize\ttfamily Enemy\+::\+Enemy (\begin{DoxyParamCaption}\item[{int}]{hp,  }\item[{int}]{speed,  }\item[{Enemy\+Type}]{type,  }\item[{int}]{money,  }\item[{std\+::queue$<$ sf\+::\+Vector2f $>$}]{waypoints }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Initialises an enemy 
+\begin{DoxyParams}{Parameters}
+{\em hp} & reference to the health of the enemy \\
+\hline
+{\em speed} & reference to the speed of the enemy \\
+\hline
+{\em type} & reference to the enemy type \\
+\hline
+{\em money} & reference to the amount of money the enemy is worth \\
+\hline
+{\em waypoints} & reference to the waypoints for the enemy to take \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classEnemy_a42fad88198a7b04762ac9976e28f89aa}\label{classEnemy_a42fad88198a7b04762ac9976e28f89aa}} 
+\index{Enemy@{Enemy}!dead@{dead}}
+\index{dead@{dead}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{dead()}{dead()}}
+{\footnotesize\ttfamily bool Enemy\+::dead (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+returns boolean on the sate of the enemy, false if alive true if dead 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classEnemy_afa4ea80a4ad9e37327318ff2e867dfd1}\label{classEnemy_afa4ea80a4ad9e37327318ff2e867dfd1}} 
+\index{Enemy@{Enemy}!getCenter@{getCenter}}
+\index{getCenter@{getCenter}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{getCenter()}{getCenter()}}
+{\footnotesize\ttfamily sf\+::\+Vector2f Enemy\+::get\+Center (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+returns an sf\+::\+Vector2f corresponding to the enemies positional centre 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classEnemy_a8d4954ab527fa6b3ee69c99c080a5a10}\label{classEnemy_a8d4954ab527fa6b3ee69c99c080a5a10}} 
+\index{Enemy@{Enemy}!getHealthText@{getHealthText}}
+\index{getHealthText@{getHealthText}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{getHealthText()}{getHealthText()}}
+{\footnotesize\ttfamily const sf\+::\+Text \& Enemy\+::get\+Health\+Text (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\begin{DoxyReturn}{Returns}
+returns the health\+Text 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classEnemy_a9e0c58a599516cdc18529e6cfcfa49cf}\label{classEnemy_a9e0c58a599516cdc18529e6cfcfa49cf}} 
+\index{Enemy@{Enemy}!getLocation@{getLocation}}
+\index{getLocation@{getLocation}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{getLocation()}{getLocation()}}
+{\footnotesize\ttfamily sf\+::\+Vector2f Enemy\+::get\+Location (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+returns the enemies location as a sf\+::\+Vector2f 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classEnemy_a0562b66062ab637cd272b258cc26da9e}\label{classEnemy_a0562b66062ab637cd272b258cc26da9e}} 
+\index{Enemy@{Enemy}!getMoney@{getMoney}}
+\index{getMoney@{getMoney}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{getMoney()}{getMoney()}}
+{\footnotesize\ttfamily int Enemy\+::get\+Money (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\begin{DoxyReturn}{Returns}
+returns the amount of money this enemy provides when killed 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classEnemy_aeb87c5601813b99a521aa68a7bb33ec4}\label{classEnemy_aeb87c5601813b99a521aa68a7bb33ec4}} 
+\index{Enemy@{Enemy}!getWaypoints@{getWaypoints}}
+\index{getWaypoints@{getWaypoints}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{getWaypoints()}{getWaypoints()}}
+{\footnotesize\ttfamily std\+::queue$<$ sf\+::\+Vector2f $>$ Enemy\+::get\+Waypoints (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+returns waypoints 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classEnemy_a2be1bb79d5d67be8cef54d5056d0cd3e}\label{classEnemy_a2be1bb79d5d67be8cef54d5056d0cd3e}} 
+\index{Enemy@{Enemy}!hp@{hp}}
+\index{hp@{hp}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{hp()}{hp()}}
+{\footnotesize\ttfamily int Enemy\+::hp (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+returns enemy hp 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classEnemy_a796f506f7db222805948f5c3fa0567e6}\label{classEnemy_a796f506f7db222805948f5c3fa0567e6}} 
+\index{Enemy@{Enemy}!initialHp@{initialHp}}
+\index{initialHp@{initialHp}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{initialHp()}{initialHp()}}
+{\footnotesize\ttfamily int Enemy\+::initial\+Hp (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+returns enemies initial\+HP, this is used for the health text, as it displays the enemies health as a fraction over the initial health 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classEnemy_a1587afd47cd417d4d8791739b5b06d4b}\label{classEnemy_a1587afd47cd417d4d8791739b5b06d4b}} 
+\index{Enemy@{Enemy}!isWaypointPassed@{isWaypointPassed}}
+\index{isWaypointPassed@{isWaypointPassed}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{isWaypointPassed()}{isWaypointPassed()}}
+{\footnotesize\ttfamily bool Enemy\+::is\+Waypoint\+Passed (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{movement }\end{DoxyParamCaption})}
+
+
+
+checks to see if the enemies current waypoint will be passed, this is determined by the movement variable of the enemy 
+
+\begin{DoxyReturn}{Returns}
+returns a bool 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classEnemy_abbcffaee799b955b82fbab8ae32d1acf}\label{classEnemy_abbcffaee799b955b82fbab8ae32d1acf}} 
+\index{Enemy@{Enemy}!poisonStatus@{poisonStatus}}
+\index{poisonStatus@{poisonStatus}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{poisonStatus()}{poisonStatus()}}
+{\footnotesize\ttfamily int Enemy\+::poison\+Status (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+returns the duration of poison status effect 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classEnemy_a72373ab680f7f4c65ff5ff759ff45fcc}\label{classEnemy_a72373ab680f7f4c65ff5ff759ff45fcc}} 
+\index{Enemy@{Enemy}!slowedStatus@{slowedStatus}}
+\index{slowedStatus@{slowedStatus}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{slowedStatus()}{slowedStatus()}}
+{\footnotesize\ttfamily sf\+::\+Time Enemy\+::slowed\+Status (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+returns the duration of slowed status effect 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classEnemy_a10295d8527310c4a6a933f6dc65c3d48}\label{classEnemy_a10295d8527310c4a6a933f6dc65c3d48}} 
+\index{Enemy@{Enemy}!speed@{speed}}
+\index{speed@{speed}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{speed()}{speed()}}
+{\footnotesize\ttfamily float Enemy\+::speed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+returns enemies speed 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classEnemy_a7f96822dbff35fe04613a175142bce38}\label{classEnemy_a7f96822dbff35fe04613a175142bce38}} 
+\index{Enemy@{Enemy}!type@{type}}
+\index{type@{type}!Enemy@{Enemy}}
+\doxysubsubsection{\texorpdfstring{type()}{type()}}
+{\footnotesize\ttfamily Enemy\+Type Enemy\+::type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+returns enemy type 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/cpp-\/course-\/autumn-\/2023/tower-\/defense-\/tran-\/duong-\/2/src/enemy.\+hpp\item 
+/mnt/c/cpp-\/course-\/autumn-\/2023/tower-\/defense-\/tran-\/duong-\/2/src/enemy.\+cpp\end{DoxyCompactItemize}

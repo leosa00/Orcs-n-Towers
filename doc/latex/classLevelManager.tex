@@ -1,0 +1,182 @@
+\hypertarget{classLevelManager}{}\doxysection{Level\+Manager Class Reference}
+\label{classLevelManager}\index{LevelManager@{LevelManager}}
+
+
+Handles the creation and managing of levels.  
+
+
+
+
+{\ttfamily \#include $<$level\+Manager.\+hpp$>$}
+
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classLevelManager_ac27615a4d6af652af3009f23166fd1bb}\label{classLevelManager_ac27615a4d6af652af3009f23166fd1bb}} 
+using \mbox{\hyperlink{classLevelManager_ac27615a4d6af652af3009f23166fd1bb}{variant\+Data}} = std\+::variant$<$ int, float, std\+::vector$<$ int $>$ $>$
+\begin{DoxyCompactList}\small\item\em To allow the map holding level information to use different types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classLevelManager_abb94e66fe2cb8d2c6249530fe4510c71}{Level\+Manager}} (const std\+::string \&src, \mbox{\hyperlink{classpath}{path}} \&\mbox{\hyperlink{classpath}{path}}, \mbox{\hyperlink{classGame}{Game}} \&game, \mbox{\hyperlink{classPlayer}{Player}} \&player)
+\item 
+int \mbox{\hyperlink{classLevelManager_a5f79ad45be70ba1fce453c453bc0f399}{get\+Current\+Level}} ()
+\item 
+int \mbox{\hyperlink{classLevelManager_a87bfaeefccace931c39023154dd4b30f}{get\+Level\+Total}} ()
+\item 
+void \mbox{\hyperlink{classLevelManager_a9d2f08b1644329b51be563f113991c3d}{update}} ()
+\item 
+bool \mbox{\hyperlink{classLevelManager_a5141d29a5ea03d84c2accb19de032668}{reading\+Successfull}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classLevelManager_a8e5aca279b92a9c1eab22a6ea0687f70}{read\+Levels}} ()
+\item 
+\mbox{\Hypertarget{classLevelManager_a51610974c88f2fee7c336269e1c3a2b4}\label{classLevelManager_a51610974c88f2fee7c336269e1c3a2b4}} 
+void \mbox{\hyperlink{classLevelManager_a51610974c88f2fee7c336269e1c3a2b4}{initiate\+Enemies}} ()
+\begin{DoxyCompactList}\small\item\em Initiates the amount of enemies that is allowed for the level. Randomly chooses which type of enemy to initiate based on the allowed types for the level. Uses a switch case to initiate the right kind of enemy and adds it to the container of enemies. Resets the wait time and decreases waves. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::map$<$ std\+::string, \mbox{\hyperlink{classLevelManager_ac27615a4d6af652af3009f23166fd1bb}{variant\+Data}} $>$ $>$ \mbox{\hyperlink{classLevelManager_a6772452adc0ef5235b8b26bd13b0a6e2}{level\+Specs\+\_\+}}
+\begin{DoxyCompactList}\small\item\em Container to hold all the levels One entry in the outer container (vector) is one level, meaning index 0 is level one. The inner map holds all information regarding the specific level. ~\newline
+ Keys\+: ~\newline
+. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classLevelManager_aa90302840fd08e1ccabd60bf76b3b63e}\label{classLevelManager_aa90302840fd08e1ccabd60bf76b3b63e}} 
+int {\bfseries curr\+Level\+\_\+}
+\item 
+\mbox{\Hypertarget{classLevelManager_a6ddcfed4ed13409d713a73e1500d463d}\label{classLevelManager_a6ddcfed4ed13409d713a73e1500d463d}} 
+const std\+::string \& {\bfseries src\+\_\+}
+\item 
+\mbox{\Hypertarget{classLevelManager_a35e894e32df3d26a24fff67c111182f9}\label{classLevelManager_a35e894e32df3d26a24fff67c111182f9}} 
+bool {\bfseries reading\+Success\+\_\+}
+\item 
+\mbox{\Hypertarget{classLevelManager_a533184411b1640f8ec7ef3d5e36574f0}\label{classLevelManager_a533184411b1640f8ec7ef3d5e36574f0}} 
+int {\bfseries level\+Total\+\_\+}
+\item 
+\mbox{\Hypertarget{classLevelManager_a763f37994014c28cc65d80128b077c5d}\label{classLevelManager_a763f37994014c28cc65d80128b077c5d}} 
+float {\bfseries wait\+Time\+\_\+}
+\item 
+\mbox{\Hypertarget{classLevelManager_a4b7096c072d242d8865d9017ea23f10c}\label{classLevelManager_a4b7096c072d242d8865d9017ea23f10c}} 
+\mbox{\hyperlink{classpath}{path}} \& {\bfseries path\+\_\+}
+\item 
+\mbox{\Hypertarget{classLevelManager_a55233f851f86928c35842773bca08809}\label{classLevelManager_a55233f851f86928c35842773bca08809}} 
+\mbox{\hyperlink{classGame}{Game}} \& {\bfseries game\+\_\+}
+\item 
+\mbox{\Hypertarget{classLevelManager_a3aec54c55a95bdecff8877d633e96814}\label{classLevelManager_a3aec54c55a95bdecff8877d633e96814}} 
+\mbox{\hyperlink{classPlayer}{Player}} \& {\bfseries player\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Handles the creation and managing of levels. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classLevelManager_abb94e66fe2cb8d2c6249530fe4510c71}\label{classLevelManager_abb94e66fe2cb8d2c6249530fe4510c71}} 
+\index{LevelManager@{LevelManager}!LevelManager@{LevelManager}}
+\index{LevelManager@{LevelManager}!LevelManager@{LevelManager}}
+\doxysubsubsection{\texorpdfstring{LevelManager()}{LevelManager()}}
+{\footnotesize\ttfamily Level\+Manager\+::\+Level\+Manager (\begin{DoxyParamCaption}\item[{const std\+::string \&}]{src,  }\item[{\mbox{\hyperlink{classpath}{path}} \&}]{path,  }\item[{\mbox{\hyperlink{classGame}{Game}} \&}]{game,  }\item[{\mbox{\hyperlink{classPlayer}{Player}} \&}]{player }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Initialises a level\+Manager and reads the level information from file. Intitial current level is zero (= level one) to follow indexing convention of level specifications container, to allow easier accessing 
+\begin{DoxyParams}{Parameters}
+{\em src} & is the source of the level information file that is to be read \\
+\hline
+{\em path} & is a reference to the path instance that creates the path of the game \\
+\hline
+{\em game} & is a reference to the running game instance \\
+\hline
+{\em player} & is a reference to the player instance of the game \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classLevelManager_a8e5aca279b92a9c1eab22a6ea0687f70}{read\+Levels()}} 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classLevelManager_a5f79ad45be70ba1fce453c453bc0f399}\label{classLevelManager_a5f79ad45be70ba1fce453c453bc0f399}} 
+\index{LevelManager@{LevelManager}!getCurrentLevel@{getCurrentLevel}}
+\index{getCurrentLevel@{getCurrentLevel}!LevelManager@{LevelManager}}
+\doxysubsubsection{\texorpdfstring{getCurrentLevel()}{getCurrentLevel()}}
+{\footnotesize\ttfamily int Level\+Manager\+::get\+Current\+Level (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+the current level 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLevelManager_a87bfaeefccace931c39023154dd4b30f}\label{classLevelManager_a87bfaeefccace931c39023154dd4b30f}} 
+\index{LevelManager@{LevelManager}!getLevelTotal@{getLevelTotal}}
+\index{getLevelTotal@{getLevelTotal}!LevelManager@{LevelManager}}
+\doxysubsubsection{\texorpdfstring{getLevelTotal()}{getLevelTotal()}}
+{\footnotesize\ttfamily int Level\+Manager\+::get\+Level\+Total (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyReturn}{Returns}
+the total number of levels definend 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLevelManager_a5141d29a5ea03d84c2accb19de032668}\label{classLevelManager_a5141d29a5ea03d84c2accb19de032668}} 
+\index{LevelManager@{LevelManager}!readingSuccessfull@{readingSuccessfull}}
+\index{readingSuccessfull@{readingSuccessfull}!LevelManager@{LevelManager}}
+\doxysubsubsection{\texorpdfstring{readingSuccessfull()}{readingSuccessfull()}}
+{\footnotesize\ttfamily bool Level\+Manager\+::reading\+Successfull (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+returns status flag for reading level info from file. \begin{DoxyReturn}{Returns}
+True if reading was successfull, false if not 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classLevelManager_a8e5aca279b92a9c1eab22a6ea0687f70}\label{classLevelManager_a8e5aca279b92a9c1eab22a6ea0687f70}} 
+\index{LevelManager@{LevelManager}!readLevels@{readLevels}}
+\index{readLevels@{readLevels}!LevelManager@{LevelManager}}
+\doxysubsubsection{\texorpdfstring{readLevels()}{readLevels()}}
+{\footnotesize\ttfamily void Level\+Manager\+::read\+Levels (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [private]}}
+
+Reads from the source file provided in constructor. Disregards first line of file as it is the formatting example. Then reads one line at a time\+: ~\newline
+
+\begin{DoxyItemize}
+\item number of enemies per wave, number of waves, wait time between waves into variables ~\newline
+
+\item allowed enemy types into a vector ~\newline
+Adds the collected values into a map which gets pushed into the vector container that holds all levels. 
+\end{DoxyItemize}\mbox{\Hypertarget{classLevelManager_a9d2f08b1644329b51be563f113991c3d}\label{classLevelManager_a9d2f08b1644329b51be563f113991c3d}} 
+\index{LevelManager@{LevelManager}!update@{update}}
+\index{update@{update}!LevelManager@{LevelManager}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Level\+Manager\+::update (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Updates the level manager, called while game is running. Counts down the wait time between waves of enemies. Initiates more enemies once wait time becomes zero, if there are waves left for the level. Moves to a new level once previous is complete and there are no enemies left. \begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classLevelManager_a51610974c88f2fee7c336269e1c3a2b4}{initiate\+Enemies()}} 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classLevelManager_a6772452adc0ef5235b8b26bd13b0a6e2}\label{classLevelManager_a6772452adc0ef5235b8b26bd13b0a6e2}} 
+\index{LevelManager@{LevelManager}!levelSpecs\_@{levelSpecs\_}}
+\index{levelSpecs\_@{levelSpecs\_}!LevelManager@{LevelManager}}
+\doxysubsubsection{\texorpdfstring{levelSpecs\_}{levelSpecs\_}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::map$<$std\+::string, \mbox{\hyperlink{classLevelManager_ac27615a4d6af652af3009f23166fd1bb}{variant\+Data}}$>$ $>$ Level\+Manager\+::level\+Specs\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Container to hold all the levels One entry in the outer container (vector) is one level, meaning index 0 is level one. The inner map holds all information regarding the specific level. ~\newline
+ Keys\+: ~\newline
+. 
+
+
+\begin{DoxyItemize}
+\item \char`\"{}enemy\+Amount\char`\"{} \+: the number of enemies allowed per wave (int) ~\newline
+
+\item \char`\"{}waves\char`\"{} \+: the number of waves of enemeis allowed per level (int) ~\newline
+
+\item \char`\"{}wait\+Time\char`\"{} \+: the time (in seconds) between waves (float) ~\newline
+
+\item \char`\"{}enemy\+Types\char`\"{} \+: a vector containing the types of enemies allowed for the level \begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classEnemy}{Enemy}} class\textquotesingle{} type enum 
+
+\mbox{\hyperlink{classLevelManager_ac27615a4d6af652af3009f23166fd1bb}{variant\+Data}} The container that stores all level information 
+\end{DoxySeeAlso}
+
+\end{DoxyItemize}
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/cpp-\/course-\/autumn-\/2023/tower-\/defense-\/tran-\/duong-\/2/src/level\+Manager.\+hpp\item 
+/mnt/c/cpp-\/course-\/autumn-\/2023/tower-\/defense-\/tran-\/duong-\/2/src/level\+Manager.\+cpp\end{DoxyCompactItemize}

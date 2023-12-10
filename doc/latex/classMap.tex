@@ -1,0 +1,68 @@
+\hypertarget{classMap}{}\doxysection{Map Class Reference}
+\label{classMap}\index{Map@{Map}}
+Inheritance diagram for Map\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classMap}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classMap_aefdb3b89e01560613de64c589933a918}\label{classMap_aefdb3b89e01560613de64c589933a918}} 
+void {\bfseries load\+Map} (const std\+::string \&file\+Name)
+\item 
+\mbox{\Hypertarget{classMap_ab12643cc3a8d5e48f566c1abb571e9bf}\label{classMap_ab12643cc3a8d5e48f566c1abb571e9bf}} 
+void {\bfseries update} ()
+\item 
+\mbox{\Hypertarget{classMap_a4890ca577ccca260d2abff500eda1483}\label{classMap_a4890ca577ccca260d2abff500eda1483}} 
+bool {\bfseries can\+Tower\+Build} (const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classTower}{Tower}} $>$ \&active\+Tower) const
+\item 
+\mbox{\Hypertarget{classMap_a698c360a28f9720a2f2c6e100191cc90}\label{classMap_a698c360a28f9720a2f2c6e100191cc90}} 
+void {\bfseries build\+Tower} (const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classTower}{Tower}} $>$ \&active\+Tower)
+\item 
+\mbox{\Hypertarget{classMap_a6ec6ea039497148bd9cfa24517b4a003}\label{classMap_a6ec6ea039497148bd9cfa24517b4a003}} 
+void {\bfseries sell\+Tower} (\mbox{\hyperlink{classTower}{Tower}} $\ast$selling\+Tower)
+\item 
+\mbox{\Hypertarget{classMap_a2a82250bb628e9a86415f15c0162139a}\label{classMap_a2a82250bb628e9a86415f15c0162139a}} 
+sf\+::\+Float\+Rect {\bfseries get\+Background\+Bounds} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classMap_a16121d7165d8e39dbdcca490230cb688}\label{classMap_a16121d7165d8e39dbdcca490230cb688}} 
+sf\+::\+Texture {\bfseries texture}
+\item 
+\mbox{\Hypertarget{classMap_a27475d0bb0f27de3ca6c0f0e2ee764d9}\label{classMap_a27475d0bb0f27de3ca6c0f0e2ee764d9}} 
+sf\+::\+Sprite {\bfseries background}
+\item 
+\mbox{\Hypertarget{classMap_a283bf3c6aab4e2ba6bcc1de098d5ba1a}\label{classMap_a283bf3c6aab4e2ba6bcc1de098d5ba1a}} 
+std\+::vector$<$ sf\+::\+Float\+Rect $>$ {\bfseries un\+Buildable}
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classMap_a34897252fcc60f1f31d3fe2289242c62}\label{classMap_a34897252fcc60f1f31d3fe2289242c62}} 
+void {\bfseries draw} (sf\+::\+Render\+Target \&target, sf\+::\+Render\+States states) const override
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classMap_a1e85850c1068d544196a3113863e04af}\label{classMap_a1e85850c1068d544196a3113863e04af}} 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classTower}{Tower}} $>$ $>$ {\bfseries towers}
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classMap_ad4408433b81916ad99ee0a37c35ff6e5}\label{classMap_ad4408433b81916ad99ee0a37c35ff6e5}} 
+class {\bfseries Main\+Game}
+\item 
+\mbox{\Hypertarget{classMap_a03484490595c9e9fea8728bc53933aff}\label{classMap_a03484490595c9e9fea8728bc53933aff}} 
+class {\bfseries Tower\+Management}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/cpp-\/course-\/autumn-\/2023/tower-\/defense-\/tran-\/duong-\/2/src/map.\+hpp\item 
+/mnt/c/cpp-\/course-\/autumn-\/2023/tower-\/defense-\/tran-\/duong-\/2/src/map.\+cpp\end{DoxyCompactItemize}
