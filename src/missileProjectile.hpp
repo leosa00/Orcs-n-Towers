@@ -19,7 +19,7 @@ public:
      * @param targetEnemy is the enemy that the missile is targeting (following).
     */
     MissileProjectile(sf::Vector2f position, int damage, std::shared_ptr<Enemy> targetEnemy) 
-    : Projectile(sf::Vector2f(0,0), position, damage, 140.0, "missile", 70), targetEnemy_(targetEnemy) {}
+    : Projectile(sf::Vector2f(0,0), position, damage, 280.f, "missile", 400), targetEnemy_(targetEnemy) {}
 
     /**
      * Checks whether the missile has hit its target or not.
