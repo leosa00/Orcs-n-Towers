@@ -50,7 +50,7 @@ public:
 
     ~Enemy() {}
     /**
-     * @brief Update function for enemies, updates enemy positons based on movement, and manages/applies status effects
+     * @brief Update function for enemies, updates enemy positions based on movement, and manages/applies status effects
      * 
      **/
     void update(sf::Time time);

@@ -15,62 +15,74 @@
 // (i.e., which EnemyType can be locked and damaged by a specific type of tower). 
 class Projectile;
 
-enum class CanDamage { 
+/* enum class CanDamage { 
     Ground,
     Flying,
     Both
-};
+}; */
 
 class Tower : public sf::Sprite { 
-public:                             
+public:                                
     Tower(sf::Vector2f position, const std::string& type,  int baseCost, float range, sf::Time fireRate,
-          int damage, int currentLvl, int upgradeCost, CanDamage damageType, std::shared_ptr<Enemy> lockedEnemy,
+          int damage, int currentLvl, int upgradeCost, std::shared_ptr<Enemy> lockedEnemy,
           bool maxLevelReached);
-    /*Tower(sf::Vector2f position);*/
-    // I think there is really no need for copy constructor or copy assignment operator
     const std::string& getType() const {return type_;}
-    //const sf::Vector2f getPosition() const {return position_;}
     const int getBaseCost() const {return baseCost_;}
     sf::Time getFireRate() const {return fireRate_;}
-    const CanDamage getDamageType() const {return damageType_;}
     const float getRange() const {return range_;}
     int getDamage() const {return damage_;}
-//    const CanDamage getDamageType() const {return damageType_;}
     std::shared_ptr<Enemy> getLockedEnemy() const {return lockedEnemy_;}
-    void setLockedEnemy(std::shared_ptr<Enemy> enemy) {lockedEnemy_ = enemy;}
     bool isMaxLevelReached() const {return maxLevelReached_;};
     int getCurrentLvl() const {return currentLvl_;}
     const int getUpgradeCost() const {return upgradeCost_;}; 
     sf::Time getFireTimer() {return fireTimer_;}
     bool enemyWithinRange(std::shared_ptr<Enemy> enemy);
-    void resetFireTimer() {fireTimer_ = sf::Time::Zero;}
-    // shoot() creates a projectile that flies towards lockedEnemy_
-    // Changed it to pure virtual 
+    /**
+     * shoot() method is pure virtual as different types of towers produce different types 
+     * of projectiles (or no projectiles at all as is the case with Poison and Freezing Towers).
+     * @return Projectile* 
+     */
     virtual Projectile* shoot() = 0; 
-    virtual void upgradeTower(); // Will be defined in .cpp 
-    /* update() method is declared as virtual. Some derived
-       classes will use base update() and other will use override*/
+    /**
+     * upgradeTower() method is virtual as upgrade logic is same for all types of towers
+     * except Freezing Tower
+     * 
+     */
+    virtual void upgradeTower();
+    /**
+     * @brief update() method is virtual as some types of towers use base update()
+     * 
+     * @param enemies is the list of Enemy shared pointers needed for setting lockedEnemy_
+     * @param time is delta time from Game object needed for updating @see fireTimer_
+     */
     virtual void update(std::list<std::shared_ptr<Enemy>> &enemies, sf::Time time);
     void updateFireTimer(sf::Time &dt);
-    //This is what I add to support for the map class
-    bool isActive();//Whether the Tower is active or not
-    bool HUDactive = false;//Temporary variable hold the state of the Tower
-    void unactiveHUD();//Function to deactivate Tower (when sell)
-    void activateHUD();//Function to activate Tower (when buy)
-    sf::Vector2f getSize();//Get the height and width of the Tower we want to build
-    virtual void build(); //build function which change the temporary variable builded to tru
-    bool builded = false; //Temporary variable define whether the tower is built or not.
     void setLevel(int level) {currentLvl_ = level;}
     void setMaxLevelFlag() {maxLevelReached_ = true;}
+    void setLockedEnemy(std::shared_ptr<Enemy> enemy) {lockedEnemy_ = enemy;}
+    void resetFireTimer() {fireTimer_ = sf::Time::Zero;}
 private:
-//    virtual void draw();
+    /**
+     * @brief Private members of abstract tower class
+     * 
+     * @param type_ is a string representing type of the tower
+     * @param baseCost_ is the base cost for the type of tower
+     * @param range_ is the enemy locking range of the tower
+     * @param damage_ is passed as a parameter to projectile constructor
+     * @param currentLvl_ is current level of the tower, initially set 1 and can be upgraded to level 2
+     * @param upgradeCost_ is set at 1.5 * base cost of tower for all types of towers
+     * @param lockedEnemy_ is the locked enemy of the tower; initially set to nullptr
+     * \param fireTimer_ is incremented with delta time from Game object
+     * and compared to @param fireRate_ to check if tower is ready to shoot
+     * @param maxLevelReached_ is the flag to check if whether tower is already at max level.
+     * @
+     * @
+     */
     const std::string type_;
-    //const sf::Vector2f position_;
     const int baseCost_;
     const float range_;
     int damage_; 
     int currentLvl_;
-    const CanDamage damageType_;
     const int upgradeCost_; 
     std::shared_ptr<Enemy> lockedEnemy_;
     sf::Time fireTimer_;

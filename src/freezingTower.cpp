@@ -2,7 +2,7 @@
 #include <iostream>
 
 FreezingTower::FreezingTower(sf::Vector2f position)
-    : Tower(position, "Freezing Tower", 350, 300.f, sf::seconds(2), 0, 1, 475, CanDamage::Both, nullptr, false) {}
+    : Tower(position, "Freezing Tower", 350, 300.f, sf::seconds(2), 0, 1, 475, nullptr, false) {}
 
 void FreezingTower::update(std::list<std::shared_ptr<Enemy>> &enemies, sf::Time time) {
     updateFireTimer(time);

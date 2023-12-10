@@ -7,132 +7,93 @@
 #include <cmath>
 #include <memory>
 #include <iostream>
-// upgradeCost list is redundant if we limit max lvl to be 2
-// static int upgradeCost[4] = {150, 200, 250, 300}; //subject to change
-
-/*Tower::Tower(const std::string& type = "Basic", sf::Vector2f position, int baseCost = 100, float range = 100.0, float fireRate = 1.0,
-              int damage = 10, int currentLvl = 1, int upgradeCost = 150, CanDamage damageType = CanDamage::Both, std::shared_ptr<Enemy> lockedEnemy = nullptr,
-              sf::Clock fireTimer, bool maxLevelReached = false)
-              : type_(type), 
-                position_(position),
-                baseCost_(baseCost),
-                range_(range),
-                fireRate_(fireRate),
-                damage_(damage),
-                currentLvl_(currentLvl),
-                upgradeCost_(upgradeCost),
-                damageType_(damageType),
-                lockedEnemy_(lockedEnemy),
-                fireTimer_(fireTimer),
-                maxLevelReached_(maxLevelReached) {} */
-
+/**
+ * @brief Constructor for abstract tower used in constructor for derived tower classes.
+ * 
+ * @param position is determined by constructor of derived tower class
+ * @param type is determined by constructor of derived tower class
+ * @param baseCost is determined by constructor of derived tower class
+ * @param range is determined by constructor of derived tower class
+ * @param fireRate is determined by constructor of derived tower class
+ * @param damage is determined by constructor of derived tower class
+ * @param currentLvl is determined by constructor of derived tower class
+ * @param upgradeCost is determined by constructor of derived tower class
+ * @param lockedEnemy is determined by constructor of derived tower class
+ * @param maxLevelReached is determined by constructor of derived tower class
+ */
 Tower::Tower(sf::Vector2f position, const std::string& type,  int baseCost, float range, sf::Time fireRate,
-          int damage, int currentLvl, int upgradeCost, CanDamage damageType, std::shared_ptr<Enemy> lockedEnemy,
+          int damage, int currentLvl, int upgradeCost, std::shared_ptr<Enemy> lockedEnemy,
           bool maxLevelReached)
         : type_(type),
-        baseCost_(baseCost), // subject to change
-        range_(range), // subject to change
-        fireRate_(fireRate), // subject to change
-        damage_(damage), // subject to change
+        baseCost_(baseCost), 
+        range_(range), 
+        fireRate_(fireRate), 
+        damage_(damage),
         currentLvl_(currentLvl),
-        upgradeCost_(upgradeCost), // subject to change, maybe 1.5 * baseCost_?
-        damageType_(damageType),
-        lockedEnemy_(lockedEnemy), // initially no locked enemy
+        upgradeCost_(upgradeCost), 
+        lockedEnemy_(lockedEnemy), 
         fireTimer_(fireRate),
         maxLevelReached_(maxLevelReached) {
           setPosition(position);
         }
-
-/*int Tower::getUpgradeCost() const { // How we should handle when tower is already at maximum lvl, what interface should display? 
-  return upgradeCost_[currentLvl_ - 1];   // Maybe something like "Max level reached"
-}*/
-
-// upgradeTower()
+/**
+ * \brief Upgrade the tower to the next level
+ * 
+ * This method upgrades tower by one level, increases its damage_ member by 1.5 times
+ * and sets the maximum level flag to true.
+ * 
+ * @note If the maximum level has already been reached, this method has no effect
+ * 
+ */
 void Tower::upgradeTower() { 
-  if (currentLvl_ == 1) {
+  if (!isMaxLevelReached()) {
     currentLvl_++;
     damage_ = 1.5 * damage_;
     setMaxLevelFlag();
   }
 }
 
-
+/**
+ * @brief Check if the enemy is within the range of the tower
+ * 
+ * @param enemy is passed from calling @see Tower::update method
+ * @return true if locking range of the tower is more or equal to distance between the enemy and the tower
+ * @return false otherwise
+ */
 bool Tower::enemyWithinRange(std::shared_ptr<Enemy> enemy) {
-  //std::cout << "enemyWithinRange is called" << std::endl;
-  //std::cout << range_ << std::endl;
-  //std::cout << std::sqrt(std::pow((position_.x - enemy->getPosition().x), 2) + std::pow((position_.y - enemy->getPosition().y), 2)) << std::endl;
-  
-  // LINE UNDER USES GLOBAL POS
-  //return range_ >= std::sqrt(std::pow((position_.x - enemy->getPosition().x), 2) + std::pow((position_.y - enemy->getPosition().y), 2));
-
   return range_ >= std::sqrt(std::pow((getPosition().x - enemy->getPosition().x), 2) + std::pow((getPosition().y - enemy->getPosition().y), 2));
 }
-/* Projectile& Tower::shoot() {
-     Assuming speed is 100.0
-   * Velocity is calculated in following steps:
-   * 1. sf::Vector2f direction = this->position_ - lockedEnemy_->getPosition(); 
-   * 2. Next we normalize direction: 
-   * 2.1. float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
-   * 2.2. sf::Vector2f normalizedDirection = direction / length;
-   * 3. sf::Vector2f velocity = normalizedDirection * projectileSpeed;
-   * 
-  sf::Vector2f direction = this->position_ - lockedEnemy_->getPosition();
-  float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
-  sf::Vector2f normalizedDirection = direction / length; //I am assuming here you want normalized direction
-  Projectile* projectile = new Projectile(normalizedDirection, position_, *this, damage_);
-  return *projectile;
-     Prototype implementation for shoot method. 
-   * Projectile class has to be adjusted a little bit in order to 
-   * finish implementation of shoot(). 
-} */
-
+/**
+ * @brief Main tower logic
+ * 
+ * First, we check whether currently locked enemy is not nullptr, not dead and still within tower's range. If this condition is satisfied nothing else is done. 
+ * Otherwise, locked enemy is set to nullptr and enemies is iterated through to find the fastest enemy which is within tower's range and alive. If there is no enemies 
+ * alive within tower's range, @see lockedEnemy_ member stays nullptr. Otherwise, lockedEnemy_ is set to the pointer to the fastest, alive enemy within tower's range.
+ * @param enemies is passed from calling @see Game::update method
+ * @param time is passed from calling @see Game::update method and is used to update @see fireTimer_
+ */
 void Tower::update(std::list<std::shared_ptr<Enemy>> &enemies, sf::Time time) { 
     updateFireTimer(time);
     auto lockedEnemy = getLockedEnemy();
     if (lockedEnemy == nullptr || lockedEnemy->dead() || !enemyWithinRange(lockedEnemy)) {
         setLockedEnemy(nullptr);
-        float highestSpeed = 0.f; //added logic for prioritazing enemies moving at higher speeds
+        float highestSpeed = 0.f;
         for (std::shared_ptr<Enemy>& enemy : enemies) {
             if (enemyWithinRange(enemy) && !enemy->dead()) {
                 if (highestSpeed < enemy->speed()) {
                   highestSpeed = enemy->speed();
                   setLockedEnemy(enemy);
-                  std::cout << "Some enemy was locked" << std::endl;
                 }
             }
         }
     }
 }
-
+/**
+ * @brief Increments fireTimer_ by dt
+ * 
+ * @param dt is time since last frame and is passed from @see Game::update()
+ */
 void Tower::updateFireTimer(sf::Time &dt) {
   fireTimer_ += dt;
 }
 
-
-bool Tower::isActive()
-{
-    return HUDactive;
-}
-
-void Tower::activateHUD()
-{
-    HUDactive = true;
-}
-
-void Tower::unactiveHUD()
-{
-    HUDactive = false;
-}
-
-void Tower::build()
-{
-    builded = true;
-}
-
-sf::Vector2f Tower::getSize()
-{
-    sf::Vector2f size;
-    size.x = this->getGlobalBounds().width;
-    size.y = this->getGlobalBounds().height;
-    return size;
-}

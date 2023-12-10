@@ -1,0 +1,140 @@
+\hypertarget{classTower}{}\doxysection{Tower Class Reference}
+\label{classTower}\index{Tower@{Tower}}
+Inheritance diagram for Tower\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classTower}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classTower_acc5bb395e4ca3a3cf9112b24d8f0905b}\label{classTower_acc5bb395e4ca3a3cf9112b24d8f0905b}} 
+\mbox{\hyperlink{classTower_acc5bb395e4ca3a3cf9112b24d8f0905b}{Tower}} (sf\+::\+Vector2f position, const std\+::string \&type, int base\+Cost, float range, sf\+::\+Time fire\+Rate, int damage, int current\+Lvl, int upgrade\+Cost, Can\+Damage damage\+Type, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$ locked\+Enemy, bool max\+Level\+Reached)
+\begin{DoxyCompactList}\small\item\em Constructor for abstract \mbox{\hyperlink{classTower}{Tower}} class, defined in tower.\+cpp. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classTower_aefaebc9ba622271f244e999570a7d329}\label{classTower_aefaebc9ba622271f244e999570a7d329}} 
+const std\+::string \& {\bfseries get\+Type} () const
+\item 
+\mbox{\Hypertarget{classTower_a5516f9a04db3522c9dc4edc10d4e18a9}\label{classTower_a5516f9a04db3522c9dc4edc10d4e18a9}} 
+const int {\bfseries get\+Base\+Cost} () const
+\item 
+\mbox{\Hypertarget{classTower_ad59497740fc22751d0d9e213bf0b09c1}\label{classTower_ad59497740fc22751d0d9e213bf0b09c1}} 
+sf\+::\+Time {\bfseries get\+Fire\+Rate} () const
+\item 
+\mbox{\Hypertarget{classTower_a56a6ce8c4de5bd1620fdfd75d4980700}\label{classTower_a56a6ce8c4de5bd1620fdfd75d4980700}} 
+const Can\+Damage {\bfseries get\+Damage\+Type} () const
+\item 
+\mbox{\Hypertarget{classTower_a5585813b1e120db716f5047cd8689c3a}\label{classTower_a5585813b1e120db716f5047cd8689c3a}} 
+const float {\bfseries get\+Range} () const
+\item 
+\mbox{\Hypertarget{classTower_a946bb7cafe9ac96212e6e300b782d6c6}\label{classTower_a946bb7cafe9ac96212e6e300b782d6c6}} 
+int {\bfseries get\+Damage} () const
+\item 
+\mbox{\Hypertarget{classTower_a6ffdd46c34416d1bbacb319dc81b0e5e}\label{classTower_a6ffdd46c34416d1bbacb319dc81b0e5e}} 
+std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$ {\bfseries get\+Locked\+Enemy} () const
+\item 
+\mbox{\Hypertarget{classTower_afbd58e5f7004443b716f4b1211bbdef5}\label{classTower_afbd58e5f7004443b716f4b1211bbdef5}} 
+bool {\bfseries is\+Max\+Level\+Reached} () const
+\item 
+\mbox{\Hypertarget{classTower_afe164842bd523833a29843d6439a7521}\label{classTower_afe164842bd523833a29843d6439a7521}} 
+int {\bfseries get\+Current\+Lvl} () const
+\item 
+\mbox{\Hypertarget{classTower_ab029c6c4c798c62abf88b18339f08055}\label{classTower_ab029c6c4c798c62abf88b18339f08055}} 
+const int {\bfseries get\+Upgrade\+Cost} () const
+\item 
+\mbox{\Hypertarget{classTower_a9ccd62ea2e5cb29575e1bf322824f4ab}\label{classTower_a9ccd62ea2e5cb29575e1bf322824f4ab}} 
+void {\bfseries set\+Locked\+Enemy} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$ enemy)
+\item 
+\mbox{\Hypertarget{classTower_a41bc22df77b45b76be754bc6b2538754}\label{classTower_a41bc22df77b45b76be754bc6b2538754}} 
+sf\+::\+Time {\bfseries get\+Fire\+Timer} ()
+\item 
+\mbox{\Hypertarget{classTower_a3d7e5e836a50518f1212e231405d897b}\label{classTower_a3d7e5e836a50518f1212e231405d897b}} 
+bool {\bfseries enemy\+Within\+Range} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$ enemy)
+\item 
+\mbox{\Hypertarget{classTower_a7d9e82c51070afcb09394162a6001032}\label{classTower_a7d9e82c51070afcb09394162a6001032}} 
+void {\bfseries reset\+Fire\+Timer} ()
+\item 
+\mbox{\Hypertarget{classTower_af06bf6f547f85d4846931da2d27243fc}\label{classTower_af06bf6f547f85d4846931da2d27243fc}} 
+virtual \mbox{\hyperlink{classProjectile}{Projectile}} $\ast$ {\bfseries shoot} ()=0
+\item 
+\mbox{\Hypertarget{classTower_a3ae303a04b27b7cb89ed478d492f1a64}\label{classTower_a3ae303a04b27b7cb89ed478d492f1a64}} 
+virtual void {\bfseries upgrade\+Tower} ()
+\item 
+\mbox{\Hypertarget{classTower_a4517d03338104ddd09667b7978ba0347}\label{classTower_a4517d03338104ddd09667b7978ba0347}} 
+virtual void {\bfseries update} (std\+::list$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$$>$ \&enemies, sf\+::\+Time time)
+\item 
+\mbox{\Hypertarget{classTower_a05dbdc4b59a2371886fe5615ae84aa38}\label{classTower_a05dbdc4b59a2371886fe5615ae84aa38}} 
+void {\bfseries update\+Fire\+Timer} (sf\+::\+Time \&dt)
+\item 
+\mbox{\Hypertarget{classTower_a194d98474bf8f5ca0997c7d1beb4fecc}\label{classTower_a194d98474bf8f5ca0997c7d1beb4fecc}} 
+bool {\bfseries is\+Active} ()
+\item 
+\mbox{\Hypertarget{classTower_ac0394e228ebda6d6a4c6dde5b0a20777}\label{classTower_ac0394e228ebda6d6a4c6dde5b0a20777}} 
+void {\bfseries unactive\+HUD} ()
+\item 
+\mbox{\Hypertarget{classTower_a78a8250942a4b8603e90b0e9f378609e}\label{classTower_a78a8250942a4b8603e90b0e9f378609e}} 
+void {\bfseries activate\+HUD} ()
+\item 
+\mbox{\Hypertarget{classTower_a3efbd44bf24f0111717c252c75fabc24}\label{classTower_a3efbd44bf24f0111717c252c75fabc24}} 
+sf\+::\+Vector2f {\bfseries get\+Size} ()
+\item 
+\mbox{\Hypertarget{classTower_a4ae0c5d0dd2a03e8b53856987eb3cb3c}\label{classTower_a4ae0c5d0dd2a03e8b53856987eb3cb3c}} 
+virtual void {\bfseries build} ()
+\item 
+\mbox{\Hypertarget{classTower_a6beb2716d57bec543a330f24ae92744f}\label{classTower_a6beb2716d57bec543a330f24ae92744f}} 
+void {\bfseries set\+Level} (int level)
+\item 
+\mbox{\Hypertarget{classTower_aa2ac2dd693e48f092f706301695309de}\label{classTower_aa2ac2dd693e48f092f706301695309de}} 
+void {\bfseries set\+Max\+Level\+Flag} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classTower_a15cd46474fb257855ac89318447ed686}\label{classTower_a15cd46474fb257855ac89318447ed686}} 
+bool {\bfseries HUDactive} = false
+\item 
+\mbox{\Hypertarget{classTower_a974ab9a76248c15ecd2545c58c9dce74}\label{classTower_a974ab9a76248c15ecd2545c58c9dce74}} 
+bool {\bfseries builded} = false
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classTower_a3ecc6827a0e0fba53a06ecc5f7272c73}\label{classTower_a3ecc6827a0e0fba53a06ecc5f7272c73}} 
+const std\+::string {\bfseries type\+\_\+}
+\item 
+\mbox{\Hypertarget{classTower_a708c8e693174a827295f26bc46d24a2c}\label{classTower_a708c8e693174a827295f26bc46d24a2c}} 
+const int {\bfseries base\+Cost\+\_\+}
+\item 
+\mbox{\Hypertarget{classTower_acde5df98e5fa5d96a6c2fe8b3087464e}\label{classTower_acde5df98e5fa5d96a6c2fe8b3087464e}} 
+const float {\bfseries range\+\_\+}
+\item 
+\mbox{\Hypertarget{classTower_a127d28a38387609c2ec98d1de9f2fb1e}\label{classTower_a127d28a38387609c2ec98d1de9f2fb1e}} 
+int {\bfseries damage\+\_\+}
+\item 
+\mbox{\Hypertarget{classTower_a7de4e33cf0736bf723ce7a405d2948b8}\label{classTower_a7de4e33cf0736bf723ce7a405d2948b8}} 
+int {\bfseries current\+Lvl\+\_\+}
+\item 
+\mbox{\Hypertarget{classTower_ae1fe23c3f6739854451558e254ed5762}\label{classTower_ae1fe23c3f6739854451558e254ed5762}} 
+const Can\+Damage {\bfseries damage\+Type\+\_\+}
+\item 
+\mbox{\Hypertarget{classTower_ac4e45ab14cb9f62c0063534e346152fd}\label{classTower_ac4e45ab14cb9f62c0063534e346152fd}} 
+const int {\bfseries upgrade\+Cost\+\_\+}
+\item 
+\mbox{\Hypertarget{classTower_a5a7597074176451fa9b259612d915267}\label{classTower_a5a7597074176451fa9b259612d915267}} 
+std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$ {\bfseries locked\+Enemy\+\_\+}
+\item 
+\mbox{\Hypertarget{classTower_a4764b08339eeaf1f0c16548b437ced16}\label{classTower_a4764b08339eeaf1f0c16548b437ced16}} 
+sf\+::\+Time {\bfseries fire\+Timer\+\_\+}
+\item 
+\mbox{\Hypertarget{classTower_a17ad36daf02146249e7a60863c1d7ab9}\label{classTower_a17ad36daf02146249e7a60863c1d7ab9}} 
+sf\+::\+Time {\bfseries fire\+Rate\+\_\+}
+\item 
+\mbox{\Hypertarget{classTower_a63d9e59653b1ab6da9eedb450ed2c652}\label{classTower_a63d9e59653b1ab6da9eedb450ed2c652}} 
+bool {\bfseries max\+Level\+Reached\+\_\+}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/cpp-\/course-\/autumn-\/2023/tower-\/defense-\/tran-\/duong-\/2/src/tower.\+hpp\item 
+/mnt/c/cpp-\/course-\/autumn-\/2023/tower-\/defense-\/tran-\/duong-\/2/src/tower.\+cpp\end{DoxyCompactItemize}

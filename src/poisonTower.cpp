@@ -2,7 +2,7 @@
 #include <iostream>
 
 PoisonTower::PoisonTower(sf::Vector2f position)
-    : Tower(position, "Poison Tower", 350, 300.f, sf::seconds(2.2), 3, 1, 475, CanDamage::Both, nullptr, false) {}
+    : Tower(position, "Poison Tower", 350, 300.f, sf::seconds(2.2), 3, 1, 475, nullptr, false) {}
 
 void PoisonTower::update(std::list<std::shared_ptr<Enemy>> &enemies, sf::Time time) {
     updateFireTimer(time);

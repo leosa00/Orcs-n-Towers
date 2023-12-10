@@ -21,7 +21,7 @@ void Map::loadMap(const std::string& fileName) {
 
 void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     target.draw(background);
-    std::shared_ptr<Tower> towerCircleIt;
+    /* std::shared_ptr<Tower> towerCircleIt;
     bool drawLast = false;
 
     for (const auto& tower : towers) {
@@ -34,14 +34,14 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     }
 
     if (drawLast)
-        target.draw(*towerCircleIt);
-}
+        target.draw(*towerCircleIt);*/ 
+} 
 
-void Map::update() {
+/* void Map::update() {
     // Your update logic here
-}
+}*/
 
-bool Map::canTowerBuild(const std::shared_ptr<Tower>& activeTower) const {
+/*bool Map::canTowerBuild(const std::shared_ptr<Tower>& activeTower) const {
     const int vertexes = 4;
     sf::Vector2f towerVertexes[vertexes] = {
             activeTower->getPosition(),
@@ -69,17 +69,17 @@ bool Map::canTowerBuild(const std::shared_ptr<Tower>& activeTower) const {
     }
 
     return true;
-}
+}*/
 
 
-void Map::sellTower(Tower * sellingTower)
+/*void Map::sellTower(Tower * sellingTower)
 {
     for (size_t i = 0; i < towers.size(); ++i)
     {
         if (towers[i].get() == sellingTower)
             towers.erase(towers.begin() + i);
     }
-}
+}*/
 
 sf::FloatRect Map::getBackgroundBounds() {
     return background.getGlobalBounds();

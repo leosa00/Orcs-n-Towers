@@ -1,0 +1,175 @@
+\hypertarget{classProjectile}{}\doxysection{Projectile Class Reference}
+\label{classProjectile}\index{Projectile@{Projectile}}
+
+
+{\ttfamily \#include $<$projectile.\+hpp$>$}
+
+Inheritance diagram for Projectile\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classProjectile}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classProjectile_a057465fe57a6f4ac6da928a446775838}{Projectile}} (sf\+::\+Vector2f shoot\+Direction, sf\+::\+Vector2f position, int damage, float speed, std\+::string type, float max\+Distance)
+\begin{DoxyCompactList}\small\item\em Construcs a projectile and sets it\textquotesingle{}s initial position. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classProjectile_ae652fabcedb305031902efa6a6665ba1}\label{classProjectile_ae652fabcedb305031902efa6a6665ba1}} 
+virtual \mbox{\hyperlink{classProjectile_ae652fabcedb305031902efa6a6665ba1}{$\sim$\+Projectile}} ()
+\begin{DoxyCompactList}\small\item\em Destroy the \mbox{\hyperlink{classProjectile}{Projectile}} object. \end{DoxyCompactList}\item 
+float \mbox{\hyperlink{classProjectile_a4f08dfe10b62cce1c2134b066e6b9d28}{get\+Speed}} () const
+\item 
+const std\+::string \& \mbox{\hyperlink{classProjectile_ac95f830a5150f09a5a24a7e0fb591919}{get\+Type}} () const
+\item 
+int \mbox{\hyperlink{classProjectile_af5cd30772ad4cb3894629ca76c6b8f79}{get\+Damage}} () const
+\item 
+sf\+::\+Vector2f \mbox{\hyperlink{classProjectile_a9230b9da88b10febf91303e49a0720e7}{get\+Shoot\+Dir}} () const
+\item 
+void \mbox{\hyperlink{classProjectile_ad1411d1ded7b351b5f7e51a034ccd4e4}{destroy}} ()
+\item 
+\mbox{\Hypertarget{classProjectile_a4af11751ff88fcc144ec567d6ed1c758}\label{classProjectile_a4af11751ff88fcc144ec567d6ed1c758}} 
+bool \mbox{\hyperlink{classProjectile_a4af11751ff88fcc144ec567d6ed1c758}{is\+Destroyed}} ()
+\begin{DoxyCompactList}\small\item\em Returns wheter the projectile is destroyed, and needs to be deleted, or not. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classProjectile_abf9ed9e1793e95cdbbfbb9f97c70d103}{dist\+To\+Tower}} ()
+\begin{DoxyCompactList}\small\item\em Calculates the projectiles distance from the tower that created it. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classProjectile_a527e9648fe1d0afd6bd60ea5fad12994}\label{classProjectile_a527e9648fe1d0afd6bd60ea5fad12994}} 
+virtual bool \mbox{\hyperlink{classProjectile_a527e9648fe1d0afd6bd60ea5fad12994}{has\+Hit\+Enemy}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$ \&)=0
+\begin{DoxyCompactList}\small\item\em checks if the projectile has hit an enemy. Overridden in each derived class. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classProjectile_a0289bfdb105da0ff0b8f5c21f5bee3cf}\label{classProjectile_a0289bfdb105da0ff0b8f5c21f5bee3cf}} 
+virtual void \mbox{\hyperlink{classProjectile_a0289bfdb105da0ff0b8f5c21f5bee3cf}{update}} (\mbox{\hyperlink{classGame}{Game}} \&)=0
+\begin{DoxyCompactList}\small\item\em updates the projectiles state as is defiened in each derived class \end{DoxyCompactList}\item 
+virtual Textures\+::\+Projectile\+ID \mbox{\hyperlink{classProjectile_af1afff1d80bc5621659ab2bb8bdbdc56}{texture\+Type}} ()=0
+\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classProjectile_a061d5f42ca0b04ba9e7ade58b0e575aa}\label{classProjectile_a061d5f42ca0b04ba9e7ade58b0e575aa}} 
+float {\bfseries speed\+\_\+}
+\item 
+\mbox{\Hypertarget{classProjectile_a989b52b579ac5fb5b6475a027d41f9d8}\label{classProjectile_a989b52b579ac5fb5b6475a027d41f9d8}} 
+std\+::string {\bfseries type\+\_\+}
+\item 
+\mbox{\Hypertarget{classProjectile_af282daca53d237aadd009c1a5323796c}\label{classProjectile_af282daca53d237aadd009c1a5323796c}} 
+int {\bfseries damage\+\_\+}
+\item 
+\mbox{\Hypertarget{classProjectile_a140bc7cb513fbdbeadcc62f673cef8af}\label{classProjectile_a140bc7cb513fbdbeadcc62f673cef8af}} 
+sf\+::\+Vector2f {\bfseries position\+\_\+}
+\item 
+\mbox{\Hypertarget{classProjectile_aeae0cb4c46e5f9dde07e02a5553bb0eb}\label{classProjectile_aeae0cb4c46e5f9dde07e02a5553bb0eb}} 
+float {\bfseries max\+Distance\+\_\+}
+\item 
+\mbox{\Hypertarget{classProjectile_a54f1877e87b463afc7a1670428d74ddb}\label{classProjectile_a54f1877e87b463afc7a1670428d74ddb}} 
+sf\+::\+Vector2f {\bfseries shoot\+Direction\+\_\+}
+\item 
+\mbox{\Hypertarget{classProjectile_a5ce9edf24387f99ca546fda16279dc4f}\label{classProjectile_a5ce9edf24387f99ca546fda16279dc4f}} 
+bool {\bfseries is\+Destroyed\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+An abstract class for deriving projectile like, \char`\"{}flying\char`\"{}, objects. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classProjectile_a057465fe57a6f4ac6da928a446775838}\label{classProjectile_a057465fe57a6f4ac6da928a446775838}} 
+\index{Projectile@{Projectile}!Projectile@{Projectile}}
+\index{Projectile@{Projectile}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{Projectile()}{Projectile()}}
+{\footnotesize\ttfamily Projectile\+::\+Projectile (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{shoot\+Direction,  }\item[{sf\+::\+Vector2f}]{position,  }\item[{int}]{damage,  }\item[{float}]{speed,  }\item[{std\+::string}]{type,  }\item[{float}]{max\+Distance }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Construcs a projectile and sets it\textquotesingle{}s initial position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em shoot\+Direction} & is the normalised directional vector used to move the projectile, determined by the creating tower \\
+\hline
+{\em position} & is position of the tower that created the projectile, is used as a starting position \\
+\hline
+{\em damage} & is the amount of damage that the projectile will cause the enemy it hits, determined by the creating tover \\
+\hline
+{\em speed} & is the speed at which the projectile moves, pre-\/defiened for each derived type \\
+\hline
+{\em type} & is the type of the projectile, pre-\/defiened for each derived type \\
+\hline
+{\em max\+Distance} & is the maximum distance the projectile is allowed to move from it\textquotesingle{}s tower, pre-\/definened for each derived type \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classProjectile_ad1411d1ded7b351b5f7e51a034ccd4e4}\label{classProjectile_ad1411d1ded7b351b5f7e51a034ccd4e4}} 
+\index{Projectile@{Projectile}!destroy@{destroy}}
+\index{destroy@{destroy}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{destroy()}{destroy()}}
+{\footnotesize\ttfamily void Projectile\+::destroy (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Sets the {\ttfamily is\+Destroyed\+\_\+} flag to true when the projectile has hit an enemy, and fullfilled its purpose, or when it has gone out of range (exceeded its max distance), and needs to be destroyed. \mbox{\Hypertarget{classProjectile_abf9ed9e1793e95cdbbfbb9f97c70d103}\label{classProjectile_abf9ed9e1793e95cdbbfbb9f97c70d103}} 
+\index{Projectile@{Projectile}!distToTower@{distToTower}}
+\index{distToTower@{distToTower}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{distToTower()}{distToTower()}}
+{\footnotesize\ttfamily bool Projectile\+::dist\+To\+Tower (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Calculates the projectiles distance from the tower that created it. 
+
+\begin{DoxyReturn}{Returns}
+true if the projectile is at, or has exceeded, its maximum distance. False otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classProjectile_af5cd30772ad4cb3894629ca76c6b8f79}\label{classProjectile_af5cd30772ad4cb3894629ca76c6b8f79}} 
+\index{Projectile@{Projectile}!getDamage@{getDamage}}
+\index{getDamage@{getDamage}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{getDamage()}{getDamage()}}
+{\footnotesize\ttfamily int Projectile\+::get\+Damage (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\begin{DoxyReturn}{Returns}
+the damage of the projectile 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classProjectile_a9230b9da88b10febf91303e49a0720e7}\label{classProjectile_a9230b9da88b10febf91303e49a0720e7}} 
+\index{Projectile@{Projectile}!getShootDir@{getShootDir}}
+\index{getShootDir@{getShootDir}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{getShootDir()}{getShootDir()}}
+{\footnotesize\ttfamily sf\+::\+Vector2f Projectile\+::get\+Shoot\+Dir (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\begin{DoxyReturn}{Returns}
+the directional vector of the projectile 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classProjectile_a4f08dfe10b62cce1c2134b066e6b9d28}\label{classProjectile_a4f08dfe10b62cce1c2134b066e6b9d28}} 
+\index{Projectile@{Projectile}!getSpeed@{getSpeed}}
+\index{getSpeed@{getSpeed}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{getSpeed()}{getSpeed()}}
+{\footnotesize\ttfamily float Projectile\+::get\+Speed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\begin{DoxyReturn}{Returns}
+the speed of the projectile 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classProjectile_ac95f830a5150f09a5a24a7e0fb591919}\label{classProjectile_ac95f830a5150f09a5a24a7e0fb591919}} 
+\index{Projectile@{Projectile}!getType@{getType}}
+\index{getType@{getType}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{getType()}{getType()}}
+{\footnotesize\ttfamily const std\+::string \& Projectile\+::get\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\begin{DoxyReturn}{Returns}
+the type of the projectile 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classProjectile_af1afff1d80bc5621659ab2bb8bdbdc56}\label{classProjectile_af1afff1d80bc5621659ab2bb8bdbdc56}} 
+\index{Projectile@{Projectile}!textureType@{textureType}}
+\index{textureType@{textureType}!Projectile@{Projectile}}
+\doxysubsubsection{\texorpdfstring{textureType()}{textureType()}}
+{\footnotesize\ttfamily virtual Textures\+::\+Projectile\+ID Projectile\+::texture\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+\begin{DoxyReturn}{Returns}
+the ID of the texture the projectile type uses The return value is directly hardcoded in derived classes. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classMissileProjectile_a13904af95fb10e7091e57dc8bd1c65c5}{Missile\+Projectile}}, \mbox{\hyperlink{classBulletProjectile_aad1de19fc4274a0b27b12c61d6684c24}{Bullet\+Projectile}}, and \mbox{\hyperlink{classBombProjectile_a3a45cb761c69580dc15824b303a252d0}{Bomb\+Projectile}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/cpp-\/course-\/autumn-\/2023/tower-\/defense-\/tran-\/duong-\/2/src/projectile.\+hpp\item 
+/mnt/c/cpp-\/course-\/autumn-\/2023/tower-\/defense-\/tran-\/duong-\/2/src/projectile.\+cpp\end{DoxyCompactItemize}
