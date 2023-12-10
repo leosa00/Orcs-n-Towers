@@ -4,6 +4,11 @@
 #include <cmath>
 #include <memory>
 
+/**
+ * @brief Constructs a new Bullet Tower object
+ * 
+ * @param position is mouse position passed by the caller.
+ */
 BulletTower::BulletTower(sf::Vector2f position)
     : Tower(position, "Bullet Tower", 200, 300.f, sf::seconds(1), 15, 1, 300, nullptr, false) {}
                                 // tbd ^    ^      ^     ^      ^      ^
