@@ -16,7 +16,7 @@ Once you have started the game, to place towers on map, drag and drop them from 
 
 A level is completed once all enemies from that level have been killed. To move on to the next level, press the "next level" button that appears on the screen. The game can be paused by pressing the "pause" button on the side bar, there the player can also see their current level and how much money and HP they have.
 
-Custom levels and paths can be created in levels.csv and paths.csv respectively, read formatting instructions carefully.
+Custom levels and paths can be created in levels.csv and paths.csv respectively, found in assets folder, read formatting instructions carefully.
 
 ## How to compile the program
 

@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_BUILD_TYPE Debug)
 
 # Add your source files
-file(GLOB_RECURSE SOURCES "src/*.cpp" "include/*.hpp" "fonts/*.ttf" "textures/*.png")
+file(GLOB_RECURSE SOURCES "src/*.cpp" "include/*.hpp" "fonts/*.ttf" "textures/*.png" "assets/*.csv")
 
 # Exclude map.cpp and map.hpp
 #list(FILTER SOURCES EXCLUDE REGEX "src/map.cpp")
