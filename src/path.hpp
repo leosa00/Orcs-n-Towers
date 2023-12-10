@@ -29,13 +29,7 @@ public:
 
     }
 
-    //creates a path and populates the waypoints queue with
-    //all the waypoints required for the enemy class to traverse the path
-
-    
-    ~path() {
-        
-    }
+    ~path() {}
 
     /**
      * Reads the source file provided in the constructor. Disregards the first line as it is the formatting example. \n 
@@ -45,21 +39,28 @@ public:
     void readPath();
 
     /**
-     * Returns
+     * returns status flag for reading level info from file.
+     * @returns True if reading was successfull, false if not
     */
     bool readingSuccessfull();
 
-
+    /**
+     * populates the waypoint que with all the waypoints required for the enemy class to traverse the path
+    */
     void addWaypoint(const sf::Vector2f& point);
     
     std::queue<sf::Vector2f> getWaypoints() const;
+
+    /**
+     * 
+    */
     void makeUnBuildablePath();
     static const float width;
     std::queue<sf::Vector2f> waypoints_;
     std::vector <sf::Vector2f> wayPoints;
     std::vector <sf::FloatRect> unBuildable;
 
-    std::vector<std::vector<sf::Vector2f>> paths_;
+    std::vector<std::vector<sf::Vector2f>> paths_; //!< The container that stores all paths coordinates
 
 private:
     const std::string& src_;

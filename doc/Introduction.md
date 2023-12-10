@@ -138,16 +138,32 @@ Tuan Vu:
 
 **Week 5**
 Pavel Filippov:
-    - Implemented freezing effect tower, poision effect tower and missile tower.
+    - Implemented missile tower. Worked on rendering projectiles.
+
+Otto Litkey: 
+    - Implemented a level system in player class. Created menu class. Worked on rendering projectiles.
+
+Ellen Molin:
+    - Created a missile projectile that follows enemy. 
+
+Leo Saied-Ahmad:
+    - Worked on enemies that split when hit. Worked on graphics: show players state, end screen when player loses.
+
+Tuan Vu:
+    - Worked on map class, loading background from file
+
+**Week 6**
+Pavel Filippov:
+    - Implemented freezing effect tower and poision effect tower. Refined tower logic.
 
 Otto Litkey: 
     - Implemented explosions class to visualise bombs' explosions. Worked on graphics: created textures, show tower ranges. Improved logic behind user interactions with game objects.
 
 Ellen Molin:
-    - Implemented a levelManager that handles creating and managing levels. Created a missile projectile that follows enemy.
+    - Implemented a levelManager that handles creating and managing levels, reads from file. Added functionality to load paths from file.
 
 Leo Saied-Ahmad:
-    - Implemented slowing effect on enemies and refiened enemy movement. Worked on graphics: show players state, end screen when player loses.
+    - Implemented slowing effect on enemies and refiened enemy movement. Added healt status over enemies.
 
 Tuan Vu:
     - Implemented functionality so that towers can't be built on the path

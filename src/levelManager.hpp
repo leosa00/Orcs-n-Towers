@@ -107,7 +107,7 @@ class LevelManager {
      * @see variantData
     */
 
-    std::vector<std::map<std::string, variantData>> levelSpecs_; //!< The container that stores all level information
+    std::vector<std::map<std::string, variantData>> levelSpecs_; //!< The container that stores all levels information
 
     int currLevel_;
     const std::string& src_;

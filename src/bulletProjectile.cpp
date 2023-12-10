@@ -14,7 +14,6 @@ float BulletProjectile::rotationAngle() const {
     return std::atan2(getShootDir().x, getShootDir().y) * (180.f / static_cast<float>(M_PI));
 }
 
-//without targetEnemy (makes more sense if bullet can hit any enemy), logic might be clumsy
 void BulletProjectile::update(Game& game){
     float dt = game.getTime().asSeconds();
     //only move the projectile if it hasn't collided or gone out of range
