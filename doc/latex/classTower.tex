@@ -9,9 +9,8 @@ Inheritance diagram for Tower\+:\begin{figure}[H]
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classTower_acc5bb395e4ca3a3cf9112b24d8f0905b}\label{classTower_acc5bb395e4ca3a3cf9112b24d8f0905b}} 
-\mbox{\hyperlink{classTower_acc5bb395e4ca3a3cf9112b24d8f0905b}{Tower}} (sf\+::\+Vector2f position, const std\+::string \&type, int base\+Cost, float range, sf\+::\+Time fire\+Rate, int damage, int current\+Lvl, int upgrade\+Cost, Can\+Damage damage\+Type, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$ locked\+Enemy, bool max\+Level\+Reached)
-\begin{DoxyCompactList}\small\item\em Constructor for abstract \mbox{\hyperlink{classTower}{Tower}} class, defined in tower.\+cpp. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classTower_ae6b406e91e4aed03d249d7e020326849}{Tower}} (sf\+::\+Vector2f position, const std\+::string \&type, int base\+Cost, float range, sf\+::\+Time fire\+Rate, int damage, int current\+Lvl, int upgrade\+Cost, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$ locked\+Enemy, bool max\+Level\+Reached)
+\begin{DoxyCompactList}\small\item\em Constructor for abstract tower used in constructor for derived tower classes. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classTower_aefaebc9ba622271f244e999570a7d329}\label{classTower_aefaebc9ba622271f244e999570a7d329}} 
 const std\+::string \& {\bfseries get\+Type} () const
 \item 
@@ -20,9 +19,6 @@ const int {\bfseries get\+Base\+Cost} () const
 \item 
 \mbox{\Hypertarget{classTower_ad59497740fc22751d0d9e213bf0b09c1}\label{classTower_ad59497740fc22751d0d9e213bf0b09c1}} 
 sf\+::\+Time {\bfseries get\+Fire\+Rate} () const
-\item 
-\mbox{\Hypertarget{classTower_a56a6ce8c4de5bd1620fdfd75d4980700}\label{classTower_a56a6ce8c4de5bd1620fdfd75d4980700}} 
-const Can\+Damage {\bfseries get\+Damage\+Type} () const
 \item 
 \mbox{\Hypertarget{classTower_a5585813b1e120db716f5047cd8689c3a}\label{classTower_a5585813b1e120db716f5047cd8689c3a}} 
 const float {\bfseries get\+Range} () const
@@ -42,66 +38,36 @@ int {\bfseries get\+Current\+Lvl} () const
 \mbox{\Hypertarget{classTower_ab029c6c4c798c62abf88b18339f08055}\label{classTower_ab029c6c4c798c62abf88b18339f08055}} 
 const int {\bfseries get\+Upgrade\+Cost} () const
 \item 
-\mbox{\Hypertarget{classTower_a9ccd62ea2e5cb29575e1bf322824f4ab}\label{classTower_a9ccd62ea2e5cb29575e1bf322824f4ab}} 
-void {\bfseries set\+Locked\+Enemy} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$ enemy)
-\item 
 \mbox{\Hypertarget{classTower_a41bc22df77b45b76be754bc6b2538754}\label{classTower_a41bc22df77b45b76be754bc6b2538754}} 
 sf\+::\+Time {\bfseries get\+Fire\+Timer} ()
 \item 
-\mbox{\Hypertarget{classTower_a3d7e5e836a50518f1212e231405d897b}\label{classTower_a3d7e5e836a50518f1212e231405d897b}} 
-bool {\bfseries enemy\+Within\+Range} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$ enemy)
+bool \mbox{\hyperlink{classTower_a3d7e5e836a50518f1212e231405d897b}{enemy\+Within\+Range}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$ enemy)
+\begin{DoxyCompactList}\small\item\em Check if the enemy is within the range of the tower. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classProjectile}{Projectile}} $\ast$ \mbox{\hyperlink{classTower_af06bf6f547f85d4846931da2d27243fc}{shoot}} ()=0
 \item 
-\mbox{\Hypertarget{classTower_a7d9e82c51070afcb09394162a6001032}\label{classTower_a7d9e82c51070afcb09394162a6001032}} 
-void {\bfseries reset\+Fire\+Timer} ()
-\item 
-\mbox{\Hypertarget{classTower_af06bf6f547f85d4846931da2d27243fc}\label{classTower_af06bf6f547f85d4846931da2d27243fc}} 
-virtual \mbox{\hyperlink{classProjectile}{Projectile}} $\ast$ {\bfseries shoot} ()=0
-\item 
-\mbox{\Hypertarget{classTower_a3ae303a04b27b7cb89ed478d492f1a64}\label{classTower_a3ae303a04b27b7cb89ed478d492f1a64}} 
-virtual void {\bfseries upgrade\+Tower} ()
-\item 
-\mbox{\Hypertarget{classTower_a4517d03338104ddd09667b7978ba0347}\label{classTower_a4517d03338104ddd09667b7978ba0347}} 
-virtual void {\bfseries update} (std\+::list$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$$>$ \&enemies, sf\+::\+Time time)
-\item 
-\mbox{\Hypertarget{classTower_a05dbdc4b59a2371886fe5615ae84aa38}\label{classTower_a05dbdc4b59a2371886fe5615ae84aa38}} 
-void {\bfseries update\+Fire\+Timer} (sf\+::\+Time \&dt)
-\item 
-\mbox{\Hypertarget{classTower_a194d98474bf8f5ca0997c7d1beb4fecc}\label{classTower_a194d98474bf8f5ca0997c7d1beb4fecc}} 
-bool {\bfseries is\+Active} ()
-\item 
-\mbox{\Hypertarget{classTower_ac0394e228ebda6d6a4c6dde5b0a20777}\label{classTower_ac0394e228ebda6d6a4c6dde5b0a20777}} 
-void {\bfseries unactive\+HUD} ()
-\item 
-\mbox{\Hypertarget{classTower_a78a8250942a4b8603e90b0e9f378609e}\label{classTower_a78a8250942a4b8603e90b0e9f378609e}} 
-void {\bfseries activate\+HUD} ()
-\item 
-\mbox{\Hypertarget{classTower_a3efbd44bf24f0111717c252c75fabc24}\label{classTower_a3efbd44bf24f0111717c252c75fabc24}} 
-sf\+::\+Vector2f {\bfseries get\+Size} ()
-\item 
-\mbox{\Hypertarget{classTower_a4ae0c5d0dd2a03e8b53856987eb3cb3c}\label{classTower_a4ae0c5d0dd2a03e8b53856987eb3cb3c}} 
-virtual void {\bfseries build} ()
-\item 
+virtual void \mbox{\hyperlink{classTower_a3ae303a04b27b7cb89ed478d492f1a64}{upgrade\+Tower}} ()
+\begin{DoxyCompactList}\small\item\em Upgrade the tower to the next level. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{classTower_a4517d03338104ddd09667b7978ba0347}{update}} (std\+::list$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$$>$ \&enemies, sf\+::\+Time time)
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classTower_a4517d03338104ddd09667b7978ba0347}{update()}} method is virtual as some types of towers use base \mbox{\hyperlink{classTower_a4517d03338104ddd09667b7978ba0347}{update()}} \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classTower_a05dbdc4b59a2371886fe5615ae84aa38}{update\+Fire\+Timer}} (sf\+::\+Time \&dt)
+\begin{DoxyCompactList}\small\item\em Increments fire\+Timer\+\_\+ by dt. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classTower_a6beb2716d57bec543a330f24ae92744f}\label{classTower_a6beb2716d57bec543a330f24ae92744f}} 
 void {\bfseries set\+Level} (int level)
 \item 
 \mbox{\Hypertarget{classTower_aa2ac2dd693e48f092f706301695309de}\label{classTower_aa2ac2dd693e48f092f706301695309de}} 
 void {\bfseries set\+Max\+Level\+Flag} ()
-\end{DoxyCompactItemize}
-\doxysubsection*{Public Attributes}
-\begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classTower_a15cd46474fb257855ac89318447ed686}\label{classTower_a15cd46474fb257855ac89318447ed686}} 
-bool {\bfseries HUDactive} = false
+\mbox{\Hypertarget{classTower_a9ccd62ea2e5cb29575e1bf322824f4ab}\label{classTower_a9ccd62ea2e5cb29575e1bf322824f4ab}} 
+void {\bfseries set\+Locked\+Enemy} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$ enemy)
 \item 
-\mbox{\Hypertarget{classTower_a974ab9a76248c15ecd2545c58c9dce74}\label{classTower_a974ab9a76248c15ecd2545c58c9dce74}} 
-bool {\bfseries builded} = false
+\mbox{\Hypertarget{classTower_a7d9e82c51070afcb09394162a6001032}\label{classTower_a7d9e82c51070afcb09394162a6001032}} 
+void {\bfseries reset\+Fire\+Timer} ()
 \end{DoxyCompactItemize}
 \doxysubsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classTower_a3ecc6827a0e0fba53a06ecc5f7272c73}\label{classTower_a3ecc6827a0e0fba53a06ecc5f7272c73}} 
-const std\+::string {\bfseries type\+\_\+}
-\item 
+const std\+::string \mbox{\hyperlink{classTower_a3ecc6827a0e0fba53a06ecc5f7272c73}{type\+\_\+}}
+\begin{DoxyCompactList}\small\item\em Private members of abstract tower class. \end{DoxyCompactList}\item 
 \mbox{\Hypertarget{classTower_a708c8e693174a827295f26bc46d24a2c}\label{classTower_a708c8e693174a827295f26bc46d24a2c}} 
 const int {\bfseries base\+Cost\+\_\+}
 \item 
@@ -113,9 +79,6 @@ int {\bfseries damage\+\_\+}
 \item 
 \mbox{\Hypertarget{classTower_a7de4e33cf0736bf723ce7a405d2948b8}\label{classTower_a7de4e33cf0736bf723ce7a405d2948b8}} 
 int {\bfseries current\+Lvl\+\_\+}
-\item 
-\mbox{\Hypertarget{classTower_ae1fe23c3f6739854451558e254ed5762}\label{classTower_ae1fe23c3f6739854451558e254ed5762}} 
-const Can\+Damage {\bfseries damage\+Type\+\_\+}
 \item 
 \mbox{\Hypertarget{classTower_ac4e45ab14cb9f62c0063534e346152fd}\label{classTower_ac4e45ab14cb9f62c0063534e346152fd}} 
 const int {\bfseries upgrade\+Cost\+\_\+}
@@ -132,6 +95,203 @@ sf\+::\+Time {\bfseries fire\+Rate\+\_\+}
 \mbox{\Hypertarget{classTower_a63d9e59653b1ab6da9eedb450ed2c652}\label{classTower_a63d9e59653b1ab6da9eedb450ed2c652}} 
 bool {\bfseries max\+Level\+Reached\+\_\+}
 \end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classTower_ae6b406e91e4aed03d249d7e020326849}\label{classTower_ae6b406e91e4aed03d249d7e020326849}} 
+\index{Tower@{Tower}!Tower@{Tower}}
+\index{Tower@{Tower}!Tower@{Tower}}
+\doxysubsubsection{\texorpdfstring{Tower()}{Tower()}}
+{\footnotesize\ttfamily Tower\+::\+Tower (\begin{DoxyParamCaption}\item[{sf\+::\+Vector2f}]{position,  }\item[{const std\+::string \&}]{type,  }\item[{int}]{base\+Cost,  }\item[{float}]{range,  }\item[{sf\+::\+Time}]{fire\+Rate,  }\item[{int}]{damage,  }\item[{int}]{current\+Lvl,  }\item[{int}]{upgrade\+Cost,  }\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$}]{locked\+Enemy,  }\item[{bool}]{max\+Level\+Reached }\end{DoxyParamCaption})}
+
+
+
+Constructor for abstract tower used in constructor for derived tower classes. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & is determined by constructor of derived tower class \\
+\hline
+{\em type} & is determined by constructor of derived tower class \\
+\hline
+{\em base\+Cost} & is determined by constructor of derived tower class \\
+\hline
+{\em range} & is determined by constructor of derived tower class \\
+\hline
+{\em fire\+Rate} & is determined by constructor of derived tower class \\
+\hline
+{\em damage} & is determined by constructor of derived tower class \\
+\hline
+{\em current\+Lvl} & is determined by constructor of derived tower class \\
+\hline
+{\em upgrade\+Cost} & is determined by constructor of derived tower class \\
+\hline
+{\em locked\+Enemy} & is determined by constructor of derived tower class \\
+\hline
+{\em max\+Level\+Reached} & is determined by constructor of derived tower class \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classTower_a3d7e5e836a50518f1212e231405d897b}\label{classTower_a3d7e5e836a50518f1212e231405d897b}} 
+\index{Tower@{Tower}!enemyWithinRange@{enemyWithinRange}}
+\index{enemyWithinRange@{enemyWithinRange}!Tower@{Tower}}
+\doxysubsubsection{\texorpdfstring{enemyWithinRange()}{enemyWithinRange()}}
+{\footnotesize\ttfamily bool Tower\+::enemy\+Within\+Range (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$}]{enemy }\end{DoxyParamCaption})}
+
+
+
+Check if the enemy is within the range of the tower. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em enemy} & is passed from calling \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{classTower_a4517d03338104ddd09667b7978ba0347}{Tower\+::update}} method 
+\end{DoxySeeAlso}
+\begin{DoxyReturn}{Returns}
+true if locking range of the tower is more or equal to distance between the enemy and the tower 
+
+false otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classTower_af06bf6f547f85d4846931da2d27243fc}\label{classTower_af06bf6f547f85d4846931da2d27243fc}} 
+\index{Tower@{Tower}!shoot@{shoot}}
+\index{shoot@{shoot}!Tower@{Tower}}
+\doxysubsubsection{\texorpdfstring{shoot()}{shoot()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{classProjectile}{Projectile}}$\ast$ Tower\+::shoot (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+\mbox{\hyperlink{classTower_af06bf6f547f85d4846931da2d27243fc}{shoot()}} method is pure virtual as different types of towers produce different types of projectiles (or no projectiles at all as is the case with Poison and Freezing Towers). \begin{DoxyReturn}{Returns}
+Projectile$\ast$ 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classPoisonTower_ac7a2c0e973128842474150f6cc090913}{Poison\+Tower}}, \mbox{\hyperlink{classMissileTower_a02e5c9b1828b74c9840971edabcd81fa}{Missile\+Tower}}, \mbox{\hyperlink{classFreezingTower_ab81831977828ee5ea9b2160f6079f82e}{Freezing\+Tower}}, \mbox{\hyperlink{classBulletTower_a9fddcdaaaed21c3606edd0aea079c571}{Bullet\+Tower}}, and \mbox{\hyperlink{classBombTower_a02d5435a14b10b98efeac2bb4a9bbb86}{Bomb\+Tower}}.
+
+\mbox{\Hypertarget{classTower_a4517d03338104ddd09667b7978ba0347}\label{classTower_a4517d03338104ddd09667b7978ba0347}} 
+\index{Tower@{Tower}!update@{update}}
+\index{update@{update}!Tower@{Tower}}
+\doxysubsubsection{\texorpdfstring{update()}{update()}}
+{\footnotesize\ttfamily void Tower\+::update (\begin{DoxyParamCaption}\item[{std\+::list$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classEnemy}{Enemy}} $>$$>$ \&}]{enemies,  }\item[{sf\+::\+Time}]{time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\mbox{\hyperlink{classTower_a4517d03338104ddd09667b7978ba0347}{update()}} method is virtual as some types of towers use base \mbox{\hyperlink{classTower_a4517d03338104ddd09667b7978ba0347}{update()}} 
+
+Main tower logic.
+
+
+\begin{DoxyParams}{Parameters}
+{\em enemies} & is the list of \mbox{\hyperlink{classEnemy}{Enemy}} shared pointers needed for setting locked\+Enemy\+\_\+ \\
+\hline
+{\em time} & is delta time from \mbox{\hyperlink{classGame}{Game}} object needed for updating \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+fire\+Timer\+\_\+
+\end{DoxySeeAlso}
+First, we check whether currently locked enemy is not nullptr, not dead and still within tower\textquotesingle{}s range. If this condition is satisfied nothing else is done. Otherwise, locked enemy is set to nullptr and enemies is iterated through to find the fastest enemy which is within tower\textquotesingle{}s range and alive. If there is no enemies alive within tower\textquotesingle{}s range, \begin{DoxySeeAlso}{See also}
+locked\+Enemy\+\_\+ member stays nullptr. Otherwise, locked\+Enemy\+\_\+ is set to the pointer to the fastest, alive enemy within tower\textquotesingle{}s range. 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em enemies} & is passed from calling \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+Game\+::update method 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em time} & is passed from calling \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+Game\+::update method and is used to \mbox{\hyperlink{classTower_a4517d03338104ddd09667b7978ba0347}{update}} 
+
+fire\+Timer\+\_\+ 
+\end{DoxySeeAlso}
+
+
+Reimplemented in \mbox{\hyperlink{classPoisonTower_a8b6450d1b9ce2e178cd11a1b50edc8ed}{Poison\+Tower}}, \mbox{\hyperlink{classFreezingTower_a9815a7ece26298aad9e7cca06675eb99}{Freezing\+Tower}}, and \mbox{\hyperlink{classBombTower_a8ad1abfc4a3927da055fcfce5ee63d15}{Bomb\+Tower}}.
+
+\mbox{\Hypertarget{classTower_a05dbdc4b59a2371886fe5615ae84aa38}\label{classTower_a05dbdc4b59a2371886fe5615ae84aa38}} 
+\index{Tower@{Tower}!updateFireTimer@{updateFireTimer}}
+\index{updateFireTimer@{updateFireTimer}!Tower@{Tower}}
+\doxysubsubsection{\texorpdfstring{updateFireTimer()}{updateFireTimer()}}
+{\footnotesize\ttfamily void Tower\+::update\+Fire\+Timer (\begin{DoxyParamCaption}\item[{sf\+::\+Time \&}]{dt }\end{DoxyParamCaption})}
+
+
+
+Increments fire\+Timer\+\_\+ by dt. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em dt} & is time since last frame and is passed from \\
+\hline
+\end{DoxyParams}
+\begin{DoxySeeAlso}{See also}
+Game\+::update() 
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{classTower_a3ae303a04b27b7cb89ed478d492f1a64}\label{classTower_a3ae303a04b27b7cb89ed478d492f1a64}} 
+\index{Tower@{Tower}!upgradeTower@{upgradeTower}}
+\index{upgradeTower@{upgradeTower}!Tower@{Tower}}
+\doxysubsubsection{\texorpdfstring{upgradeTower()}{upgradeTower()}}
+{\footnotesize\ttfamily void Tower\+::upgrade\+Tower (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Upgrade the tower to the next level. 
+
+\mbox{\hyperlink{classTower_a3ae303a04b27b7cb89ed478d492f1a64}{upgrade\+Tower()}} method is virtual as upgrade logic is same for all types of towers except Freezing \mbox{\hyperlink{classTower}{Tower}}
+
+This method upgrades tower by one level, increases its damage\+\_\+ member by 1.\+5 times and sets the maximum level flag to true.
+
+\begin{DoxyNote}{Note}
+If the maximum level has already been reached, this method has no effect 
+\end{DoxyNote}
+
+
+Reimplemented in \mbox{\hyperlink{classFreezingTower_aee32dd21f59a495dc3793dc5b42412b4}{Freezing\+Tower}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classTower_a3ecc6827a0e0fba53a06ecc5f7272c73}\label{classTower_a3ecc6827a0e0fba53a06ecc5f7272c73}} 
+\index{Tower@{Tower}!type\_@{type\_}}
+\index{type\_@{type\_}!Tower@{Tower}}
+\doxysubsubsection{\texorpdfstring{type\_}{type\_}}
+{\footnotesize\ttfamily const std\+::string Tower\+::type\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Private members of abstract tower class. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em type\+\_\+} & is a string representing type of the tower \\
+\hline
+{\em base\+Cost\+\_\+} & is the base cost for the type of tower \\
+\hline
+{\em range\+\_\+} & is the enemy locking range of the tower \\
+\hline
+{\em damage\+\_\+} & is passed as a parameter to projectile constructor \\
+\hline
+{\em current\+Lvl\+\_\+} & is current level of the tower, initially set 1 and can be upgraded to level 2 \\
+\hline
+{\em upgrade\+Cost\+\_\+} & is set at 1.\+5 $\ast$ base cost of tower for all types of towers \\
+\hline
+{\em locked\+Enemy\+\_\+} & is the locked enemy of the tower; initially set to nullptr \\
+\hline
+{\em fire\+Timer\+\_\+} & is incremented with delta time from \mbox{\hyperlink{classGame}{Game}} object and compared to\\
+\hline
+{\em fire\+Rate\+\_\+} & to check if tower is ready to shoot \\
+\hline
+{\em max\+Level\+Reached\+\_\+} & is the flag to check if whether tower is already at max level. @ @ \\
+\hline
+\end{DoxyParams}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
