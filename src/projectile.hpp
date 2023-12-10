@@ -14,9 +14,6 @@
 class Game;
 class Enemy;
 
-// Removed inheritance of sf::Transformable. 
-// I checked that sf::Sprite inherits both Drawable and Transformable -Otto
-
 /**
  * An abstract class for deriving projectile like, "flying", objects.
 */
@@ -40,17 +37,13 @@ class Projectile : public sf::Sprite
          * @param damage is the amount of damage that the projectile will cause the enemy it hits, determined by the creating tover
          * @param speed is the speed at which the projectile moves, pre-defiened for each derived type
          * @param type is the type of the projectile, pre-defiened for each derived type
-         * @param maxDistance is the maximum distance the projectile is allowed to move from it's tower, pre-definened for each derived type
+         * @param maxDistance is the maximum distance the projectile is allowed to move from it's tower, based on the towers range
         */
         Projectile(sf::Vector2f shootDirection, sf::Vector2f position, int damage, float speed, std::string type, float maxDistance) 
         : shootDirection_(shootDirection), position_(position), damage_(damage), speed_(speed), type_(type), maxDistance_(maxDistance),
         isDestroyed_(false){
             this->setPosition(position_);
         }
-
-        // shootdirection, position, damage comes from tower
-        // speed, type, maxDistance come from derived classes 
-        // shootDirection needs to be normalised vector
         
         /**
          * @brief Destroy the Projectile object

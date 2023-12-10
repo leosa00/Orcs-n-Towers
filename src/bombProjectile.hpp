@@ -36,7 +36,7 @@ public:
     void update(Game& game) override;
 
     /**
-     * @brief returns the texture ID of the type this derived class uses
+     * @returns the texture ID of the type this derived class uses
     */
     Textures::ProjectileID textureType() override { return Textures::Bomb; } 
 };
