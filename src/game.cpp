@@ -183,7 +183,7 @@ void Game::update() {
         }
     }
 
-    for (auto* tower : towers_) {
+    for (auto tower : towers_) {
         tower->update(enemies_, getTime());
         if (tower->getLockedEnemy() != nullptr &&
             tower->getFireTimer() >= tower->getFireRate()) {
@@ -255,7 +255,7 @@ void Game::render() {
     if (activeTower_) {
         window_.draw(*activeTower_);
     }
-    for (auto* tower : towers_) {
+    for (auto tower : towers_) {
         window_.draw(*tower);
     }
     for (auto* projectile : projectiles_) {
@@ -301,7 +301,7 @@ sf::Time Game::getTime() const {
 
 void Game::checkTowers() {
     sf::Vector2f mousepos = (sf::Vector2f)sf::Mouse::getPosition(window_);
-    for (auto* tower : towers_) {
+    for (auto tower : towers_) {
         if (tower->getGlobalBounds().contains(mousepos)) {
             // This stores the pointer to the tower that the upgrade button
             // Will potentially upgrade

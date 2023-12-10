@@ -35,35 +35,35 @@ void Menu::checkButtons(Game* game) {
             {
             case Actions::Tower1:
             {
-                BombTower* new_bomb = new BombTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
+                std::shared_ptr<BombTower> new_bomb = std::make_shared<BombTower>((sf::Vector2f) sf::Mouse::getPosition(game->window_));
                 new_bomb->setTexture(game->tower_textures_.get(Textures::BombTower));
                 newTower(new_bomb, game);
                 break;
             }
             case Actions::Tower2:
             {
-                BulletTower* new_bullet = new BulletTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
+                std::shared_ptr<BulletTower> new_bullet = std::make_shared<BulletTower>((sf::Vector2f) sf::Mouse::getPosition(game->window_));
                 new_bullet->setTexture(game->tower_textures_.get(Textures::BulletTower));
                 newTower(new_bullet, game);
                 break;
             }
             case Actions::Tower3:
             {
-                MissileTower* new_missile = new MissileTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
+                std::shared_ptr<MissileTower> new_missile = std::make_shared<MissileTower>((sf::Vector2f) sf::Mouse::getPosition(game->window_));
                 new_missile->setTexture(game->tower_textures_.get(Textures::MissileTower));
                 newTower(new_missile, game);
                 break;
             }
             case Actions::Tower4:
             {
-                FreezingTower* new_freezing = new FreezingTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
+                std::shared_ptr<FreezingTower> new_freezing = std::make_shared<FreezingTower>((sf::Vector2f) sf::Mouse::getPosition(game->window_));
                 new_freezing->setTexture(game->tower_textures_.get(Textures::FreezingTower));
                 newTower(new_freezing, game);
                 break;
             }
             case Actions::Tower5:
             {
-                PoisonTower* new_poison = new PoisonTower((sf::Vector2f) sf::Mouse::getPosition(game->window_));
+                std::shared_ptr<PoisonTower> new_poison = std::make_shared<PoisonTower>((sf::Vector2f) sf::Mouse::getPosition(game->window_));
                 new_poison->setTexture(game->tower_textures_.get(Textures::PoisonTower));
                 newTower(new_poison, game);
                 break;
@@ -130,7 +130,7 @@ void Menu::checkButtons(Game* game) {
 
 }
 
-void Menu::newTower(Tower* tower, Game* game) {
+void Menu::newTower(std::shared_ptr<Tower> tower, Game* game) {
     // if an upgrade menu is open, close it so the change in the 
     // activeTower_ pointer does not break the upgrade menu
     if (game->activeTower_) {
@@ -244,7 +244,7 @@ void Menu::drag(Game* game) {
         game->activeTower_->setPosition(sf::Mouse::getPosition(game->window_).x, sf::Mouse::getPosition(game->window_).y);
     } else {
         if (game->player_.getWallet() < game->activeTower_->getBaseCost() || !canBePlaced(game)) {
-            delete game->activeTower_;
+            game->activeTower_ = nullptr;
         } else {
             game->player_.removeMoney(game->activeTower_->getBaseCost());
             game->towers_.push_front(game->activeTower_);

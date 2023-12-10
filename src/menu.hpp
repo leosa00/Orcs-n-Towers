@@ -82,7 +82,7 @@ private:
      * @param tower Pointer to new tower being built
      * @param game Pointer to game 
     */
-    void newTower(Tower* tower, Game* game);
+    void newTower(std::shared_ptr<Tower> tower, Game* game);
 
     /**
      * @brief Checks if a tower can be placed in its current location.

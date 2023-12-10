@@ -57,24 +57,15 @@ public:
 
     ~Game(){
         
-        /* for(auto i : enemies_){
-            //delete i;
-        }*/ 
         enemies_.clear();
 
         for(auto i : projectiles_){
             delete i;
-        }
+        } 
         projectiles_.clear();
 
-        for(auto i : towers_){
-            delete i;
-        }
         towers_.clear();
 
-        if (activeTower_) {
-            //delete activeTower_;
-        }
         // Menus deleted by unique_ptr
     }
 
@@ -151,7 +142,7 @@ private:
     sf::Time time_;
     sf::RenderWindow window_;
     
-    std::list<Tower*> towers_;
+    std::list<std::shared_ptr<Tower>> towers_;
     std::list<std::shared_ptr<Enemy>> enemies_;
     std::list<Projectile*> projectiles_;
     std::list<Explosion*> explosions_;
@@ -168,7 +159,7 @@ private:
 
     std::unique_ptr<Menu> shop_; /// Shop on left side
     std::unique_ptr<Menu> alternativeMenu_; /// stores menu for upgrading, beginning game, and advancing to next level
-    Tower* activeTower_; /// Pointer to tower that is being upgraded or dragged into place
+    std::shared_ptr<Tower> activeTower_; /// Pointer to tower that is being upgraded or dragged into place
     bool menuInactive = false; /// Indicates if the alternative menu is closed and needs to be deleted
 
     ResourceContainer<Textures::TowerID, sf::Texture> tower_textures_;
