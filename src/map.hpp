@@ -10,16 +10,11 @@
 class Tower; // Forward declaration
 
 class Map : public sf::Drawable, public sf::Transformable {
-    //friend class MainGame;
-    //friend class TowerManagement;
-
-
-
 public:
     sf::Texture texture;
     sf::Sprite background;
-    Map();
-    ~Map();
+    //Map();
+    //~Map();
 
     void loadMap(const std::string& fileName);
     //void update();
@@ -28,7 +23,7 @@ public:
     //void sellTower(Tower* sellingTower);
     std::vector<sf::FloatRect> unBuildable;
 
-    sf::FloatRect getBackgroundBounds();
+    //sf::FloatRect getBackgroundBounds();
 
 private:
     // std::vector<std::shared_ptr<Tower>> towers;

@@ -2,13 +2,13 @@
 //#include "mainGame.hpp"
 //#include "MessageBox.h" // Assuming MessageBox is a custom function you've defined
 
-Map::Map() {
+/* Map::Map() {
     // Initialize your members in the member initialization list if needed
-}
+}*/
 
-Map::~Map() {
+/* Map::~Map() {
     // Use nullptr to indicate null pointers
-}
+}*/ 
 
 void Map::loadMap(const std::string& fileName) {
     if (!texture.loadFromFile("textures/" + fileName)) {
@@ -81,6 +81,6 @@ void Map::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     }
 }*/
 
-sf::FloatRect Map::getBackgroundBounds() {
+/*sf::FloatRect Map::getBackgroundBounds() {
     return background.getGlobalBounds();
-}
+}*/ 
