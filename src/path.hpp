@@ -45,7 +45,7 @@ public:
     bool readingSuccessfull();
 
     /**
-     * @brief populates the waypoint que with all the waypoints required for the enemy class to traverse the path
+     * @brief populates the waypoint queue with all the waypoints required for the enemy class to traverse the path
     */
     void addWaypoint(const sf::Vector2f& point);
     
@@ -55,15 +55,17 @@ public:
     std::queue<sf::Vector2f> getWaypoints() const;
 
     /**
-     * 
+     * Creates unbuildable areas along the path based on waypoints and a specified width
+     * @see width
     */
     void makeUnBuildablePath();
+
     static const float width;
     std::queue<sf::Vector2f> waypoints_;
     std::vector <sf::Vector2f> wayPoints;
     std::vector <sf::FloatRect> unBuildable;
 
-    std::vector<std::vector<sf::Vector2f>> paths_; //!< The container that stores all paths coordinates
+    std::vector<std::vector<sf::Vector2f>> paths_; //!< The container that stores all of the paths coordinates
 
 private:
     const std::string& src_;
