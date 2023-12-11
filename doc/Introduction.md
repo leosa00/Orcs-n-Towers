@@ -71,7 +71,9 @@ Leo Saied-Ahmad:
     - Enemy class
 
 Tuan Vu:
-    - Path
+    - Map class
+    - Path class
+    - Some graphics related to map and path of the game.
 
 ##### Weekly breakdown
 
@@ -95,7 +97,7 @@ Leo Saied-Ahmad:
 
 Tuan Vu:
     - Initialised implementation of Map class.
-    - Estimated workload: 
+    - Estimated workload: 6h
 
 **Week 2**
 
@@ -117,7 +119,7 @@ Leo Saied-Ahmad:
 
 Tuan Vu:
     - Continued implementation of Map class.
-    - Estimated workload: 
+    - Estimated workload: 8h
 
 **Week 3**
 
@@ -139,7 +141,7 @@ Leo Saied-Ahmad:
 
 Tuan Vu:
     - Finished implementing loading map from file, worked on drawing and being able to sell towers
-    - Estimated workload: 
+    - Estimated workload: 10h
 
 **Week 4**
 
@@ -160,8 +162,8 @@ Leo Saied-Ahmad:
     - Estimated workload: 
 
 Tuan Vu:
-    - Continued working on map class to create a path.
-    - Estimated workload: 
+    - Continued working on map class so that it worked well with other classes.
+    - Estimated workload: 10h
 
 **Week 5**
 
@@ -183,7 +185,7 @@ Leo Saied-Ahmad:
 
 Tuan Vu:
     - Worked on map class, loading background from file
-    - Estimated workload: 
+    - Estimated workload: 10h
 
 **Week 6**
 
@@ -204,5 +206,5 @@ Leo Saied-Ahmad:
     - Estimated workload: 
 
 Tuan Vu:
-    - Implemented functionality so that towers can't be built on the path
-    - Estimated workload: 
+    - Implemented a path class that facilitates the creation of paths, incorporating functionality to prevent towers from being built on the designated path.
+    - Estimated workload: 10h
