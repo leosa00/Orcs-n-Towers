@@ -5,9 +5,7 @@
 #include <memory>
 
 /**
- * @brief Constructs a new Bullet Tower object
  * 
- * @param position Mouse position passed by the caller.
  * 
  * Uses base Tower constructor.
  */

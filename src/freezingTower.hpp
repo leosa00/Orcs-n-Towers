@@ -18,7 +18,7 @@ public:
     /** 
      * @brief Constructs a FreezingTower object at the specified position.
      * 
-     * @param position The initial position of the FreezingTower.
+     * @param position The initial position of the FreezingTower (mouse position passed by the caller).
     */
     FreezingTower(sf::Vector2f);
     /**
@@ -41,7 +41,7 @@ public:
     void upgradeTower() override;
 private:
     /**
-     * @brief List of enemies currently locked by the Freezing Tower.
+     * @brief List of enemies currently locked by the FreezingTower.
      * 
      * This list holds shared pointers to Enemy objects that the slowing effect
      * will be applied to.
