@@ -4,9 +4,8 @@
 #include <cmath>
 #include <memory>
 /**
- * @brief Constructs a new Missile Tower object
  * 
- * @param position Mouse position passed by the caller.
+ * @param position The initial position of the MissileTower (mouse position passed by the caller).
  * 
  * Uses base Tower constructor.
  */

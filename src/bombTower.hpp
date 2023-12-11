@@ -4,11 +4,11 @@
 #include "bombProjectile.hpp"
 /**
  * @class BombTower
- * @brief Represents the Bomb Tower class.
+ * @brief Represents the BombTower class.
  * 
- * The Bomb Tower is a specialized tower that shoots bomb projectiles. It is derived from
+ * The BombTower is a specialized tower that shoots BombProjectile -projectiles. It is derived from
  * the base Tower class and inherits common tower functionalities. Bomb tower can only lock
- * enemies of ground type. Bomb projectiles can, however, damage enemies of any type within 
+ * enemies of ground type. BombProjectiles can, however, damage enemies of any type within 
  * explosion range of a bomb projectile (explosion range is dictated solely by bomb projectile objects).
  * 
  */
@@ -17,7 +17,7 @@ public:
     /** 
      * @brief Constructs a BombTower object at the specified position.
      * 
-     * @param position The initial position of the BombTower.
+     * @param position The initial position of the BombTower (mouse position passed by the caller).
     */
     BombTower(sf::Vector2f);
     /**

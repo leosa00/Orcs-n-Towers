@@ -38,21 +38,21 @@ public:
     bool enemyWithinRange(std::shared_ptr<Enemy> enemy);
     /**
      * \brief \c shoot() method is pure virtual as different types of towers produce different types 
-     * of projectiles (or no projectiles at all as is the case with Poison and Freezing Towers).
+     * of projectiles (or no projectiles at all as is the case with PoisonTower and FreezingTower).
      * @return Projectile* 
      */
     virtual Projectile* shoot() = 0; 
     /**
      * \brief \c upgradeTower() method is virtual as upgrade logic is same for all types of towers
-     * except Freezing Tower
+     * except FreezingTower
+     * 
+     * \ref FreezingTower
      * 
      */
     virtual void upgradeTower();
     /**
-     * @brief \c update() method is virtual as some types of towers use base \c update()
+     * @brief \c update() method is virtual as some types of towers use method of the base class.
      * 
-     * @param enemies \c std::list<std::shared_ptr<Enemy>> container needed for setting lockedEnemy_.
-     * @param time Argument passed from calling \c Game::update method and is used to update fireTimer_.
      */
     virtual void update(std::list<std::shared_ptr<Enemy>> &enemies, sf::Time time);
     void updateFireTimer(sf::Time &dt);
@@ -61,8 +61,6 @@ public:
     void setLockedEnemy(std::shared_ptr<Enemy> enemy) {lockedEnemy_ = enemy;}
     void resetFireTimer() {fireTimer_ = sf::Time::Zero;}
     /**
-     * @brief Private members of abstract tower class
-     * 
      * @param type_ A string representing type of the tower
      * @param baseCost_ The base cost for the type of tower
      * @param range_ The enemy locking range of the tower

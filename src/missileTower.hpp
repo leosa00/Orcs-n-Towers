@@ -4,9 +4,9 @@
 #include "missileProjectile.hpp"
 /**
  * @class MissileTower
- * @brief Represents the Missile Tower class.
+ * @brief Represents the MissileTower class.
  * 
- * The Missile Tower is a specialized tower that shoots missile projectiles. It is derived from
+ * The MissileTower is a specialized tower that shoots MissileProjectile -projectiles. It is derived from
  * the base Tower class and inherits common tower functionalities.
  */
 class MissileTower : public Tower {
@@ -14,7 +14,6 @@ public:
     /** 
      * @brief Constructs a MissileTower object at the specified position.
      * 
-     * @param position The initial position of the MissileTower.
     */
     MissileTower(sf::Vector2f);
     /**

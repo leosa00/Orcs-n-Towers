@@ -1,9 +1,7 @@
 #include "freezingTower.hpp"
 #include <iostream>
 /**
- * @brief Constructs a new Freezing Tower object
  * 
- * @param position Mouse position passed by the caller.
  * 
  * Uses base Tower constructor.
  */
@@ -45,7 +43,7 @@ Projectile* FreezingTower::shoot() {
 /**
  * Since FreezingTower is a non-damaging tower class its upgrade has to be overriden. As opposed
  * to base \c upgradeTower() method, upgrade of a FreezingTower increases \c slowCoefficient_ 
- * rather than damage. 
+ * rather than \c damage_. 
  */
 void FreezingTower::upgradeTower() {
     int currentLvl = getCurrentLvl();

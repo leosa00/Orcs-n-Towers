@@ -1,9 +1,7 @@
 #include "poisonTower.hpp"
 #include <iostream>
 /**
- * @brief Constructs a new Poison Tower object
  * 
- * @param position Mouse position passed by the caller.
  * 
  * Uses base Tower constructor.
  */

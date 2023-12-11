@@ -5,9 +5,7 @@
 #include <memory>
 #include <iostream>
 /**
- * @brief Constructs a new Bomb Tower object
  * 
- * @param position Mouse position passed by the caller.
  * 
  * Uses base Tower constructor.
  */
@@ -16,7 +14,7 @@ BombTower::BombTower(sf::Vector2f position)
 /**
  * 
  * This override for \c update() is very similar to \c update() method of base Tower class. 
- * The only difference is that it also checks EnemyType of an enemy as Bomb Towers can only lock on 
+ * The only difference is that it also checks EnemyType of an enemy as BombTower can only lock on 
  * enemies of \c EnemyType::Ground.
  * 
  */
