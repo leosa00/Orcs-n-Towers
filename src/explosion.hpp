@@ -39,7 +39,7 @@ public:
         time_ -= inputtime;
         if (time_ < sf::microseconds(0)) {
             done_ = true;
-            std::cout << "The explosion is done" << std::endl;
+            //std::cout << "The explosion is done" << std::endl;
             return;
         }
         if (time_ >= sf::seconds(0.5)) {
