@@ -98,11 +98,7 @@ class LevelManager {
      * @brief Container to hold all the levels.
      * One entry in the outer container (vector) is one level, meaning index 0 is level one.
      * The inner map holds all information regarding the specific level. \n 
-     * Keys: \n 
-     *  - "enemyAmount" : the number of enemies allowed per wave (int) \n 
-     *  - "waves" : the number of waves of enemeis allowed per level (int) \n 
-     *  - "waitTime" : the time (in seconds) between waves (float) \n 
-     *  - "enemyTypes" : a vector containing the types of enemies allowed for the level
+     * Keys: "enemyAmount" : the number of enemies allowed per wave (int), "waves" : the number of waves of enemeis allowed per level (int), "waitTime" : the time (in seconds) between waves (float), "enemyTypes" : a vector containing the types of enemies allowed for the level
      * @see Enemy class' type enum EnemyType
      * @see variantData
     */
