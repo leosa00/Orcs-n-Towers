@@ -217,4 +217,6 @@ Tuan Vu:
 
 The above image describes the relations between the main classes in the program.
 
+The main function creates an instance of Game, which handles running the game logic and rendering. It creates and stores a sf::RenderWindow object, which handles user input and displaying graphics. The Game class stores lists of Tower, Projectile and Enemy objects. All of these inherit from sf::Sprite, which enables easy drawing and moving. Towers are added by the Menu class, which stores multiple Button objects the user can interact with. The Tower objects create Projectile objects, which the game stores and updates. A Projectile can damage an Enemy object. These are initially added to the list storing Enemy objects by the LevelManager class. The classes Path and Map handle creating the background and the path along which enemies follow. ResourceContainer is used for loading and storing sf::Texture objects.
+
     
