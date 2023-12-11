@@ -81,7 +81,13 @@ void LevelManager::update(){
     else { 
         // Check if all enemies are dead before advancing level
         if (game_.enemies_.empty()) {
-
+            if (!game_.projectiles_.empty()) {
+                for (auto& i : game_.projectiles_) {
+                    delete i;
+                }
+                game_.projectiles_.clear();
+            }
+            game_.projectiles_.clear();
             currLevel_ ++; //move to next level
             player_.addMoney(50*currLevel_);
             player_.levelUp();
