@@ -148,19 +148,19 @@ private:
     std::list<Explosion*> explosions_;
     path path_;
 
-    bool dragged_; /// Indicates if a tower is currently being dragged into place
-    bool paused_; /// Is the game paused
-    bool isGameOver_=false; /// Is the game over because the player has died to an enemy
-    bool isGameFinished_ = false; /// Completed game
-    sf::Font font_; /// Stores text font
+    bool dragged_; ///< Indicates if a tower is currently being dragged into place
+    bool paused_; ///< Is the game paused
+    bool isGameOver_=false; ///< Is the game over because the player has died to an enemy
+    bool isGameFinished_ = false; ///< Completed game
+    sf::Font font_; ///< Stores text font
     sf::Text gameOverText;
     sf::Text gameFinishedText;
     sf::Sprite castle_sprite_;
 
-    std::unique_ptr<Menu> shop_; /// Shop on left side
-    std::unique_ptr<Menu> alternativeMenu_; /// stores menu for upgrading, beginning game, and advancing to next level
-    std::shared_ptr<Tower> activeTower_; /// Pointer to tower that is being upgraded or dragged into place
-    bool menuInactive = false; /// Indicates if the alternative menu is closed and needs to be deleted
+    std::unique_ptr<Menu> shop_; ///< Shop on left side
+    std::unique_ptr<Menu> alternativeMenu_; ///< stores menu for upgrading, beginning game, and advancing to next level
+    std::shared_ptr<Tower> activeTower_; ///< Pointer to tower that is being upgraded or dragged into place
+    bool menuInactive = false; ///< Indicates if the alternative menu is closed and needs to be deleted
 
     ResourceContainer<Textures::TowerID, sf::Texture> tower_textures_;
     ResourceContainer<Textures::EnemyID, sf::Texture> enemy_textures_;
