@@ -50,6 +50,7 @@ Additionally, we had encountered segmentation faults on different stages of deve
 
 ##### Division of work / main responisbilities:
 
+
 Pavel Filippov:
     - Tower class and it's derived classes (bullet-, bomb-, missile-, poison-, and freezing tower)
     - Game class
@@ -75,6 +76,7 @@ Tuan Vu:
 ##### Weekly breakdown
 
 **Week 1**
+
 Pavel Filippov:
     - Initialised implementation of base tower class.
     - Estimated workload: 10 hours
@@ -82,92 +84,125 @@ Pavel Filippov:
 Otto Litkey: 
     - Initialised implementation of class(es) responsible for graphics.
     - Estimated workload: 
+
 Ellen Molin:
     - Initialised implementation of Player and base Projectile classes.
     - Estimated workload: 
+
 Leo Saied-Ahmad:
     - Intialised implementation of base Enemy class.
     - Estimated workload: 
+
 Tuan Vu:
     - Initialised implementation of Map class.
     - Estimated workload: 
+
 **Week 2**
+
 Pavel Filippov:
     - Continued implementation of base tower class.
     - Estimated workload: 10 hours
+
 Otto Litkey: 
     - Initialised game class and ResourceContainer template class.
     - Estimated workload: 
+
 Ellen Molin:
     - Continued implementation of Player and base Projectile classes.
     - Estimated workload: 
+
 Leo Saied-Ahmad:
     - Continued implementation of base Enemy class.
     - Estimated workload: 
+
 Tuan Vu:
     - Continued implementation of Map class.
     - Estimated workload: 
+
 **Week 3**
+
 Pavel Filippov:
     - Implemented update function for game class, as well as for towers.
     - Estimated workload: 10 h 
+
 Otto Litkey: 
     - Tested rendering, beginnings of dragging and dropping functionality for creating towers.
     - Estimated workload: 
+
 Ellen Molin:
     - Improved projectile class and added functionality.
     - Estimated workload: 
+
 Leo Saied-Ahmad:
     - Improved enemy class functionality, specifically kill and death functions.
     - Estimated workload: 
+
 Tuan Vu:
     - Finished implementing loading map from file, worked on drawing and being able to sell towers
     - Estimated workload: 
+
 **Week 4**
+
 Pavel Filippov:
     - Created derived classes bulletTower and bombTower from tower. Moved tower update logic to it's own function.
     - Estimated workload: 15 h
+
 Otto Litkey: 
     - Continued testing rendering, finished drag and drop functionality for creating towers, and added way to pause game.
     - Estimated workload: 
+
 Ellen Molin:
     - Created derived classes bullet and bomb from projectile. Improved projectile methods to better work with derived classes.
     - Estimated workload: 
+
 Leo Saied-Ahmad:
     - Created path class for directing enemy movement, and updated enemy's move function to make use of it.
     - Estimated workload: 
+
 Tuan Vu:
     - Continued working on map class to create a path.
     - Estimated workload: 
+
 **Week 5**
+
 Pavel Filippov:
     - Implemented missile tower. Worked on rendering projectiles.
     - Estimated workload: 15 h
+
 Otto Litkey: 
     - Implemented a level system in player class. Created menu class. Worked on rendering projectiles.
     - Estimated workload: 
+
 Ellen Molin:
     - Created a missile projectile that follows enemy. 
     - Estimated workload: 
+
 Leo Saied-Ahmad:
     - Worked on enemies that split when hit. Worked on graphics: show players state, end screen when player loses.
     - Estimated workload: 
+
 Tuan Vu:
     - Worked on map class, loading background from file
     - Estimated workload: 
+
 **Week 6**
+
 Pavel Filippov:
     - Implemented freezing effect tower and poison effect tower. Refined tower logic.
     - Estimated workload: 15 h 
+
 Otto Litkey: 
     - Implemented explosions class to visualise bombs' explosions. Worked on graphics: created textures, show tower ranges. Improved logic behind user interactions with game objects.
     - Estimated workload: 
+
 Ellen Molin:
     - Implemented a levelManager that handles creating and managing levels, reads from file. Added functionality to load paths from file.
     - Estimated workload: 
+
 Leo Saied-Ahmad:
     - Implemented slowing effect on enemies and refined enemy movement. Added health status over enemies.
     - Estimated workload: 
+
 Tuan Vu:
     - Implemented functionality so that towers can't be built on the path
     - Estimated workload: 
