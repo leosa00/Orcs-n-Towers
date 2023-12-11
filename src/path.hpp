@@ -32,7 +32,7 @@ public:
     ~path() {}
 
     /**
-     * Reads the source file provided in the constructor. Disregards the first line as it is the formatting example. \n 
+     * @brief Reads the source file provided in the constructor. Disregards the first line as it is the formatting example. \n 
      * Reads the values into a vector of SFML vector coordinates, 
      * and then adds that vector containing the path into a a vector that contains all the paths from the file.
     */
@@ -45,10 +45,13 @@ public:
     bool readingSuccessfull();
 
     /**
-     * populates the waypoint que with all the waypoints required for the enemy class to traverse the path
+     * @brief populates the waypoint que with all the waypoints required for the enemy class to traverse the path
     */
     void addWaypoint(const sf::Vector2f& point);
     
+    /**
+     * @return returns std::queue of waypoints stored in waypoints_ variable
+    */
     std::queue<sf::Vector2f> getWaypoints() const;
 
     /**
