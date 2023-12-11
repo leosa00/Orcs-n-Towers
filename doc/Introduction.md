@@ -208,3 +208,13 @@ Leo Saied-Ahmad:
 Tuan Vu:
     - Implemented a path class that facilitates the creation of paths, incorporating functionality to prevent towers from being built on the designated path.
     - Estimated workload: 10h
+    
+    
+## Software structure
+
+![](graph.png)
+@image latex graph.png 
+
+The above image describes the relations between the main classes in the program.
+
+    
