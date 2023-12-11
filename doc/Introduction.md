@@ -69,10 +69,10 @@ Ellen Molin:
 
 Leo Saied-Ahmad:
     - Enemy class
+    - Path class
 
 Tuan Vu:
     - Map class
-    - Path class
     - Some graphics related to map and path of the game.
 
 ##### Weekly breakdown
