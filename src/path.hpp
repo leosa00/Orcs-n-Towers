@@ -32,7 +32,7 @@ public:
     ~path() {}
 
     /**
-     * @brief Reads the source file provided in the constructor. Disregards the first line as it is the formatting example. \n 
+     * Reads the source file provided in the constructor. Disregards the first line as it is the formatting example. \n 
      * Reads the values into a vector of SFML vector coordinates, 
      * and then adds that vector containing the path into a a vector that contains all the paths from the file.
     */
