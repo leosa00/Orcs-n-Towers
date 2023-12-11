@@ -83,7 +83,7 @@ Pavel Filippov:
 
 Otto Litkey: 
     - Initialised implementation of class(es) responsible for graphics.
-    - Estimated workload: 
+    - Estimated workload: 6 h
 
 Ellen Molin:
     - Initialised implementation of Player and base Projectile classes.
@@ -105,7 +105,7 @@ Pavel Filippov:
 
 Otto Litkey: 
     - Initialised game class and ResourceContainer template class.
-    - Estimated workload: 
+    - Estimated workload: 7 h
 
 Ellen Molin:
     - Continued implementation of Player and base Projectile classes.
@@ -127,7 +127,7 @@ Pavel Filippov:
 
 Otto Litkey: 
     - Tested rendering, beginnings of dragging and dropping functionality for creating towers.
-    - Estimated workload: 
+    - Estimated workload: 10 h
 
 Ellen Molin:
     - Improved projectile class and added functionality.
@@ -149,7 +149,7 @@ Pavel Filippov:
 
 Otto Litkey: 
     - Continued testing rendering, finished drag and drop functionality for creating towers, and added way to pause game.
-    - Estimated workload: 
+    - Estimated workload: 10 h
 
 Ellen Molin:
     - Created derived classes bullet and bomb from projectile. Improved projectile methods to better work with derived classes.
@@ -170,8 +170,8 @@ Pavel Filippov:
     - Estimated workload: 15 h
 
 Otto Litkey: 
-    - Implemented a level system in player class. Created menu class. Worked on rendering projectiles.
-    - Estimated workload: 
+    - Implemented a level system in player class. Created menu class, migrated UI elements to work from here. Worked on rendering projectiles.
+    - Estimated workload: 15 h
 
 Ellen Molin:
     - Created a missile projectile that follows enemy. 
@@ -193,7 +193,7 @@ Pavel Filippov:
 
 Otto Litkey: 
     - Implemented explosions class to visualise bombs' explosions. Worked on graphics: created textures, show tower ranges. Improved logic behind user interactions with game objects.
-    - Estimated workload: 
+    - Estimated workload: 12 h
 
 Ellen Molin:
     - Implemented a levelManager that handles creating and managing levels, reads from file. Added functionality to load paths from file.
