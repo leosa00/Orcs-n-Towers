@@ -87,7 +87,7 @@ Otto Litkey:
 
 Ellen Molin:
     - Initialised implementation of Player and base Projectile classes.
-    - Estimated workload: 
+    - Estimated workload: 5h
 
 Leo Saied-Ahmad:
     - Intialised implementation of base Enemy class.
@@ -109,7 +109,7 @@ Otto Litkey:
 
 Ellen Molin:
     - Continued implementation of Player and base Projectile classes.
-    - Estimated workload: 
+    - Estimated workload: 8h
 
 Leo Saied-Ahmad:
     - Continued implementation of base Enemy class.
@@ -131,7 +131,7 @@ Otto Litkey:
 
 Ellen Molin:
     - Improved projectile class and added functionality.
-    - Estimated workload: 
+    - Estimated workload: 10h
 
 Leo Saied-Ahmad:
     - Improved enemy class functionality, specifically kill and death functions.
@@ -153,7 +153,7 @@ Otto Litkey:
 
 Ellen Molin:
     - Created derived classes bullet and bomb from projectile. Improved projectile methods to better work with derived classes.
-    - Estimated workload: 
+    - Estimated workload: 12h
 
 Leo Saied-Ahmad:
     - Created path class for directing enemy movement, and updated enemy's move function to make use of it.
@@ -175,7 +175,7 @@ Otto Litkey:
 
 Ellen Molin:
     - Created a missile projectile that follows enemy. 
-    - Estimated workload: 
+    - Estimated workload: 12h
 
 Leo Saied-Ahmad:
     - Worked on enemies that split when hit. Worked on graphics: show players state, end screen when player loses.
@@ -197,7 +197,7 @@ Otto Litkey:
 
 Ellen Molin:
     - Implemented a levelManager that handles creating and managing levels, reads from file. Added functionality to load paths from file.
-    - Estimated workload: 
+    - Estimated workload: 15h
 
 Leo Saied-Ahmad:
     - Implemented slowing effect on enemies and refined enemy movement. Added health status over enemies.
